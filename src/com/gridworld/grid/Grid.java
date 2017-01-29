@@ -8,6 +8,8 @@ package com.gridworld.grid;
 
 import java.util.*;
 
+import com.gridworld.grid.GridSquare;
+
 public class Grid {
 	GridSquare[][] GridSquares = new GridSquare[160][120];
 	Object[][] white  = {{"horiz","vert","diagonal"},{0.5, 0.5, Math.pow(2, 0.5)/2}};
@@ -17,7 +19,7 @@ public class Grid {
 		this.GridSquares = new GridSquare[160][120];
 		for(int i = 0; i<160; i++){
 			for(int j = 0; j<120; j++){
-				GridSquare[i][j]= GridSquare(i,j,color.white);
+				this.GridSquares[i][j]= GridSquare(i,j,color.white);
 			}
 	}
 	
