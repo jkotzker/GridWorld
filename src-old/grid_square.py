@@ -4,7 +4,8 @@ Authors: Joseph Kotzker and Esther Shimanovich
 Library of classes for use in terrain generation on a grid
 '''
 
-import exceptions
+from .exceptions import *
+
 
 class GridSquare:
 
