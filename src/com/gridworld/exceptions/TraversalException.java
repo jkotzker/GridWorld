@@ -1,5 +1,10 @@
 package com.gridworld.exceptions;
 
+/**
+ * TraversalException Class
+ * @author josephkotzker
+ *
+ */
 public class TraversalException extends Exception {
 	
 	private static final long serialVersionUID = 1L;

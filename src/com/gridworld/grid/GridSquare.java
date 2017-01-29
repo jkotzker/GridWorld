@@ -53,7 +53,6 @@ public class GridSquare {
 	public double computeCost(GridSquare target) throws TraversalException{
 		
 		double cost = 0.0;
-		//TODO: Compute cost of traversal from this to target
 		int targetX = target.coordinates.XVal;
 		int targetY = target.coordinates.YVal;
 		
@@ -66,10 +65,14 @@ public class GridSquare {
 			if(diffX == 0){
 				// Vertical Move
 				cost = Main.grid.whiteCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
 				cost = Main.grid.whiteCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
@@ -84,10 +87,14 @@ public class GridSquare {
 			if(diffX == 0){
 				// Vertical Move
 				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.lightgrayCosts.get("vert");
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
 				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.lightgrayCosts.get("horiz");
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
@@ -102,10 +109,14 @@ public class GridSquare {
 			if(diffX == 0){
 				// Vertical Move
 				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
 				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
@@ -120,8 +131,6 @@ public class GridSquare {
 		} else {
 			throw new TraversalException("Cost computation failed, traversal is invalid.");
 		}
-		
-		//TODO: Include highways in cost calculations
 		
 	}
 	
