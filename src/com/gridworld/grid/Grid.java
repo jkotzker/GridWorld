@@ -119,13 +119,14 @@ public class Grid {
 				i++;
 			}
 		}
-
+		
+		double distance = 0;
 		// Step 5: Select sStart and sGoal
 		do{
 		this.sStart = generateStartOrGoal();
 		this.sGoal = generateStartOrGoal();
-		distance = math.pow((this.sStart.XVal-this.sGoal.XVal),2)+ math.pow((this.sStart.YVal-this.sGoal.YVal,2));
-		} while(distance)
+		distance = Math.pow((this.sStart.XVal-this.sGoal.XVal),2)+ Math.pow((this.sStart.YVal-this.sGoal.YVal),2);
+		} while(distance>100);
 
 	}
 
