@@ -10,17 +10,18 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 import com.gridworld.*;
+import com.gridworld.exceptions.CoordinateException;
 
 public class Grid {
 
-	GridSquare[][] GridSquares;
+	GridSquare[][] GridSquares = new GridSquare[120][160];
 	HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
 	HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	int oneHundredCells = 0;
-	Coordinates sStart = new Coordinates(-1, -1);
-	Coordinates sGoal = new Coordinates(-1, -1);
+	Coordinates sStart = new Coordinates(0, 0);
+	Coordinates sGoal = new Coordinates(0, 0);
 
-	public Grid() {
+	public Grid() throws CoordinateException {
 
 		whiteCosts.put("horiz", 0.5);
 		whiteCosts.put("vert", 0.5);
@@ -30,9 +31,8 @@ public class Grid {
 		lightgrayCosts.put("vert", 1.0);
 		lightgrayCosts.put("diagonal", Math.pow(2, 0.5));
 
-		this.GridSquares = new GridSquare[160][120];
-		for (int i = 0; i < 160; i++) {
-			for (int j = 0; j < 120; j++) {
+		for (int i = 0; i < 120; i++) {
+			for (int j = 0; j < 160; j++) {
 				GridSquares[i][j] = new GridSquare(i, j, Color.WHITE);
 			}
 		}
@@ -55,9 +55,11 @@ public class Grid {
 
 		// Step 3: Set up Highway
 		Stack<Coordinates> highwayStack = new Stack<Coordinates>();
-		Coordinates highwayStart = new Coordinates(-1, -1);
+		Coordinates highwayStart = new Coordinates(0, 0);
 		int Counter = 0;
 		while (highwayStack.size() < 5) {
+			System.out.println(highwayStack.size());
+			this.oneHundredCells = 0;
 			Counter++;
 			if (Counter > 25) {
 				clearHighways();
@@ -76,34 +78,43 @@ public class Grid {
 				x = markVert(x, y, 20, true, 0);
 			}
 			highwayStack.push(highwayStart);
+			int xInit = highwayStack.peek().XVal;
+			int yInit = highwayStack.peek().YVal;
 			if (x == -1 || y == -1) {
 				highwayStack.pop();
 				x = -2;
 			}
-			while (x != -2 || y != -2) {
+			while (x != -2 && y != -2) {
 				if (percentChance(60)) {
-					if (highwayStack.peek().XVal == x) {
-						y = markHoriz(x, y, 20, true, 0);
+					if (xInit == x) {
+						yInit = y;
+						y = markHoriz(x, y, 20, true, getDirection(xInit, x));
 					} else {
-						x = markVert(x, y, 20, true, 0);
+						xInit = x;
+						x = markVert(x, y, 20, true, getDirection(yInit, y));
 					}
 				} else {
 					if (percentChance(50)) {
-						if (highwayStack.peek().XVal == x) {
-							y = markVert(x, y, 20, true, 0);
+						if (xInit == x) {
+							xInit = x;
+							x = markVert(x, y, 20, true, 1);
 						} else {
-							x = markHoriz(x, y, 20, true, 0);
+							yInit = y;
+							y = markHoriz(x, y, 20, true, 1);
 						}
 					} else {
-						if (highwayStack.peek().XVal == x) {
-							y = markVert(x, y, -20, true, 0);
+						if (xInit == x) {
+							xInit = y;
+							x = markVert(x, y, 20, true, -1);
 						} else {
-							x = markHoriz(x, y, -20, true, 0);
+							yInit = y;
+							y = markHoriz(x, y, 20, true, -1);
 						}
 					}
 				}
 				if (x == -1 || y == -1) {
 					highwayStack.pop();
+					x = -2;
 				}
 			}
 		}
@@ -119,22 +130,21 @@ public class Grid {
 				i++;
 			}
 		}
-		
+
 		double distance = 0;
 		// Step 5: Select sStart and sGoal
-		do{
-		this.sStart = generateStartOrGoal();
-		this.sGoal = generateStartOrGoal();
-		distance = Math.pow((this.sStart.XVal-this.sGoal.XVal),2)+ Math.pow((this.sStart.YVal-this.sGoal.YVal),2);
-		} while(distance>100);
+		do {
+			this.sStart = generateStartOrGoal();
+			this.sGoal = generateStartOrGoal();
+			distance = Math.pow((this.sStart.XVal - this.sGoal.XVal), 2)
+					+ Math.pow((this.sStart.YVal - this.sGoal.YVal), 2);
+		} while (distance > 100);
 
 	}
 
-
-
 	private int randomNumberGenerator(int min, int max) {
 		Random rand = new Random();
-		return rand.nextInt(max) + min;
+		return rand.nextInt(max - min) + min;
 	}
 
 	private int inRange(int val, int max) {
@@ -166,7 +176,7 @@ public class Grid {
 		}
 		// If on border, set direction correctly
 		if (col == 0 || col == 159) {
-			direction = 2 * col / 159 - 1;
+			direction = -2 * col / 159 + 1;
 		}
 		// Now we traverse
 		int n = 0;
@@ -197,13 +207,14 @@ public class Grid {
 	private int markVert(int row, int col, int blocksToTraverse, boolean markHighway, int direction) {
 		// Direction -1 means DOWN, +1 means UP, 0 means BORDER
 		// If we are on highway already, and we wanted to build, then exit
+
 		if ((this.GridSquares[row][col].memberOfHorizontalHighway || this.GridSquares[row][col].memberOfVerticalHighway)
 				&& markHighway == true) {
 			return -1;
 		}
 		// If on border, set direction correctly
 		if (row == 0 || row == 119) {
-			direction = 2 * col / 119 - 1;
+			direction = -2 * row / 119 + 1;
 		}
 		// Now we traverse
 		int n = 0;
@@ -246,7 +257,7 @@ public class Grid {
 		}
 	}
 
-	private Coordinates generateStartOrGoal() {
+	private Coordinates generateStartOrGoal() throws CoordinateException {
 		int x = -1;
 		int y = -1;
 		do {
@@ -259,7 +270,14 @@ public class Grid {
 		} while (this.GridSquares[x][y].color.equals(Color.DARK_GRAY));
 		return new Coordinates(x, y);
 	}
-	
+
+	private int getDirection(int xInit, int x) {
+		if (xInit < x) {
+			return 1;
+		}
+		return -1;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
