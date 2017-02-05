@@ -8,10 +8,10 @@ public class Coordinates {
 	public int YVal;
 	
 	public Coordinates(int x, int y) throws CoordinateException {
-		if(x < 0 || x > 159) {
+		if(x < 0 || x > 119) {
 			throw new CoordinateException("Coordinate Error: x value is not in range.");
 		}
-		else if (y < 0 || y > 119) {
+		else if (y < 0 || y > 159) {
         	throw new CoordinateException("Coordinate Error: y value is not in range.");
         }
 		else {
@@ -22,7 +22,7 @@ public class Coordinates {
 	}
 	
 	public void setX(int newx) throws CoordinateException{
-		if(newx < 0 || newx > 159) {
+		if(newx < 0 || newx > 119) {
 			throw new CoordinateException("Coordinate Error: x value is not in range.");
 		} else {
 			this.XVal = newx;
@@ -30,7 +30,7 @@ public class Coordinates {
 	}
 	
 	public void setY(int newy) throws CoordinateException{
-		if (newy < 0 || newy > 119) {
+		if (newy < 0 || newy > 159) {
         	throw new CoordinateException("Coordinate Error: y value is not in range.");
 		} else {
 			this.YVal = newy;
