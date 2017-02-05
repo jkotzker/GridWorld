@@ -21,7 +21,7 @@ public class GridSquare {
 	public Boolean memberOfHorizontalHighway = false;
 	
 	// Boolean variable tracking whether member of path
-	Boolean isPath = false;
+	public Boolean isPath = false;
 	
 	// Color Enum
 	public SquareColor color;
