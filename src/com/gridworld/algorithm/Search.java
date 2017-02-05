@@ -10,7 +10,7 @@ public class Search {
 //tell us if what kind of search you are doing: ucost, A* or wA*=> also, what is w?
 	//that will determine what the heuristic function is. 0, h(), or w*h() 
 	private String searchType = "";
-	private PriorityQueue<GridSquare> fringe = new PriorityQueue<GridSquare>();
+	private PriorityQueue<Vertex> fringe = new PriorityQueue<Vertex>();
 	private int h(GridSquare A){
 		if (this.searchType=="A*"){
 			return n;
@@ -20,7 +20,11 @@ public class Search {
 		return 0;
 	}
 	Search(Grid currentGrid){
-		Vertex currentVertex = new Vertex(currentGrid.sStart.getSquare(currentGrid));
+		Vertex currentVertex = new Vertex(currentGrid.sStart);
+		currentVertex.g = 0;
+		currentVertex.Parent= currentVertex;
+		fringe.add(currentVertex);
+		
 		
 	}
 }
