@@ -13,23 +13,16 @@ public class Search {
 	// what is w?
 	// that will determine what the heuristic function is. 0, h(), or w*h()
 	private String searchType = "";
-	private PriorityQueue<Vertex> fringe = new PriorityQueue<Vertex>(int 1000,
-            Comparator<Vertex> comparator);
+	private PriorityQueue<Vertex> fringe = new PriorityQueue<Vertex>(100,
+            new HeuristicComparator());
 
-	private double h(Vertex A) {
-		if (this.searchType == "A*") {
-			return 1;
-		} else if (this.searchType == "wA*") {
-			return 2;
-		}
-		return 0;
-	}
+
 
 	public String Search(Grid currentGrid) throws TraversalException {
-		Vertex currentVertex = new Vertex(currentGrid.sStart, currentGrid);
+		Vertex currentVertex = new Vertex(currentGrid.sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
-		fringe.insert(currentVertex, currentVertex.g+h(currentVertex));
+		fringe.add(currentVertex);
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
 			if (s.gridSquare == currentGrid.sGoal) {
@@ -52,8 +45,7 @@ public class Search {
 			if(fringe.contains(v)){
 				fringe.remove(v);
 			}
-			fringe.insert(v, v.g + h(v));
-			fringe.
+			fringe.add(v);
 		}
 
 	}
