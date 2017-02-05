@@ -1,15 +1,9 @@
-/*
- * Authors: Joseph Kotzker and Esther Shimanovich
-
-Initialized Array of grid_squares that includes cost dictionaries
- *
- */
 package com.gridworld.grid;
 
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
-import com.gridworld.*;
+
 import com.gridworld.exceptions.CoordinateException;
 
 public class Grid {
@@ -17,8 +11,8 @@ public class Grid {
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public GridSquare sStart = null;
 	public GridSquare sGoal = null;
-	private HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
-	private HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
+	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
+	public HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
@@ -33,7 +27,7 @@ public class Grid {
 
 		for (int i = 0; i < 120; i++) {
 			for (int j = 0; j < 160; j++) {
-				GridSquares[i][j] = new GridSquare(i, j, Color.WHITE);
+				GridSquares[i][j] = new GridSquare(i, j, SquareColor.WHITE);
 			}
 		}
 
@@ -46,7 +40,7 @@ public class Grid {
 			for (int i = inRange(x - 15, 119); i < inRange(x + 15, 119); i++) {
 				for (int j = inRange(y - 15, 159); j < inRange(y + 15, 159); j++) {
 					if (percentChance(50)) {
-						this.GridSquares[i][j].setColor(Color.LIGHT_GRAY);
+						this.GridSquares[i][j].setColor(SquareColor.LIGHT_GRAY);
 					}
 				}
 			}
@@ -59,7 +53,6 @@ public class Grid {
 		int Counter = 0;
 		while (highwayStack.size() < 5) {
 			this.highwayBlocks = new Stack<Coordinates>();
-			this.oneHundredCells = 0;
 			Counter++;
 			if (Counter > 25) {
 				clearHighways();
@@ -128,7 +121,7 @@ public class Grid {
 			int y = randomNumberGenerator(0, 159);
 			if (!this.GridSquares[x][y].memberOfHorizontalHighway
 					&& !this.GridSquares[x][y].memberOfHorizontalHighway) {
-				this.GridSquares[x][y].setColor(Color.DARK_GRAY);
+				this.GridSquares[x][y].setColor(SquareColor.DARK_GRAY);
 				i++;
 			}
 		}
@@ -261,7 +254,7 @@ public class Grid {
 			} else {
 				x = randomNumberGenerator(99, 119);
 			}
-		} while (this.GridSquares[x][y].color.equals(Color.DARK_GRAY));
+		} while (this.GridSquares[x][y].color.equals(SquareColor.DARK_GRAY));
 		return new Coordinates(x, y);
 	}
 
@@ -274,8 +267,7 @@ public class Grid {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return this.GridSquares.toString();
+		return "( " + this.sStart.XVal + ", " + this.sStart.YVal + " ) , ( " + this.sGoal.XVal + ", " + this.sGoal.YVal + " )";
 	}
 
 }
