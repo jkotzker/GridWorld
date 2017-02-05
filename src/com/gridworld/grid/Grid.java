@@ -171,13 +171,14 @@ public class Grid {
 	 * Creates horizontal highways. author: Esther Shimanovich
 	 */
 	private int markHighway(int row, int col, int direction, String horizOrVert) throws CoordinateException {
-		// Direction -1 means LEFT, +1 means RIGHT, 0 means BORDER
+		// Direction -1 means LEFT/DOWN, +1 means RIGHT/UP, 0 means BORDER
 		// If we are on highway already, and we wanted to build, then exit
-		
-		  if (this.GridSquares[row][col].memberOfHorizontalHighway ||
-		  this.GridSquares[row][col].memberOfVerticalHighway) {
-		  System.out.println("hit an intersection"); return -1; }
-		 
+
+		if (this.GridSquares[row][col].memberOfHorizontalHighway
+				|| this.GridSquares[row][col].memberOfVerticalHighway) {
+			return -1;
+		}
+
 		// If on border, set direction correctly
 		if (col == 0 || col == 159 && horizOrVert == "horiz") {
 			direction = -2 * col / 159 + 1;
@@ -205,12 +206,6 @@ public class Grid {
 			// Restart path if Border or Intersection on next block
 
 			boolean hitBorder = (nextCol != col + (c + 1) * direction) || (nextRow != (row + (r + 1) * direction));
-			// System.out.println("value of nextRow is = " + nextRow + " and
-			// nextCol is" + nextCol);
-			// System.out.println("hitborder = " + hitBorder + "and value of row
-			// and col are "
-			// + (row + (r + 1) * direction) + " and " + (col + (c + 1) *
-			// direction));
 			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
 
 				clearThisHighway();
@@ -228,14 +223,9 @@ public class Grid {
 		}
 
 		if (horizOrVert == "horiz") {
-			int ncol = col + 20 * direction;
-			System.out.println("we leave with row = " + row + " and col= " + ncol + " and direction is " + direction);
 			return col + 20 * direction;
 
 		} else {
-
-			int nrow = row + 20 * direction;
-			System.out.println("we leave with row = " + nrow + " and col= " + col + " and direction is " + direction);
 			return row + 20 * direction;
 		}
 
