@@ -4,7 +4,7 @@ import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.HighwayException;
 import com.gridworld.exceptions.TraversalException;
-import com.gridworld.grid.Color;
+import com.gridworld.grid.SquareColor;
 
 /**
  * GridSquare Class
@@ -18,11 +18,11 @@ public class GridSquare {
 	Coordinates coordinates;
 	
 	// Boolean variables tracking highway membership
-	Boolean memberOfVerticalHighway = false;
-	Boolean memberOfHorizontalHighway = false;
+	public Boolean memberOfVerticalHighway = false;
+	public Boolean memberOfHorizontalHighway = false;
 	
 	// Color Enum
-	Color color;
+	public SquareColor color;
 	
 	/**
 	 * Constructor for the GridSquare class
@@ -31,7 +31,7 @@ public class GridSquare {
 	 * @param y			the y value
 	 * @param color 	the (initial) color
 	 */
-	public GridSquare(int x, int y, Color color){
+	public GridSquare(int x, int y, SquareColor color){
 		
 		try {
 			this.coordinates = new Coordinates(x,y);
@@ -58,9 +58,9 @@ public class GridSquare {
 		
 		int diffX = targetX - this.coordinates.XVal;
 		int diffY = targetY - this.coordinates.YVal;
-		Color targetColor = target.color;
+		SquareColor targetColor = target.color;
 		
-		if (this.color ==  Color.WHITE && targetColor == Color.WHITE){
+		if (this.color ==  SquareColor.WHITE && targetColor == SquareColor.WHITE){
 			
 			if(diffX == 0){
 				// Vertical Move
@@ -82,7 +82,7 @@ public class GridSquare {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if (this.color ==  Color.LIGHT_GRAY && targetColor == Color.LIGHT_GRAY) {
+		} else if (this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.LIGHT_GRAY) {
 			
 			if(diffX == 0){
 				// Vertical Move
@@ -104,7 +104,7 @@ public class GridSquare {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if ((this.color ==  Color.LIGHT_GRAY && targetColor == Color.WHITE) || (this.color ==  Color.WHITE && targetColor == Color.LIGHT_GRAY)) {
+		} else if ((this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.WHITE) || (this.color ==  SquareColor.WHITE && targetColor == SquareColor.LIGHT_GRAY)) {
 			
 			if(diffX == 0){
 				// Vertical Move
@@ -126,7 +126,7 @@ public class GridSquare {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if (this.color == Color.DARK_GRAY || targetColor == Color.DARK_GRAY) {
+		} else if (this.color == SquareColor.DARK_GRAY || targetColor == SquareColor.DARK_GRAY) {
 			throw new TraversalException("Cannot traverse to or from a blocked square, traversal is invalid.");
 		} else {
 			throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -138,7 +138,7 @@ public class GridSquare {
 	 * Change GridSquare's color
 	 * @param newcol 	the new Color for the GridSquare
 	 */
-	public void setColor(Color newcol){
+	public void setColor(SquareColor newcol){
 		this.color = newcol;
 		return;
 	}

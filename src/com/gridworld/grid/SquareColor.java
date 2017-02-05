@@ -1,5 +1,5 @@
 package com.gridworld.grid;
 
-public enum Color {
+public enum SquareColor {
 	WHITE, LIGHT_GRAY, DARK_GRAY
 }

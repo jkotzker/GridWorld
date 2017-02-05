@@ -18,6 +18,7 @@ public class ViewController implements Initializable{
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
 		
+		// There needs to be a list of grids somewhere with start and stop points so I can add them to the list, and when they're clicked so I can add them to the gridpane
 		
         
     }
