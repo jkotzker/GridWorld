@@ -11,8 +11,8 @@ public class Grid {
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public GridSquare sStart = null;
 	public GridSquare sGoal = null;
-	private HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
-	private HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
+	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
+	public HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
@@ -53,7 +53,6 @@ public class Grid {
 		int Counter = 0;
 		while (highwayStack.size() < 5) {
 			this.highwayBlocks = new Stack<Coordinates>();
-			this.oneHundredCells = 0;
 			Counter++;
 			if (Counter > 25) {
 				clearHighways();

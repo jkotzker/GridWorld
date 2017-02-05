@@ -15,7 +15,7 @@ import com.gridworld.grid.SquareColor;
 public class GridSquare {
 	
 	// Coordinates object to hold only allowed X and Y coordinate values
-	Coordinates coordinates;
+	public Coordinates coordinates;
 	
 	// Boolean variables tracking highway membership
 	public Boolean memberOfVerticalHighway = false;
