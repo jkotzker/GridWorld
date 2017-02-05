@@ -34,27 +34,25 @@ public class ViewController implements Initializable{
 
 		
 		FiftyGrids list = Main.gridList;
+		System.out.println(list);
 		System.out.println("got gridlist");
 
 		ArrayList<Grid> grids = list.gridsList;
 		System.out.println("got internal list of grids");
+		System.out.println(grids);
 		
 		ObservableList<Grid> oblist = FXCollections.observableArrayList(grids);
-		mapList = new ListView<Grid>(oblist);
+		mapList.setItems(oblist);
 		System.out.println("made listview with grids");
-		
+		/*
 		mapList.setCellFactory(param -> new ListCell<Grid>() {
 		    @Override
 		    protected void updateItem(Grid item, boolean empty) {
 		        super.updateItem(item, empty);
-
-		        if (empty || item == null || item.toString() == null) {
-		            setText(null);
-		        } else {
-		            setText(item.toString());
-		        }
+		        setText(item.toString());
 		    }
 		});
+		*/
 		
 		System.out.println("ListView should be working");
 
