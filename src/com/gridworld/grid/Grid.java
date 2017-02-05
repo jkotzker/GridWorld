@@ -20,6 +20,7 @@ public class Grid {
 	int oneHundredCells = 0;
 	Coordinates sStart = new Coordinates(0, 0);
 	Coordinates sGoal = new Coordinates(0, 0);
+	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
 
@@ -58,7 +59,7 @@ public class Grid {
 		Coordinates highwayStart = new Coordinates(0, 0);
 		int Counter = 0;
 		while (highwayStack.size() < 5) {
-			System.out.println(highwayStack.size());
+			this.highwayBlocks = new Stack<Coordinates>();
 			this.oneHundredCells = 0;
 			Counter++;
 			if (Counter > 25) {
@@ -66,16 +67,16 @@ public class Grid {
 				highwayStack.clear();
 				Counter = 0;
 			}
-			int x = randomNumberGenerator(0, 119);
-			int y = randomNumberGenerator(0, 159);
+			int x = randomNumberGenerator(0, 120);
+			int y = randomNumberGenerator(0, 160);
 			if (percentChance(50)) {
-				y = randomNumberGenerator(0, 1) * 159;
+				y = randomNumberGenerator(0, 2) * 159;
 				highwayStart = new Coordinates(x, y);
-				y = markHoriz(x, y, 20, true, 0);
+				y = markHighway(x, y, 0, "horiz");
 			} else {
-				x = randomNumberGenerator(0, 1) * 119;
+				x = randomNumberGenerator(0, 2) * 119;
 				highwayStart = new Coordinates(x, y);
-				x = markVert(x, y, 20, true, 0);
+				x = markHighway(x, y, 0, "vert");
 			}
 			highwayStack.push(highwayStart);
 			int xInit = highwayStack.peek().XVal;
@@ -87,28 +88,30 @@ public class Grid {
 			while (x != -2 && y != -2) {
 				if (percentChance(60)) {
 					if (xInit == x) {
+						int direction = getDirection(yInit, y);
 						yInit = y;
-						y = markHoriz(x, y, 20, true, getDirection(xInit, x));
+						y = markHighway(x, y, direction, "horiz");
 					} else {
+						int direction = getDirection(xInit, x);
 						xInit = x;
-						x = markVert(x, y, 20, true, getDirection(yInit, y));
+						x = markHighway(x, y, direction, "vert");
 					}
 				} else {
 					if (percentChance(50)) {
 						if (xInit == x) {
-							xInit = x;
-							x = markVert(x, y, 20, true, 1);
-						} else {
 							yInit = y;
-							y = markHoriz(x, y, 20, true, 1);
+							x = markHighway(x, y, 1, "vert");
+						} else {
+							xInit = x;
+							y = markHighway(x, y, 1, "horiz");
 						}
 					} else {
 						if (xInit == x) {
-							xInit = y;
-							x = markVert(x, y, 20, true, -1);
-						} else {
 							yInit = y;
-							y = markHoriz(x, y, 20, true, -1);
+							x = markHighway(x, y, -1, "vert");
+						} else {
+							xInit = x;
+							y = markHighway(x, y, -1, "horiz");
 						}
 					}
 				}
@@ -158,7 +161,7 @@ public class Grid {
 	}
 
 	private boolean percentChance(int percent) {
-		if (randomNumberGenerator(0, 100) < percent) {
+		if (randomNumberGenerator(0, 101) < percent) {
 			return true;
 		}
 		return false;
@@ -167,84 +170,83 @@ public class Grid {
 	/*
 	 * Creates horizontal highways. author: Esther Shimanovich
 	 */
-	private int markHoriz(int row, int col, int blocksToTraverse, boolean markHighway, int direction) {
+	private int markHighway(int row, int col, int direction, String horizOrVert) throws CoordinateException {
 		// Direction -1 means LEFT, +1 means RIGHT, 0 means BORDER
 		// If we are on highway already, and we wanted to build, then exit
-		if ((this.GridSquares[row][col].memberOfHorizontalHighway || this.GridSquares[row][col].memberOfVerticalHighway)
-				&& markHighway == true) {
-			return -1;
-		}
+		
+		  if (this.GridSquares[row][col].memberOfHorizontalHighway ||
+		  this.GridSquares[row][col].memberOfVerticalHighway) {
+		  System.out.println("hit an intersection"); return -1; }
+		 
 		// If on border, set direction correctly
-		if (col == 0 || col == 159) {
+		if (col == 0 || col == 159 && horizOrVert == "horiz") {
 			direction = -2 * col / 159 + 1;
 		}
+		if (row == 0 || row == 119 && horizOrVert == "vert") {
+			direction = -2 * row / 159 + 1;
+		}
 		// Now we traverse
-		int n = 0;
-		while (n < blocksToTraverse) {
-			this.GridSquares[row][col + n * direction].memberOfHorizontalHighway = markHighway;
-			oneHundredCounter(markHighway);
-			// Restart path if Border or Intersection on next block
-			int nextCol = inRange(col + (n + 1) * direction, 159);
+		int c = 0;
+		int r = 0;
+		while (c < 20 && r < 20) {
+			int nextCol = inRange(col + (c + 1) * direction, 159);
+			int nextRow = inRange((row + (r + 1) * direction), 119);
 			boolean hitIntersection = (this.GridSquares[row][nextCol].memberOfHorizontalHighway == true
-					|| this.GridSquares[row][nextCol].memberOfVerticalHighway == true) && markHighway == true;
-			boolean hitBorder = nextCol != col + (n + 1) * direction;
-			if ((hitBorder && this.oneHundredCells < 100) || hitIntersection) {
-				markHoriz(row, col + n * direction, n, false, -1 * direction);
-				return -1;
+					&& this.GridSquares[row][nextCol].memberOfVerticalHighway == true);
+			if (horizOrVert == "horiz") {
+				this.GridSquares[row][col + c * direction].memberOfHorizontalHighway = true;
+				this.highwayBlocks.push(new Coordinates(row, col + c * direction));
+			} else {
+				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
+				this.highwayBlocks.push(new Coordinates(row + r * direction, col));
+				hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
+						&& this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
 			}
-			if (hitBorder && this.oneHundredCells >= 100) {
-				return -2;
-			}
-			// Otherwise, continue traversing
-			n++;
-		}
-		return col + blocksToTraverse * direction;
-	}
-
-	/*
-	 * Creates vertical highways. author: Esther Shimanovich
-	 */
-	private int markVert(int row, int col, int blocksToTraverse, boolean markHighway, int direction) {
-		// Direction -1 means DOWN, +1 means UP, 0 means BORDER
-		// If we are on highway already, and we wanted to build, then exit
-
-		if ((this.GridSquares[row][col].memberOfHorizontalHighway || this.GridSquares[row][col].memberOfVerticalHighway)
-				&& markHighway == true) {
-			return -1;
-		}
-		// If on border, set direction correctly
-		if (row == 0 || row == 119) {
-			direction = -2 * row / 119 + 1;
-		}
-		// Now we traverse
-		int n = 0;
-		while (n < blocksToTraverse) {
-			this.GridSquares[row + n * direction][col].memberOfVerticalHighway = markHighway;
-			oneHundredCounter(markHighway);
 			// Restart path if Border or Intersection on next block
-			int nextRow = inRange(row + (n + 1) * direction, 119);
-			boolean hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
-					|| this.GridSquares[nextRow][col].memberOfVerticalHighway == true) && markHighway == true;
-			boolean hitBorder = nextRow != row + (n + 1) * direction;
-			if ((hitBorder && this.oneHundredCells < 100) || hitIntersection) {
-				markVert(row + n * direction, col, n, false, -1 * direction);
+
+			boolean hitBorder = (nextCol != col + (c + 1) * direction) || (nextRow != (row + (r + 1) * direction));
+			// System.out.println("value of nextRow is = " + nextRow + " and
+			// nextCol is" + nextCol);
+			// System.out.println("hitborder = " + hitBorder + "and value of row
+			// and col are "
+			// + (row + (r + 1) * direction) + " and " + (col + (c + 1) *
+			// direction));
+			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
+
+				clearThisHighway();
 				return -1;
 			}
-			if (hitBorder && this.oneHundredCells >= 100) {
+			if (hitBorder && this.highwayBlocks.size() >= 100) {
 				return -2;
 			}
 			// Otherwise, continue traversing
-			n++;
+			if (horizOrVert == "horiz") {
+				c++;
+			} else {
+				r++;
+			}
 		}
-		return row + blocksToTraverse * direction;
+
+		if (horizOrVert == "horiz") {
+			int ncol = col + 20 * direction;
+			System.out.println("we leave with row = " + row + " and col= " + ncol + " and direction is " + direction);
+			return col + 20 * direction;
+
+		} else {
+
+			int nrow = row + 20 * direction;
+			System.out.println("we leave with row = " + nrow + " and col= " + col + " and direction is " + direction);
+			return row + 20 * direction;
+		}
+
 	}
 
-	private void oneHundredCounter(boolean changeCounter) {
-		if (changeCounter == true) {
-			this.oneHundredCells++;
-			return;
+	private void clearThisHighway() {
+		while (!this.highwayBlocks.empty()) {
+			Coordinates C = this.highwayBlocks.pop();
+			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
+			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 		}
-		this.oneHundredCells--;
 		return;
 	}
 
