@@ -36,5 +36,6 @@ public class Coordinates {
 			this.YVal = newy;
 		}
 	}
+	
 
 }

@@ -9,11 +9,10 @@ import com.gridworld.exceptions.CoordinateException;
 public class Grid {
 
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
-	HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
-	HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
-	int oneHundredCells = 0;
-	public Coordinates sStart = new Coordinates(0, 0);
-	public Coordinates sGoal = new Coordinates(0, 0);
+	public GridSquare sStart = null;
+	public GridSquare sGoal = null;
+	private HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
+	private HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
@@ -128,14 +127,16 @@ public class Grid {
 			}
 		}
 	}
-	public void newStartGoal() throws CoordinateException{
+
+	public void newStartGoal() throws CoordinateException {
 		double distance = 0;
 		// Step 5: Select sStart and sGoal
 		do {
-			this.sStart = generateStartOrGoal();
-			this.sGoal = generateStartOrGoal();
-			distance = Math.pow((this.sStart.XVal - this.sGoal.XVal), 2)
-					+ Math.pow((this.sStart.YVal - this.sGoal.YVal), 2);
+			Coordinates sStart = generateStartOrGoal();
+			Coordinates sGoal = generateStartOrGoal();
+			this.sStart = this.GridSquares[sStart.XVal][sStart.YVal];
+			this.sGoal = this.GridSquares[sGoal.XVal][sGoal.YVal];
+			distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
 		} while (distance > 100);
 
 	}
