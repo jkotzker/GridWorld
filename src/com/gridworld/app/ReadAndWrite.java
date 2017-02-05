@@ -17,8 +17,8 @@ public class ReadAndWrite {
 		     */
 		    
 		    // Get coordinates of start and goal squares, build strings, and write to file
-		    Coordinates startC = Grid.start.coordinates; // Need to implement start and goal values in Grid
-		    Coordinates goalC = Grid.goal.coordinates;		    
+		    Coordinates startC = grid.sStart.coordinates; // Need to implement start and goal values in Grid
+		    Coordinates goalC = grid.sGoal.coordinates;		    
 		    String startval = "("+startC.XVal+", "+startC.YVal+")";
 		    String goalval = "("+goalC.XVal+", "+goalC.YVal+")";
 		    writer.println(startval);

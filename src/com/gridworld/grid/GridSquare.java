@@ -4,7 +4,6 @@ import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.HighwayException;
 import com.gridworld.exceptions.TraversalException;
-import com.gridworld.grid.Color;
 
 /**
  * GridSquare Class
@@ -13,16 +12,19 @@ import com.gridworld.grid.Color;
  * Class representing a single grid in a map of terrain (represented by the Grid class).
  */
 public class GridSquare {
-	
+
 	// Coordinates object to hold only allowed X and Y coordinate values
-	Coordinates coordinates;
+	public Coordinates coordinates;
 	
 	// Boolean variables tracking highway membership
-	Boolean memberOfVerticalHighway = false;
-	Boolean memberOfHorizontalHighway = false;
+	public Boolean memberOfVerticalHighway = false;
+	public Boolean memberOfHorizontalHighway = false;
+	
+	// Boolean variable tracking whether member of path
+	Boolean isPath = false;
 	
 	// Color Enum
-	Color color;
+	public SquareColor color;
 	
 	/**
 	 * Constructor for the GridSquare class
@@ -31,7 +33,7 @@ public class GridSquare {
 	 * @param y			the y value
 	 * @param color 	the (initial) color
 	 */
-	public GridSquare(int x, int y, Color color){
+	public GridSquare(int x, int y, SquareColor color){
 		
 		try {
 			this.coordinates = new Coordinates(x,y);
@@ -58,75 +60,75 @@ public class GridSquare {
 		
 		int diffX = targetX - this.coordinates.XVal;
 		int diffY = targetY - this.coordinates.YVal;
-		Color targetColor = target.color;
+		SquareColor targetColor = target.color;
 		
-		if (this.color ==  Color.WHITE && targetColor == Color.WHITE){
+		if (this.color ==  SquareColor.WHITE && targetColor == SquareColor.WHITE){
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.whiteCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				cost = Main.gridList.gridsList.get(0).whiteCosts.get("vert")+Main.gridList.gridsList.get(0).whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.whiteCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				cost = Main.gridList.gridsList.get(0).whiteCosts.get("horiz")+Main.gridList.gridsList.get(0).whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.whiteCosts.get("diagonal")+Main.grid.whiteCosts.get("diagonal");
+				cost = Main.gridList.gridsList.get(0).whiteCosts.get("diagonal")+Main.gridList.gridsList.get(0).whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if (this.color ==  Color.LIGHT_GRAY && targetColor == Color.LIGHT_GRAY) {
+		} else if (this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.LIGHT_GRAY) {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.lightgrayCosts.get("vert");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("vert")+Main.gridList.gridsList.get(0).lightgrayCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.lightgrayCosts.get("horiz");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz")+Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.lightgrayCosts.get("diagonal")+Main.grid.lightgrayCosts.get("diagonal");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal")+Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if ((this.color ==  Color.LIGHT_GRAY && targetColor == Color.WHITE) || (this.color ==  Color.WHITE && targetColor == Color.LIGHT_GRAY)) {
+		} else if ((this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.WHITE) || (this.color ==  SquareColor.WHITE && targetColor == SquareColor.LIGHT_GRAY)) {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("vert")+Main.gridList.gridsList.get(0).whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz")+Main.gridList.gridsList.get(0).whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.lightgrayCosts.get("diagonal")+Main.grid.whiteCosts.get("diagonal");
+				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal")+Main.gridList.gridsList.get(0).whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
 			}
 			
-		} else if (this.color == Color.DARK_GRAY || targetColor == Color.DARK_GRAY) {
+		} else if (this.color == SquareColor.DARK_GRAY || targetColor == SquareColor.DARK_GRAY) {
 			throw new TraversalException("Cannot traverse to or from a blocked square, traversal is invalid.");
 		} else {
 			throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -138,7 +140,7 @@ public class GridSquare {
 	 * Change GridSquare's color
 	 * @param newcol 	the new Color for the GridSquare
 	 */
-	public void setColor(Color newcol){
+	public void setColor(SquareColor newcol){
 		this.color = newcol;
 		return;
 	}
