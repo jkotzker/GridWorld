@@ -133,7 +133,8 @@ public class Grid {
 				i++;
 			}
 		}
-
+	}
+	public void newStartGoal() throws CoordinateException{
 		double distance = 0;
 		// Step 5: Select sStart and sGoal
 		do {
