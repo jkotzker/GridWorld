@@ -15,9 +15,10 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
 
+		FXMLLoader loader = new FXMLLoader();
 		try {
-			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/com/gridworld/views/mainScreen.fxml"));
 			AnchorPane root = loader.load();
 			Scene scene = new Scene(root,1366,768);
@@ -28,6 +29,7 @@ public class Main extends Application{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static void main(String[] args) {

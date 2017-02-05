@@ -11,7 +11,7 @@ public class Grid {
 	
 	public String name;
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
-	public ArrayList<CoordinatePair> pathPoints;
+	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
 	public HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;

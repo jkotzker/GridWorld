@@ -13,6 +13,7 @@ public class FiftyGrids {
 			Grid A = new Grid();
 			A.newStartGoal();
 			A.name = Integer.toString(i);
+			gridsList.add(A);
 		}
 	}
 }
