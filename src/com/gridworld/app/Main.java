@@ -1,6 +1,7 @@
 package com.gridworld.app;
 
-import com.gridworld.grid.Grid;
+import com.gridworld.exceptions.CoordinateException;
+import com.gridworld.grid.FiftyGrids;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
-	
+	public static FiftyGrids gridList;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -30,6 +31,13 @@ public class Main extends Application{
 	}
 	
 	public static void main(String[] args) {
+		
+		try {
+			gridList = new FiftyGrids();
+		} catch (CoordinateException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 		
 		launch(args);
 	}

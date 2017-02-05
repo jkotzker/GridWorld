@@ -64,19 +64,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.whiteCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				cost = Main.gridList.FiftyGrids[0].whiteCosts.get("vert")+Main.gridList.FiftyGrids[0].whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.whiteCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				cost = Main.gridList.FiftyGrids[0].whiteCosts.get("horiz")+Main.gridList.FiftyGrids[0].whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.whiteCosts.get("diagonal")+Main.grid.whiteCosts.get("diagonal");
+				cost = Main.gridList.FiftyGrids[0].whiteCosts.get("diagonal")+Main.gridList.FiftyGrids[0].whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -86,19 +86,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.lightgrayCosts.get("vert");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("vert")+Main.gridList.FiftyGrids[0].lightgrayCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.lightgrayCosts.get("horiz");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("horiz")+Main.gridList.FiftyGrids[0].lightgrayCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.lightgrayCosts.get("diagonal")+Main.grid.lightgrayCosts.get("diagonal");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("diagonal")+Main.gridList.FiftyGrids[0].lightgrayCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -108,19 +108,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.grid.lightgrayCosts.get("vert")+Main.grid.whiteCosts.get("vert");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("vert")+Main.gridList.FiftyGrids[0].whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.grid.lightgrayCosts.get("horiz")+Main.grid.whiteCosts.get("horiz");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("horiz")+Main.gridList.FiftyGrids[0].whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.grid.lightgrayCosts.get("diagonal")+Main.grid.whiteCosts.get("diagonal");
+				cost = Main.gridList.FiftyGrids[0].lightgrayCosts.get("diagonal")+Main.gridList.FiftyGrids[0].whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");

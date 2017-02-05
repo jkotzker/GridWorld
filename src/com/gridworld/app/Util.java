@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Util {
 	
-	public GridPane genGridPane(Grid grid) {
+	public static GridPane genGridPane(Grid grid) {
 		
 		
     	GridPane gridPane = new GridPane();

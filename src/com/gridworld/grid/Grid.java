@@ -267,8 +267,7 @@ public class Grid {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return this.GridSquares.toString();
+		return "( " + this.sStart.XVal + ", " + this.sStart.YVal + " ) , ( " + this.sGoal.XVal + ", " + this.sGoal.YVal + " )";
 	}
 
 }
