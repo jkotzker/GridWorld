@@ -1,5 +1,6 @@
 package com.gridworld.grid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
@@ -7,15 +8,17 @@ import java.util.Stack;
 import com.gridworld.exceptions.CoordinateException;
 
 public class Grid {
-
+	
+	public String name;
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
-	public GridSquare sStart = null;
-	public GridSquare sGoal = null;
+	public ArrayList<CoordinatePair> pathPoints;
 	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
 	public HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
+		
+		System.out.println("Making grid");
 
 		whiteCosts.put("horiz", 0.5);
 		whiteCosts.put("vert", 0.5);
@@ -128,15 +131,18 @@ public class Grid {
 	}
 
 	public void newStartGoal() throws CoordinateException {
-		double distance = 0;
-		// Step 5: Select sStart and sGoal
-		do {
-			Coordinates sStart = generateStartOrGoal();
-			Coordinates sGoal = generateStartOrGoal();
-			this.sStart = this.GridSquares[sStart.XVal][sStart.YVal];
-			this.sGoal = this.GridSquares[sGoal.XVal][sGoal.YVal];
-			distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
-		} while (distance > 100);
+		
+		for (int i = 0; i < 10; i++){
+			double distance = 0;
+			// Step 5: Select sStart and sGoal
+			do {
+				Coordinates sStart = generateStartOrGoal();
+				Coordinates sGoal = generateStartOrGoal();
+				CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
+				this.pathPoints.add(newPair);
+				distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
+			} while (distance > 100);
+		}
 
 	}
 
@@ -267,7 +273,7 @@ public class Grid {
 
 	@Override
 	public String toString() {
-		return "( " + this.sStart.XVal + ", " + this.sStart.YVal + " ) , ( " + this.sGoal.XVal + ", " + this.sGoal.YVal + " )";
+		return this.name;		
 	}
 
 }
