@@ -19,13 +19,15 @@ public class Search {
 
 
 	public String Search(Grid currentGrid) throws TraversalException {
-		Vertex currentVertex = new Vertex(currentGrid.sStart, currentGrid, this.searchType);
+		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints.get(0).sStart.XVal][currentGrid.pathPoints.get(0).sStart.YVal];
+		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(0).sGoal.XVal][currentGrid.pathPoints.get(0).sGoal.YVal];
+		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
 		fringe.add(currentVertex);
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
-			if (s.gridSquare == currentGrid.sGoal) {
+			if (s.gridSquare == sGoal) {
 				return "path found";
 			}
 			for (Vertex v : currentVertex.succ) {
