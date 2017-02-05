@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.gridworld.*;
 import com.gridworld.app.Main;
 import com.gridworld.grid.FiftyGrids;
 import com.gridworld.grid.Grid;
@@ -15,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -30,10 +30,34 @@ public class ViewController implements Initializable{
 		
 		// There needs to be a list of grids somewhere with start and stop points so I can add them to the list, and when they're clicked so I can add them to the gridpane
 		
+		System.out.println("ViewController started");
+
+		
 		FiftyGrids list = Main.gridList;
+		System.out.println("got gridlist");
+
 		ArrayList<Grid> grids = list.gridsList;
-		ObservableList oblist = FXCollections.observableArrayList(grids);
+		System.out.println("got internal list of grids");
+		
+		ObservableList<Grid> oblist = FXCollections.observableArrayList(grids);
 		mapList = new ListView<Grid>(oblist);
+		System.out.println("made listview with grids");
+		
+		mapList.setCellFactory(param -> new ListCell<Grid>() {
+		    @Override
+		    protected void updateItem(Grid item, boolean empty) {
+		        super.updateItem(item, empty);
+
+		        if (empty || item == null || item.toString() == null) {
+		            setText(null);
+		        } else {
+		            setText(item.toString());
+		        }
+		    }
+		});
+		
+		System.out.println("ListView should be working");
+
 		
         displayButton.setOnAction(this::handleButtonAction);
 		

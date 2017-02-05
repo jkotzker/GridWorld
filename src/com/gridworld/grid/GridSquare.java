@@ -4,7 +4,6 @@ import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.HighwayException;
 import com.gridworld.exceptions.TraversalException;
-import com.gridworld.grid.SquareColor;
 
 /**
  * GridSquare Class
@@ -13,7 +12,7 @@ import com.gridworld.grid.SquareColor;
  * Class representing a single grid in a map of terrain (represented by the Grid class).
  */
 public class GridSquare {
-	
+
 	// Coordinates object to hold only allowed X and Y coordinate values
 	public Coordinates coordinates;
 	

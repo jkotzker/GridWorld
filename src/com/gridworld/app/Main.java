@@ -22,7 +22,7 @@ public class Main extends Application{
 			AnchorPane root = loader.load();
 			Scene scene = new Scene(root,1366,768);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Database Application");
+			primaryStage.setTitle("Map Generator v0.1");
 			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
@@ -32,12 +32,17 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		
+		System.out.println("started");
+		
 		try {
 			gridList = new FiftyGrids();
+			System.out.println("gridlist generated");
 		} catch (CoordinateException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+			System.exit(-1);
 		}
+		System.out.println("gridlist should be generated.");
 		
 		launch(args);
 	}

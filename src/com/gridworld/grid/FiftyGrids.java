@@ -11,10 +11,8 @@ public class FiftyGrids {
 
 		for (int i = 0; i < 5; i++) {
 			Grid A = new Grid();
-			for (int j = 0; j < 10; j++) {
-				A.newStartGoal();
-				this.gridsList.add(A);
-			}
+			A.newStartGoal();
+			A.name = Integer.toString(i);
 		}
 	}
 }
