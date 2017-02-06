@@ -17,7 +17,7 @@ public class Search {
 	
 	public Search() {
 		
-		this.searchType = "";
+		this.searchType = "ucost";
 		this.fringe = new PriorityQueue<Vertex>(100,
 	            new HeuristicComparator());
 		

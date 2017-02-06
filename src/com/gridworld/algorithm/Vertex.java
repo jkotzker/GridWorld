@@ -21,7 +21,17 @@ public class Vertex {
 	public Vertex(GridSquare currentBlock, Grid currentGrid, String searchType) {
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
-				succ.add(new Vertex(currentGrid.GridSquares[currentBlock.coordinates.XVal + x][currentBlock.coordinates.YVal + y], currentGrid, searchType));
+				
+				if(currentBlock.coordinates.XVal + x == -1 || currentBlock.coordinates.YVal + y == -1){
+					continue;
+				} else if (currentBlock.coordinates.XVal + x == 0 && currentBlock.coordinates.YVal + y == 0) {
+					continue;
+				}
+				else{
+					succ.add(new Vertex(currentGrid.GridSquares[currentBlock.coordinates.XVal + x][currentBlock.coordinates.YVal + y], currentGrid, searchType));
+				}
+				if (x==1 && y==1)
+					break;
 			}
 		}
 		if (searchType == "A*") {
