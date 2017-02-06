@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.gridworld.app.Main;
+import com.gridworld.grid.CoordinatePair;
 import com.gridworld.grid.FiftyGrids;
 import com.gridworld.grid.Grid;
 
@@ -14,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -22,7 +22,7 @@ import javafx.scene.layout.GridPane;
 public class ViewController implements Initializable{
 	
 	@FXML Button displayButton;
-	@FXML ListView<Grid> mapList;
+	@FXML ListView<CoordinatePair> mapList;
 	@FXML AnchorPane gridpaneHolder;
 	
 	@Override
@@ -34,14 +34,21 @@ public class ViewController implements Initializable{
 
 		
 		FiftyGrids list = Main.gridList;
-		//System.out.println(list);
+		System.out.println(list);
 		//System.out.println("got gridlist");
 
 		ArrayList<Grid> grids = list.gridsList;
 		//System.out.println("got internal list of grids");
 		//System.out.println(grids);
 		
-		ObservableList<Grid> oblist = FXCollections.observableArrayList(grids);
+		ArrayList<CoordinatePair> clists = new ArrayList<CoordinatePair>();
+		for(int i=0; i < grids.size(); i++) {
+			clists.addAll(grids.get(i).pathPoints);
+		}
+		
+		
+		
+		ObservableList<CoordinatePair> oblist = FXCollections.observableArrayList(clists);
 		mapList.setItems(oblist);
 		//System.out.println("made listview with grids");
 		/*
@@ -68,9 +75,11 @@ public class ViewController implements Initializable{
         if (b == displayButton) {
         	gridpaneHolder.getChildren().clear();
         	
-        	Grid grid = mapList.getSelectionModel().getSelectedItem();
+        	CoordinatePair cord = mapList.getSelectionModel().getSelectedItem();
         	
-        	GridPane newGridDisplay = com.gridworld.app.Util.genGridPane(grid);
+        	Grid grid = cord.parent;
+        	
+        	GridPane newGridDisplay = com.gridworld.app.Util.genGridPane(grid, cord);
         	
         	gridpaneHolder.getChildren().addAll(newGridDisplay);
         }

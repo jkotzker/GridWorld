@@ -1,34 +1,45 @@
 package com.gridworld.algorithm;
 
-import com.gridworld.grid.GridSquare;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
 import com.gridworld.exceptions.TraversalException;
 import com.gridworld.grid.Grid;
-import java.util.PriorityQueue;
-import java.util.List;
-import java.util.Comparator;
+import com.gridworld.grid.GridSquare;
 
 public class Search {
 	// mark gridsquares as you go through algorithm
 	// tell us if what kind of search you are doing: ucost, A* or wA*=> also,
 	// what is w?
 	// that will determine what the heuristic function is. 0, h(), or w*h()
-	private String searchType = "";
-	private PriorityQueue<Vertex> fringe = new PriorityQueue<Vertex>(100,
-            new HeuristicComparator());
+	private String searchType;
+	private PriorityQueue<Vertex> fringe;
+	
+	public Search() {
+		
+		this.searchType = "";
+		this.fringe = new PriorityQueue<Vertex>(100,
+	            new HeuristicComparator());
+		
+	}
 
 
 
-	public String Search(Grid currentGrid) throws TraversalException {
-		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints.get(0).sStart.XVal][currentGrid.pathPoints.get(0).sStart.YVal];
-		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(0).sGoal.XVal][currentGrid.pathPoints.get(0).sGoal.YVal];
+	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) throws TraversalException {
+		
+		ArrayList<GridSquare> closed = new ArrayList<GridSquare>();
+		
+		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sStart.XVal][currentGrid.pathPoints.get(which).sStart.YVal];
+		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints.get(which).sGoal.YVal];
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
 		fringe.add(currentVertex);
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
+			closed.add(s.gridSquare);
 			if (s.gridSquare == sGoal) {
-				return "path found";
+				return closed;
 			}
 			for (Vertex v : currentVertex.succ) {
 				if (!v.isClosed()) {
@@ -36,7 +47,7 @@ public class Search {
 				}
 			}
 		}
-		return "no path found";
+		return null;
 
 	}
 

@@ -12,6 +12,7 @@ public class FiftyGrids {
 		for (int i = 0; i < 5; i++) {// i should be <5
 			Grid A = new Grid();
 			A.newStartGoal();
+			A.performAllSearches();
 			A.name = Integer.toString(i);
 			gridsList.add(A);
 		}

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 
+import com.gridworld.algorithm.Search;
 import com.gridworld.exceptions.CoordinateException;
+import com.gridworld.exceptions.TraversalException;
 
 public class Grid {
 	
@@ -112,6 +114,20 @@ public class Grid {
 			} while (distance > 100);
 		}
 
+	}
+	
+	public void performAllSearches() {
+		
+		for (int i = 0; i < pathPoints.size(); i++){
+			Search search = new Search();
+			try {
+				ArrayList<GridSquare> paths = search.performSearch(this, i);
+				pathPoints.get(i).path = paths;
+			} catch (TraversalException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private int randomNumberGenerator(int min, int max) {
