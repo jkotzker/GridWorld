@@ -1,5 +1,6 @@
 package com.gridworld.grid;
 
+import com.gridworld.algorithm.Vertex;
 import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.HighwayException;
@@ -21,7 +22,7 @@ public class GridSquare {
 	public Boolean memberOfHorizontalHighway = false;
 	
 	// Boolean variable tracking whether member of path
-	Boolean isPath = false;
+	public Vertex SearchVertex = null;
 	
 	// Color Enum
 	public SquareColor color;
@@ -66,19 +67,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.gridList.gridsList.get(0).whiteCosts.get("vert")+Main.gridList.gridsList.get(0).whiteCosts.get("vert");
+				cost = Main.whiteCosts.get("vert")+Main.whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.gridList.gridsList.get(0).whiteCosts.get("horiz")+Main.gridList.gridsList.get(0).whiteCosts.get("horiz");
+				cost = Main.whiteCosts.get("horiz")+Main.whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.gridList.gridsList.get(0).whiteCosts.get("diagonal")+Main.gridList.gridsList.get(0).whiteCosts.get("diagonal");
+				cost = Main.whiteCosts.get("diagonal") + Main.whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -88,19 +89,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("vert")+Main.gridList.gridsList.get(0).lightgrayCosts.get("vert");
+				cost = Main.lightgrayCosts.get("vert")+Main.lightgrayCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz")+Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz");
+				cost = Main.lightgrayCosts.get("horiz")+Main.lightgrayCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal")+Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal");
+				cost = Main.lightgrayCosts.get("diagonal")+Main.lightgrayCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");
@@ -110,19 +111,19 @@ public class GridSquare {
 			
 			if(diffX == 0){
 				// Vertical Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("vert")+Main.gridList.gridsList.get(0).whiteCosts.get("vert");
+				cost = Main.lightgrayCosts.get("vert")+Main.whiteCosts.get("vert");
 				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Horizontal Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("horiz")+Main.gridList.gridsList.get(0).whiteCosts.get("horiz");
+				cost = Main.lightgrayCosts.get("horiz")+Main.whiteCosts.get("horiz");
 				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
-				cost = Main.gridList.gridsList.get(0).lightgrayCosts.get("diagonal")+Main.gridList.gridsList.get(0).whiteCosts.get("diagonal");
+				cost = Main.lightgrayCosts.get("diagonal")+Main.whiteCosts.get("diagonal");
 				return cost;
 			} else {
 				throw new TraversalException("Cost computation failed, traversal is invalid.");

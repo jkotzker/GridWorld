@@ -1,5 +1,6 @@
 package com.gridworld.app;
 
+import com.gridworld.grid.CoordinatePair;
 import com.gridworld.grid.Grid;
 import com.gridworld.grid.GridSquare;
 import com.gridworld.grid.SquareColor;
@@ -10,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Util {
 	
-	public static GridPane genGridPane(Grid grid) {
+	public static GridPane genGridPane(Grid grid, CoordinatePair pair) {
 		
 		
     	GridPane gridPane = new GridPane();
@@ -21,9 +22,10 @@ public class Util {
                    rec.setHeight(5);
                    GridSquare thisSquare = grid.GridSquares[row][col];
                    
-                  // if(thisSquare) PART OF THE PATH, COLOR GREEN
-                   
-                   /*else*/if (thisSquare.memberOfHorizontalHighway || thisSquare.memberOfVerticalHighway){
+                   if(pair.path.contains(thisSquare)){
+                	   rec.setFill(Color.GREEN);
+                   }                  
+                   else if (thisSquare.memberOfHorizontalHighway || thisSquare.memberOfVerticalHighway){
                 	   rec.setFill(Color.BLUE);
                    }
                    else if (thisSquare.color == SquareColor.DARK_GRAY) {

@@ -1,5 +1,7 @@
 package com.gridworld.app;
 
+import java.util.HashMap;
+
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.grid.FiftyGrids;
 
@@ -12,12 +14,14 @@ import javafx.stage.Stage;
 public class Main extends Application{
 
 	public static FiftyGrids gridList;
+	public static HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
+	public static HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	
 	@Override
 	public void start(Stage primaryStage) {
-
+		
+		FXMLLoader loader = new FXMLLoader();
 		try {
-			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/com/gridworld/views/mainScreen.fxml"));
 			AnchorPane root = loader.load();
 			Scene scene = new Scene(root,1366,768);
@@ -28,11 +32,22 @@ public class Main extends Application{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static void main(String[] args) {
 		
 		System.out.println("started");
+		
+
+		Main.whiteCosts.put("horiz", 0.5);
+		Main.whiteCosts.put("vert", 0.5);
+		Main.whiteCosts.put("diagonal", Math.pow(2, 0.5) / 2);
+
+		Main.lightgrayCosts.put("horiz", 1.0);
+		Main.lightgrayCosts.put("vert", 1.0);
+		Main.lightgrayCosts.put("diagonal", Math.pow(2, 0.5));
+
 		
 		try {
 			gridList = new FiftyGrids();
