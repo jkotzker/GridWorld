@@ -17,7 +17,7 @@ public class Search {
 	
 	public Search() {
 		
-		this.searchType = "";
+		this.searchType = "ucost";
 		this.fringe = new PriorityQueue<Vertex>(100,
 	            new HeuristicComparator());
 		
@@ -25,18 +25,24 @@ public class Search {
 
 
 
-	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) throws TraversalException {
+	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) {
+		
+		System.out.println("search started");
 		
 		ArrayList<GridSquare> closed = new ArrayList<GridSquare>();
 		
 		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sStart.XVal][currentGrid.pathPoints.get(which).sStart.YVal];
 		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints.get(which).sGoal.YVal];
+		
+		System.out.println("got the squares");
+
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
 		fringe.add(currentVertex);
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
+			//System.out.println(s);
 			closed.add(s.block);
 			currentVertex.closed=true;
 			closed.add(s.block);
@@ -46,6 +52,7 @@ public class Search {
 			}
 			for (Vertex v : currentVertex.GetSucc()) {
 				if (!closed.contains(v.currentGrid)) {
+					System.out.println("Calling UpdateVertex");
 					UpdateVertex(currentVertex, v);
 				}
 			}
@@ -54,15 +61,19 @@ public class Search {
 
 	}
 
-	private void UpdateVertex(Vertex currentVertex, Vertex v) throws TraversalException {
-		if (currentVertex.g + currentVertex.block.computeCost(v.block) < v.g) {
-			v.g = currentVertex.g + currentVertex.block.computeCost(v.block);
-			v.Parent = currentVertex;
-			if(fringe.contains(v)){
-				fringe.remove(v);
+	private void UpdateVertex(Vertex currentVertex, Vertex v) {
+		try {
+			if (currentVertex.g + currentVertex.block.computeCost(v.block) < v.g) {
+				v.g = currentVertex.g + currentVertex.block.computeCost(v.block);
+				v.Parent = currentVertex;
+				if(fringe.contains(v)){
+					fringe.remove(v);
+				}
+				fringe.add(v);
+				//System.out.println("added to fringe"+ fringe.isEmpty());
 			}
-			fringe.add(v);
-			//System.out.println("added to fringe"+ fringe.isEmpty());
+		} catch (TraversalException t) {
+			return;
 		}
 
 	}

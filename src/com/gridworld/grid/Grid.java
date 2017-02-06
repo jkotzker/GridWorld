@@ -14,21 +14,11 @@ public class Grid {
 	public String name = "";
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
-	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
-	public HashMap<String, Double> lightgrayCosts = new HashMap<String, Double>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
 		
 	//	System.out.println("Making grid");
-
-		whiteCosts.put("horiz", 0.5);
-		whiteCosts.put("vert", 0.5);
-		whiteCosts.put("diagonal", Math.pow(2, 0.5) / 2);
-
-		lightgrayCosts.put("horiz", 1.0);
-		lightgrayCosts.put("vert", 1.0);
-		lightgrayCosts.put("diagonal", Math.pow(2, 0.5));
 
 		for (int i = 0; i < 120; i++) {
 			for (int j = 0; j < 160; j++) {
@@ -121,13 +111,9 @@ public class Grid {
 		
 		for (int i = 0; i < 1; i++){// pathPoints.size(); i++){
 			Search search = new Search();
-			try {
-				ArrayList<GridSquare> paths = search.performSearch(this, i);
-				System.out.println(paths);
-				pathPoints.get(i).path = paths;
-			} catch (TraversalException e) {
-				e.printStackTrace();
-			}
+			ArrayList<GridSquare> paths = search.performSearch(this, i);
+			System.out.println(paths);
+			pathPoints.get(i).path = paths;
 		}
 		
 	}
