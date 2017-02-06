@@ -10,15 +10,15 @@ import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.TraversalException;
 
 public class Grid {
-	
+
 	public String name = "";
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
-		
-	//	System.out.println("Making grid");
+
+		// System.out.println("Making grid");
 
 		for (int i = 0; i < 120; i++) {
 			for (int j = 0; j < 160; j++) {
@@ -72,7 +72,7 @@ public class Grid {
 				highwayStack.pop();
 				x = -2;
 			}
-			highwayStack = HighwayTraveler(xInit,x,yInit,y, highwayStack,0);
+			highwayStack = HighwayTraveler(xInit, x, yInit, y, highwayStack, 0);
 		}
 
 		// Step 4: Select 20% cells to be blocked
@@ -88,11 +88,9 @@ public class Grid {
 		}
 	}
 
-	
-
 	public void newStartGoal() throws CoordinateException {
-		
-		for (int i = 0; i < 10; i++){
+
+		for (int i = 0; i < 10; i++) {
 			double distance = 0;
 			// Step 5: Select sStart and sGoal
 			do {
@@ -106,16 +104,16 @@ public class Grid {
 		}
 
 	}
-	
+
 	public void performAllSearches() {
-		
-		for (int i = 0; i < 1; i++){// pathPoints.size(); i++){
+
+		for (int i = 0; i < 1; i++) {// pathPoints.size(); i++){
 			Search search = new Search();
 			ArrayList<GridSquare> paths = search.performSearch(this, i);
 			System.out.println(paths);
 			pathPoints.get(i).path = paths;
 		}
-		
+
 	}
 
 	private int randomNumberGenerator(int min, int max) {
@@ -139,9 +137,11 @@ public class Grid {
 		}
 		return false;
 	}
-	private Stack<Coordinates> HighwayTraveler(int xInit, int x, int yInit, int y, Stack<Coordinates> highwayStack, int iter) throws CoordinateException {
+
+	private Stack<Coordinates> HighwayTraveler(int xInit, int x, int yInit, int y, Stack<Coordinates> highwayStack,
+			int iter) throws CoordinateException {
 		// Save inputValues
-		
+
 		iter++;
 		while (x != -2 && y != -2) {
 			int xInitS = xInit;
@@ -177,20 +177,20 @@ public class Grid {
 					}
 				}
 			}
-			if (iter ==5) {
+			if (iter == 5) {
 				clearThisHighway();
 				highwayStack.pop();
 				return highwayStack;
 			}
-			if(x==-1||y==-1){
+			if (x == -1 || y == -1) {
 				HighwayTraveler(xInitS, xS, yInitS, yS, highwayStack, iter);
 				return highwayStack;
 			}
-			
+
 		}
 		return highwayStack;
 	}
-	
+
 	/*
 	 * Creates horizontal highways. author: Esther Shimanovich
 	 */
@@ -212,7 +212,8 @@ public class Grid {
 		if (row == 0 || row == 119 && horizOrVert == "vert") {
 			direction = -2 * row / 159 + 1;
 		}
-		//System.out.println("We start with row = " + row + " col = " + col + " direction = " + direction);
+		// System.out.println("We start with row = " + row + " col = " + col + "
+		// direction = " + direction);
 		// Now we traverse
 		int c = 0;
 		int r = 0;
@@ -224,7 +225,7 @@ public class Grid {
 			if (horizOrVert == "horiz") {
 				this.GridSquares[row][col + c * direction].memberOfHorizontalHighway = true;
 				this.highwayBlocks.push(new Coordinates(row, col + c * direction));
-				H.push(new Coordinates(row, col+c*direction));
+				H.push(new Coordinates(row, col + c * direction));
 			} else {
 				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
 				this.highwayBlocks.push(new Coordinates(row + r * direction, col));
@@ -239,14 +240,24 @@ public class Grid {
 				return -2;
 			}
 			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
-				if(horizOrVert == "vert"){
-			//	System.out.println(" we are comparing " + nextRow + " with " + (row + r * direction));
-			//	System.out.println("vert: hit intersection with horizontal is = " + (this.GridSquares[nextRow][col].memberOfHorizontalHighway) + " and vertical = " + (this.GridSquares[nextRow][col].memberOfVerticalHighway));
+				if (horizOrVert == "vert") {
+					// System.out.println(" we are comparing " + nextRow + "
+					// with " + (row + r * direction));
+					// System.out.println("vert: hit intersection with
+					// horizontal is = " +
+					// (this.GridSquares[nextRow][col].memberOfHorizontalHighway)
+					// + " and vertical = " +
+					// (this.GridSquares[nextRow][col].memberOfVerticalHighway));
 				}
-				if(horizOrVert=="horiz"){
-				//	System.out.println(" we are comparing " + nextRow + " with " + (row + r * direction));
-				//	System.out.println("horiz: hit intersection with horizontal is = " + (this.GridSquares[row][nextCol].memberOfHorizontalHighway) + " and vertical = " + (this.GridSquares[row][nextCol].memberOfVerticalHighway));
-						
+				if (horizOrVert == "horiz") {
+					// System.out.println(" we are comparing " + nextRow + "
+					// with " + (row + r * direction));
+					// System.out.println("horiz: hit intersection with
+					// horizontal is = " +
+					// (this.GridSquares[row][nextCol].memberOfHorizontalHighway)
+					// + " and vertical = " +
+					// (this.GridSquares[row][nextCol].memberOfVerticalHighway));
+
 				}
 				clearThisHighway(H);
 				return -1;
@@ -270,7 +281,7 @@ public class Grid {
 
 	private void clearThisHighway() {
 
-	//	System.out.println("Got to clear this Highways");
+		// System.out.println("Got to clear this Highways");
 		while (!this.highwayBlocks.empty()) {
 			Coordinates C = this.highwayBlocks.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
@@ -278,19 +289,19 @@ public class Grid {
 		}
 		return;
 	}
-	
-	private void clearThisHighway(Stack<Coordinates> H){
+
+	private void clearThisHighway(Stack<Coordinates> H) {
 		while (!H.empty()) {
-			
+
 			Coordinates C = H.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
 		}
 		return;
 	}
-	
+
 	private void clearHighways() {
-	//	System.out.println("Got to clearHighways");
+		// System.out.println("Got to clearHighways");
 		for (int i = 0; i < 119; i++) {
 			for (int j = 0; j < 119; j++) {
 				this.GridSquares[i][j].memberOfHorizontalHighway = false;
@@ -322,7 +333,7 @@ public class Grid {
 
 	@Override
 	public String toString() {
-		return this.name;		
+		return this.name;
 	}
 
 }
