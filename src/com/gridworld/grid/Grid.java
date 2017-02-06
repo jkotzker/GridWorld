@@ -90,28 +90,32 @@ public class Grid {
 
 	public void newStartGoal() throws CoordinateException {
 
-		for (int i = 0; i < 10; i++) {
-			double distance = 0;
-			// Step 5: Select sStart and sGoal
-			do {
-				Coordinates sStart = generateStartOrGoal();
-				Coordinates sGoal = generateStartOrGoal();
-				CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
+		int i = 0;
+		while(i < 10) {
+			double distance = 0;			
+			Coordinates sStart = generateStartOrGoal();
+			Coordinates sGoal = generateStartOrGoal();
+			CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
+			distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
+			if(distance > 100) {
 				newPair.parent = this;
 				this.pathPoints.add(newPair);
-				distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
-			} while (distance > 100);
+				i++;
+			} else {
+				continue;
+			}
+			
 		}
 
 	}
 
 	public void performAllSearches() {
 
-		for (int i = 0; i < 1; i++) {// pathPoints.size(); i++){
+		for (int i = 0; i < pathPoints.size(); i++){
 			Search search = new Search();
-			ArrayList<GridSquare> paths = search.performSearch(this, i);
-			System.out.println(paths);
-			pathPoints.get(i).path = paths;
+			ArrayList<GridSquare> results = search.performSearch(this, i);
+			if (results != null)
+				pathPoints.get(i).path.addAll(results);
 		}
 
 	}
