@@ -8,13 +8,13 @@ import com.gridworld.grid.Grid;
 
 public class ReadAndWrite {
 	
+	
+	/**
 	public static void writeGridToFile(Grid grid) {
 		
 		try{
-		    PrintWriter writer = new PrintWriter("out.map", "UTF-8");
-		    /*
-		     * Write everything to the file here
-		     */
+		    
+			PrintWriter writer = new PrintWriter("out.map", "UTF-8");
 		    
 		    // Get coordinates of start and goal squares, build strings, and write to file
 		    Coordinates startC = grid.sStart.coordinates; // Need to implement start and goal values in Grid
@@ -35,5 +35,6 @@ public class ReadAndWrite {
 
 		
 	}
+	**/
 
 }
