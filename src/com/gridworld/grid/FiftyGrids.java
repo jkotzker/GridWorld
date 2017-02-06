@@ -11,8 +11,11 @@ public class FiftyGrids {
 
 		for (int i = 0; i < 5; i++) {// i should be <5
 			Grid A = new Grid();
+			System.out.println("Generated map number " + Integer.toString(i));
 			A.newStartGoal();
+			System.out.println("Generated starts and goals for map number " + Integer.toString(i));
 			A.performAllSearches();
+			System.out.println("Generated paths for map number " + Integer.toString(i));
 			A.name = Integer.toString(i);
 			gridsList.add(A);
 		}
