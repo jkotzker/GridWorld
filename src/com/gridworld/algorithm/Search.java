@@ -44,7 +44,12 @@ public class Search {
 			closed.add(s.block);
 			s.closed = true;
 			if (s.block == sGoal) {
-				closed.add(s.block);
+				closed.clear();
+				while(s!=sStart.SearchVertex){
+					closed.add(s.block);
+					s = s.Parent;
+				}
+				closed.add(sGoal);
 				return closed;
 			}
 			for (Vertex v : s.GetSucc()) {
