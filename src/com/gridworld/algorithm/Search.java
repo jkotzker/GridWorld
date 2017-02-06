@@ -37,12 +37,15 @@ public class Search {
 		fringe.add(currentVertex);
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
-			closed.add(s.gridSquare);
-			if (s.gridSquare == sGoal) {
+			closed.add(s.block);
+			currentVertex.closed=true;
+			closed.add(s.block);
+			if (s.block == sGoal) {
+				closed.add(s.block);
 				return closed;
 			}
-			for (Vertex v : currentVertex.succ) {
-				if (!v.isClosed()) {
+			for (Vertex v : currentVertex.GetSucc()) {
+				if (!closed.contains(v.currentGrid)) {
 					UpdateVertex(currentVertex, v);
 				}
 			}
@@ -52,13 +55,14 @@ public class Search {
 	}
 
 	private void UpdateVertex(Vertex currentVertex, Vertex v) throws TraversalException {
-		if (currentVertex.g + currentVertex.gridSquare.computeCost(v.gridSquare) < v.g) {
-			v.g = currentVertex.g + currentVertex.gridSquare.computeCost(v.gridSquare);
+		if (currentVertex.g + currentVertex.block.computeCost(v.block) < v.g) {
+			v.g = currentVertex.g + currentVertex.block.computeCost(v.block);
 			v.Parent = currentVertex;
 			if(fringe.contains(v)){
 				fringe.remove(v);
 			}
 			fringe.add(v);
+			//System.out.println("added to fringe"+ fringe.isEmpty());
 		}
 
 	}

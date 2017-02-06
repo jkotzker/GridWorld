@@ -11,7 +11,7 @@ import com.gridworld.exceptions.TraversalException;
 
 public class Grid {
 	
-	public String name;
+	public String name = "";
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
@@ -109,6 +109,7 @@ public class Grid {
 				Coordinates sStart = generateStartOrGoal();
 				Coordinates sGoal = generateStartOrGoal();
 				CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
+				newPair.parent = this;
 				this.pathPoints.add(newPair);
 				distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
 			} while (distance > 100);
@@ -118,10 +119,11 @@ public class Grid {
 	
 	public void performAllSearches() {
 		
-		for (int i = 0; i < pathPoints.size(); i++){
+		for (int i = 0; i < 1; i++){// pathPoints.size(); i++){
 			Search search = new Search();
 			try {
 				ArrayList<GridSquare> paths = search.performSearch(this, i);
+				System.out.println(paths);
 				pathPoints.get(i).path = paths;
 			} catch (TraversalException e) {
 				e.printStackTrace();
@@ -282,7 +284,7 @@ public class Grid {
 
 	private void clearThisHighway() {
 
-		System.out.println("Got to clear this Highways");
+	//	System.out.println("Got to clear this Highways");
 		while (!this.highwayBlocks.empty()) {
 			Coordinates C = this.highwayBlocks.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
@@ -302,7 +304,7 @@ public class Grid {
 	}
 	
 	private void clearHighways() {
-		System.out.println("Got to clearHighways");
+	//	System.out.println("Got to clearHighways");
 		for (int i = 0; i < 119; i++) {
 			for (int j = 0; j < 119; j++) {
 				this.GridSquares[i][j].memberOfHorizontalHighway = false;
