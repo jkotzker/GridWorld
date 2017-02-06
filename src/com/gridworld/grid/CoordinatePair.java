@@ -9,13 +9,13 @@ public class CoordinatePair {
 	public Coordinates sStart;
 	public Coordinates sGoal;
 	
-	public ArrayList<GridSquare> path;
+	public ArrayList<GridSquare> path; 
 	
 	public CoordinatePair(Coordinates start, Coordinates goal) {
 		
 		this.sStart = start;
 		this.sGoal = goal;
-		
+		this.path = new ArrayList<GridSquare>();
 	}
 	
 	public String toString() {
