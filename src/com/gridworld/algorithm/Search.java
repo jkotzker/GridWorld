@@ -44,8 +44,15 @@ public class Search {
 			closed.add(s.block);
 			s.closed = true;
 			if (s.block == sGoal) {
-				closed.add(s.block);
-				return closed;
+				ArrayList<GridSquare> output = new ArrayList<GridSquare>();
+				int iterator = 0;
+				while(s!=sStart.SearchVertex && iterator<100){
+					output.add(s.block);
+					s = s.Parent;
+					iterator++;
+				}
+				output.add(sGoal);
+				return output;
 			}
 			for (Vertex v : s.GetSucc()) {
 				if (v != null) {
