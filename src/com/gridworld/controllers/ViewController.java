@@ -30,20 +30,20 @@ public class ViewController implements Initializable{
 		
 		// There needs to be a list of grids somewhere with start and stop points so I can add them to the list, and when they're clicked so I can add them to the gridpane
 		
-		System.out.println("ViewController started");
+		//System.out.println("ViewController started");
 
 		
 		FiftyGrids list = Main.gridList;
-		System.out.println(list);
-		System.out.println("got gridlist");
+		//System.out.println(list);
+		//System.out.println("got gridlist");
 
 		ArrayList<Grid> grids = list.gridsList;
-		System.out.println("got internal list of grids");
-		System.out.println(grids);
+		//System.out.println("got internal list of grids");
+		//System.out.println(grids);
 		
 		ObservableList<Grid> oblist = FXCollections.observableArrayList(grids);
 		mapList.setItems(oblist);
-		System.out.println("made listview with grids");
+		//System.out.println("made listview with grids");
 		/*
 		mapList.setCellFactory(param -> new ListCell<Grid>() {
 		    @Override
@@ -54,7 +54,7 @@ public class ViewController implements Initializable{
 		});
 		*/
 		
-		System.out.println("ListView should be working");
+		//System.out.println("ListView should be working");
 
 		
         displayButton.setOnAction(this::handleButtonAction);

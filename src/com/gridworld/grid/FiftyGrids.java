@@ -9,7 +9,7 @@ public class FiftyGrids {
 
 	public FiftyGrids() throws CoordinateException {
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {// i should be <5
 			Grid A = new Grid();
 			A.newStartGoal();
 			A.name = Integer.toString(i);
