@@ -1,5 +1,6 @@
 package com.gridworld.grid;
 
+import com.gridworld.algorithm.Vertex;
 import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.exceptions.HighwayException;
@@ -21,7 +22,7 @@ public class GridSquare {
 	public Boolean memberOfHorizontalHighway = false;
 	
 	// Boolean variable tracking whether member of path
-	public Boolean isPath = false;
+	public Vertex SearchVertex = null;
 	
 	// Color Enum
 	public SquareColor color;

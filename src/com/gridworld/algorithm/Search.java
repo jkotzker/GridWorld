@@ -14,46 +14,44 @@ public class Search {
 	// that will determine what the heuristic function is. 0, h(), or w*h()
 	private String searchType;
 	private PriorityQueue<Vertex> fringe;
-	
+
 	public Search() {
-		
+
 		this.searchType = "ucost";
-		this.fringe = new PriorityQueue<Vertex>(100,
-	            new HeuristicComparator());
-		
+		this.fringe = new PriorityQueue<Vertex>(100, new HeuristicComparator());
+
 	}
 
-
-
 	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) {
-		
-		System.out.println("search started");
-		
+
+
 		ArrayList<GridSquare> closed = new ArrayList<GridSquare>();
-		
-		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sStart.XVal][currentGrid.pathPoints.get(which).sStart.YVal];
-		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints.get(which).sGoal.YVal];
-		
-		System.out.println("got the squares");
+
+		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints
+				.get(which).sStart.XVal][currentGrid.pathPoints.get(which).sStart.YVal];
+		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints
+				.get(which).sGoal.YVal];
 
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
 		fringe.add(currentVertex);
+		currentVertex.inFringe = true;
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
-			//System.out.println(s);
+			s.inFringe = false;
+			// System.out.println(s);
 			closed.add(s.block);
-			currentVertex.closed=true;
-			closed.add(s.block);
+			s.closed = true;
 			if (s.block == sGoal) {
 				closed.add(s.block);
 				return closed;
 			}
-			for (Vertex v : currentVertex.GetSucc()) {
-				if (!closed.contains(v.currentGrid)) {
-					System.out.println("Calling UpdateVertex");
-					UpdateVertex(currentVertex, v);
+			for (Vertex v : s.GetSucc()) {
+				if (v != null) {
+					if (v.closed != true) {
+						UpdateVertex(s, v);
+					}
 				}
 			}
 		}
@@ -61,16 +59,16 @@ public class Search {
 
 	}
 
-	private void UpdateVertex(Vertex currentVertex, Vertex v) {
+	private void UpdateVertex(Vertex s, Vertex v) {
 		try {
-			if (currentVertex.g + currentVertex.block.computeCost(v.block) < v.g) {
-				v.g = currentVertex.g + currentVertex.block.computeCost(v.block);
-				v.Parent = currentVertex;
-				if(fringe.contains(v)){
+			if (s.g + s.block.computeCost(v.block) < v.g) {
+				v.g = s.g + s.block.computeCost(v.block);
+				v.Parent = s;
+				if(v.inFringe){
 					fringe.remove(v);
 				}
-				fringe.add(v);
-				//System.out.println("added to fringe"+ fringe.isEmpty());
+					fringe.add(v);
+					v.inFringe = true;
 			}
 		} catch (TraversalException t) {
 			return;
