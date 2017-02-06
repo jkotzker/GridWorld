@@ -11,7 +11,7 @@ import com.gridworld.exceptions.TraversalException;
 
 public class Grid {
 	
-	public String name;
+	public String name = "";
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public HashMap<String, Double> whiteCosts = new HashMap<String, Double>();
@@ -20,7 +20,7 @@ public class Grid {
 
 	public Grid() throws CoordinateException {
 		
-		System.out.println("Making grid");
+	//	System.out.println("Making grid");
 
 		whiteCosts.put("horiz", 0.5);
 		whiteCosts.put("vert", 0.5);
@@ -82,41 +82,7 @@ public class Grid {
 				highwayStack.pop();
 				x = -2;
 			}
-			while (x != -2 && y != -2) {
-				if (percentChance(60)) {
-					if (xInit == x) {
-						int direction = getDirection(yInit, y);
-						yInit = y;
-						y = markHighway(x, y, direction, "horiz");
-					} else {
-						int direction = getDirection(xInit, x);
-						xInit = x;
-						x = markHighway(x, y, direction, "vert");
-					}
-				} else {
-					if (percentChance(50)) {
-						if (xInit == x) {
-							yInit = y;
-							x = markHighway(x, y, 1, "vert");
-						} else {
-							xInit = x;
-							y = markHighway(x, y, 1, "horiz");
-						}
-					} else {
-						if (xInit == x) {
-							yInit = y;
-							x = markHighway(x, y, -1, "vert");
-						} else {
-							xInit = x;
-							y = markHighway(x, y, -1, "horiz");
-						}
-					}
-				}
-				if (x == -1 || y == -1) {
-					highwayStack.pop();
-					x = -2;
-				}
-			}
+			highwayStack = HighwayTraveler(xInit,x,yInit,y, highwayStack,0);
 		}
 
 		// Step 4: Select 20% cells to be blocked
@@ -132,6 +98,8 @@ public class Grid {
 		}
 	}
 
+	
+
 	public void newStartGoal() throws CoordinateException {
 		
 		for (int i = 0; i < 10; i++){
@@ -141,6 +109,7 @@ public class Grid {
 				Coordinates sStart = generateStartOrGoal();
 				Coordinates sGoal = generateStartOrGoal();
 				CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
+				newPair.parent = this;
 				this.pathPoints.add(newPair);
 				distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
 			} while (distance > 100);
@@ -150,10 +119,11 @@ public class Grid {
 	
 	public void performAllSearches() {
 		
-		for (int i = 0; i < pathPoints.size(); i++){
+		for (int i = 0; i < 1; i++){// pathPoints.size(); i++){
 			Search search = new Search();
 			try {
 				ArrayList<GridSquare> paths = search.performSearch(this, i);
+				System.out.println(paths);
 				pathPoints.get(i).path = paths;
 			} catch (TraversalException e) {
 				e.printStackTrace();
@@ -183,7 +153,58 @@ public class Grid {
 		}
 		return false;
 	}
-
+	private Stack<Coordinates> HighwayTraveler(int xInit, int x, int yInit, int y, Stack<Coordinates> highwayStack, int iter) throws CoordinateException {
+		// Save inputValues
+		
+		iter++;
+		while (x != -2 && y != -2) {
+			int xInitS = xInit;
+			int xS = x;
+			int yInitS = yInit;
+			int yS = y;
+			if (percentChance(60)) {
+				if (xInit == x) {
+					int direction = getDirection(yInit, y);
+					yInit = y;
+					y = markHighway(x, y, direction, "horiz");
+				} else {
+					int direction = getDirection(xInit, x);
+					xInit = x;
+					x = markHighway(x, y, direction, "vert");
+				}
+			} else {
+				if (percentChance(50)) {
+					if (xInit == x) {
+						yInit = y;
+						x = markHighway(x, y, 1, "vert");
+					} else {
+						xInit = x;
+						y = markHighway(x, y, 1, "horiz");
+					}
+				} else {
+					if (xInit == x) {
+						yInit = y;
+						x = markHighway(x, y, -1, "vert");
+					} else {
+						xInit = x;
+						y = markHighway(x, y, -1, "horiz");
+					}
+				}
+			}
+			if (iter ==5) {
+				clearThisHighway();
+				highwayStack.pop();
+				return highwayStack;
+			}
+			if(x==-1||y==-1){
+				HighwayTraveler(xInitS, xS, yInitS, yS, highwayStack, iter);
+				return highwayStack;
+			}
+			
+		}
+		return highwayStack;
+	}
+	
 	/*
 	 * Creates horizontal highways. author: Esther Shimanovich
 	 */
@@ -191,8 +212,10 @@ public class Grid {
 		// Direction -1 means LEFT/DOWN, +1 means RIGHT/UP, 0 means BORDER
 		// If we are on highway already, and we wanted to build, then exit
 
+		Stack<Coordinates> H = new Stack<Coordinates>();
 		if (this.GridSquares[row][col].memberOfHorizontalHighway
 				|| this.GridSquares[row][col].memberOfVerticalHighway) {
+			clearThisHighway(H);
 			return -1;
 		}
 
@@ -203,33 +226,44 @@ public class Grid {
 		if (row == 0 || row == 119 && horizOrVert == "vert") {
 			direction = -2 * row / 159 + 1;
 		}
+		//System.out.println("We start with row = " + row + " col = " + col + " direction = " + direction);
 		// Now we traverse
 		int c = 0;
 		int r = 0;
 		while (c < 20 && r < 20) {
-			int nextCol = inRange(col + (c + 1) * direction, 159);
-			int nextRow = inRange((row + (r + 1) * direction), 119);
+			int nextCol = inRange((col + ((c + 1) * direction)), 159);
+			int nextRow = inRange((row + ((r + 1) * direction)), 119);
 			boolean hitIntersection = (this.GridSquares[row][nextCol].memberOfHorizontalHighway == true
-					&& this.GridSquares[row][nextCol].memberOfVerticalHighway == true);
+					|| this.GridSquares[row][nextCol].memberOfVerticalHighway == true);
 			if (horizOrVert == "horiz") {
 				this.GridSquares[row][col + c * direction].memberOfHorizontalHighway = true;
 				this.highwayBlocks.push(new Coordinates(row, col + c * direction));
+				H.push(new Coordinates(row, col+c*direction));
 			} else {
 				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
 				this.highwayBlocks.push(new Coordinates(row + r * direction, col));
+				H.push(new Coordinates(row + r * direction, col));
 				hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
-						&& this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
+						|| this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
 			}
 			// Restart path if Border or Intersection on next block
 
 			boolean hitBorder = (nextCol != col + (c + 1) * direction) || (nextRow != (row + (r + 1) * direction));
-			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
-
-				clearThisHighway();
-				return -1;
-			}
 			if (hitBorder && this.highwayBlocks.size() >= 100) {
 				return -2;
+			}
+			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
+				if(horizOrVert == "vert"){
+			//	System.out.println(" we are comparing " + nextRow + " with " + (row + r * direction));
+			//	System.out.println("vert: hit intersection with horizontal is = " + (this.GridSquares[nextRow][col].memberOfHorizontalHighway) + " and vertical = " + (this.GridSquares[nextRow][col].memberOfVerticalHighway));
+				}
+				if(horizOrVert=="horiz"){
+				//	System.out.println(" we are comparing " + nextRow + " with " + (row + r * direction));
+				//	System.out.println("horiz: hit intersection with horizontal is = " + (this.GridSquares[row][nextCol].memberOfHorizontalHighway) + " and vertical = " + (this.GridSquares[row][nextCol].memberOfVerticalHighway));
+						
+				}
+				clearThisHighway(H);
+				return -1;
 			}
 			// Otherwise, continue traversing
 			if (horizOrVert == "horiz") {
@@ -249,15 +283,28 @@ public class Grid {
 	}
 
 	private void clearThisHighway() {
+
+	//	System.out.println("Got to clear this Highways");
 		while (!this.highwayBlocks.empty()) {
 			Coordinates C = this.highwayBlocks.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
-			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
+			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
 		}
 		return;
 	}
-
+	
+	private void clearThisHighway(Stack<Coordinates> H){
+		while (!H.empty()) {
+			
+			Coordinates C = H.pop();
+			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
+			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
+		}
+		return;
+	}
+	
 	private void clearHighways() {
+	//	System.out.println("Got to clearHighways");
 		for (int i = 0; i < 119; i++) {
 			for (int j = 0; j < 119; j++) {
 				this.GridSquares[i][j].memberOfHorizontalHighway = false;

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class CoordinatePair {
 	
 	public Grid parent;
-	
-	public Coordinates sStart = null;
-	public Coordinates sGoal = null;
+
+	public Coordinates sStart;
+	public Coordinates sGoal;
 	
 	public ArrayList<GridSquare> path;
 	
