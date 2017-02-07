@@ -21,13 +21,12 @@ public class Util {
                    rec.setWidth(5);
                    rec.setHeight(5);
                    GridSquare thisSquare = grid.GridSquares[row][col];
-                   
                    if(pair.path.contains(thisSquare)){
                 	   rec.setFill(Color.GREEN);
-                   }                  
+                   }  
                    else if (thisSquare.memberOfHorizontalHighway || thisSquare.memberOfVerticalHighway){
                 	   rec.setFill(Color.BLUE);
-                   }
+                   } 
                    else if (thisSquare.color == SquareColor.DARK_GRAY) {
                 	   rec.setFill(Color.BLACK);
                    }
@@ -35,6 +34,7 @@ public class Util {
                 	   rec.setFill(Color.GRAY);
                    }
                    else {
+                	   
                 	   rec.setFill(Color.WHITE);
                    }
                    

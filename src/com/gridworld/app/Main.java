@@ -51,13 +51,13 @@ public class Main extends Application{
 		
 		try {
 			gridList = new FiftyGrids();
-			System.out.println("gridlist generated");
+			//System.out.println("gridlist generated");
 		} catch (CoordinateException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		System.out.println("gridlist should be generated.");
+	//	System.out.println("gridlist should be generated.");
 		
 		launch(args);
 	}

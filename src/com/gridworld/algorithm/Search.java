@@ -40,7 +40,6 @@ public class Search {
 		while (!fringe.isEmpty()) {
 			Vertex s = fringe.remove();
 			s.inFringe = false;
-			// System.out.println(s);
 			closed.add(s.block);
 			s.closed = true;
 			if (s.block == sGoal) {
