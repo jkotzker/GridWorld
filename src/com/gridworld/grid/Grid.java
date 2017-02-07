@@ -17,15 +17,12 @@ public class Grid {
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
-
 		// System.out.println("Making grid");
-
 		for (int i = 0; i < 120; i++) {
 			for (int j = 0; j < 160; j++) {
 				GridSquares[i][j] = new GridSquare(i, j, SquareColor.WHITE);
 			}
 		}
-
 		// Step 2: Placement of Hard Cells
 		// Choose 8 random coordinates
 		for (int n = 0; n < 8; n++) {
@@ -39,9 +36,7 @@ public class Grid {
 					}
 				}
 			}
-
 		}
-
 		// Step 3: Set up Highway
 		Stack<Coordinates> highwayStack = new Stack<Coordinates>();
 		Coordinates highwayStart = new Coordinates(0, 0);
@@ -50,20 +45,19 @@ public class Grid {
 			this.highwayBlocks = new Stack<Coordinates>();
 			Counter++;
 			if (Counter > 25) {
-				clearHighways();
+				Counter = clearHighways();
 				highwayStack.clear();
-				Counter = 0;
 			}
 			int x = randomNumberGenerator(0, 120);
 			int y = randomNumberGenerator(0, 160);
 			if (percentChance(50)) {
 				y = randomNumberGenerator(0, 2) * 159;
 				highwayStart = new Coordinates(x, y);
-				y = markHighway(x, y, 0, "horiz");
+				y = markHighway(x, y, (-2 * (y / 159)) + 1, "horiz");
 			} else {
 				x = randomNumberGenerator(0, 2) * 119;
 				highwayStart = new Coordinates(x, y);
-				x = markHighway(x, y, 0, "vert");
+				x = markHighway(x, y, (-2 * (x / 159)) + 1, "vert");
 			}
 			highwayStack.push(highwayStart);
 			int xInit = highwayStack.peek().XVal;
@@ -71,8 +65,9 @@ public class Grid {
 			if (x == -1 || y == -1) {
 				highwayStack.pop();
 				x = -2;
+			} else {
+				highwayStack = HighwayTraveler(xInit, x, yInit, y, highwayStack, 0);
 			}
-			highwayStack = HighwayTraveler(xInit, x, yInit, y, highwayStack, 0);
 		}
 
 		// Step 4: Select 20% cells to be blocked
@@ -91,27 +86,27 @@ public class Grid {
 	public void newStartGoal() throws CoordinateException {
 
 		int i = 0;
-		while(i < 10) {
-			double distance = 0;			
+		while (i < 10) {
+			double distance = 0;
 			Coordinates sStart = generateStartOrGoal();
 			Coordinates sGoal = generateStartOrGoal();
 			CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
 			distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
-			if(distance > 100) {
+			if (distance > 100) {
 				newPair.parent = this;
 				this.pathPoints.add(newPair);
 				i++;
 			} else {
 				continue;
 			}
-			
+
 		}
 
 	}
 
 	public void performAllSearches() {
 
-		for (int i = 0; i < pathPoints.size(); i++){
+		for (int i = 0; i < pathPoints.size(); i++) {
 			Search search = new Search();
 			ArrayList<GridSquare> results = search.performSearch(this, i);
 			if (results != null)
@@ -145,7 +140,6 @@ public class Grid {
 	private Stack<Coordinates> HighwayTraveler(int xInit, int x, int yInit, int y, Stack<Coordinates> highwayStack,
 			int iter) throws CoordinateException {
 		// Save inputValues
-
 		iter++;
 		while (x != -2 && y != -2) {
 			int xInitS = xInit;
@@ -181,9 +175,10 @@ public class Grid {
 					}
 				}
 			}
-			if (iter == 5) {
+			if (iter == 30) {
 				clearThisHighway();
 				highwayStack.pop();
+				this.highwayBlocks.clear();
 				return highwayStack;
 			}
 			if (x == -1 || y == -1) {
@@ -192,6 +187,7 @@ public class Grid {
 			}
 
 		}
+		this.highwayBlocks.clear();
 		return highwayStack;
 	}
 
@@ -201,24 +197,12 @@ public class Grid {
 	private int markHighway(int row, int col, int direction, String horizOrVert) throws CoordinateException {
 		// Direction -1 means LEFT/DOWN, +1 means RIGHT/UP, 0 means BORDER
 		// If we are on highway already, and we wanted to build, then exit
-
 		Stack<Coordinates> H = new Stack<Coordinates>();
 		if (this.GridSquares[row][col].memberOfHorizontalHighway
 				|| this.GridSquares[row][col].memberOfVerticalHighway) {
-			clearThisHighway(H);
 			return -1;
 		}
 
-		// If on border, set direction correctly
-		if (col == 0 || col == 159 && horizOrVert == "horiz") {
-			direction = -2 * col / 159 + 1;
-		}
-		if (row == 0 || row == 119 && horizOrVert == "vert") {
-			direction = -2 * row / 159 + 1;
-		}
-		// System.out.println("We start with row = " + row + " col = " + col + "
-		// direction = " + direction);
-		// Now we traverse
 		int c = 0;
 		int r = 0;
 		while (c < 20 && r < 20) {
@@ -226,52 +210,34 @@ public class Grid {
 			int nextRow = inRange((row + ((r + 1) * direction)), 119);
 			boolean hitIntersection = (this.GridSquares[row][nextCol].memberOfHorizontalHighway == true
 					|| this.GridSquares[row][nextCol].memberOfVerticalHighway == true);
+			boolean hitBorder = false;
 			if (horizOrVert == "horiz") {
 				this.GridSquares[row][col + c * direction].memberOfHorizontalHighway = true;
-				this.highwayBlocks.push(new Coordinates(row, col + c * direction));
-				H.push(new Coordinates(row, col + c * direction));
+				Coordinates newC = new Coordinates(row, col + c * direction);
+				this.highwayBlocks.push(newC);
+				H.push(newC);
+				 hitBorder = (nextCol != col + (c + 1) * direction) ;
 			} else {
 				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
-				this.highwayBlocks.push(new Coordinates(row + r * direction, col));
-				H.push(new Coordinates(row + r * direction, col));
+				Coordinates newC = new Coordinates(row + r * direction, col);
+				this.highwayBlocks.push(newC);
+				H.push(newC);
+				hitBorder = (nextRow != (row + (r + 1) * direction)); 
 				hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
 						|| this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
 			}
 			// Restart path if Border or Intersection on next block
-
-			boolean hitBorder = (nextCol != col + (c + 1) * direction) || (nextRow != (row + (r + 1) * direction));
 			if (hitBorder && this.highwayBlocks.size() >= 100) {
 				return -2;
 			}
-			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
-				if (horizOrVert == "vert") {
-					// System.out.println(" we are comparing " + nextRow + "
-					// with " + (row + r * direction));
-					// System.out.println("vert: hit intersection with
-					// horizontal is = " +
-					// (this.GridSquares[nextRow][col].memberOfHorizontalHighway)
-					// + " and vertical = " +
-					// (this.GridSquares[nextRow][col].memberOfVerticalHighway));
-				}
-				if (horizOrVert == "horiz") {
-					// System.out.println(" we are comparing " + nextRow + "
-					// with " + (row + r * direction));
-					// System.out.println("horiz: hit intersection with
-					// horizontal is = " +
-					// (this.GridSquares[row][nextCol].memberOfHorizontalHighway)
-					// + " and vertical = " +
-					// (this.GridSquares[row][nextCol].memberOfVerticalHighway));
-
-				}
+			if ((hitBorder && this.highwayBlocks.size() < 100)|| hitIntersection) {
+				//System.out.println("I think I hit the border");
 				clearThisHighway(H);
 				return -1;
 			}
 			// Otherwise, continue traversing
-			if (horizOrVert == "horiz") {
-				c++;
-			} else {
-				r++;
-			}
+			c++;
+			r++;
 		}
 
 		if (horizOrVert == "horiz") {
@@ -284,34 +250,39 @@ public class Grid {
 	}
 
 	private void clearThisHighway() {
-
+		Coordinates C = null;
 		// System.out.println("Got to clear this Highways");
 		while (!this.highwayBlocks.empty()) {
-			Coordinates C = this.highwayBlocks.pop();
+			C = this.highwayBlocks.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
+
 		}
 		return;
 	}
 
 	private void clearThisHighway(Stack<Coordinates> H) {
+		Coordinates C = null;
 		while (!H.empty()) {
 
-			Coordinates C = H.pop();
+			C = H.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
+			if(C==this.highwayBlocks.peek()){
+				this.highwayBlocks.pop();
+			}
 		}
 		return;
 	}
 
-	private void clearHighways() {
-		// System.out.println("Got to clearHighways");
+	private int clearHighways() {
 		for (int i = 0; i < 119; i++) {
 			for (int j = 0; j < 119; j++) {
 				this.GridSquares[i][j].memberOfHorizontalHighway = false;
 				this.GridSquares[i][j].memberOfVerticalHighway = false;
 			}
 		}
+		return 0;
 	}
 
 	private Coordinates generateStartOrGoal() throws CoordinateException {

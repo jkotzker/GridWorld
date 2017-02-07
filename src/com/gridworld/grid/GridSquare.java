@@ -16,7 +16,7 @@ public class GridSquare {
 
 	// Coordinates object to hold only allowed X and Y coordinate values
 	public Coordinates coordinates;
-	
+	public Boolean debugger = false;
 	// Boolean variables tracking highway membership
 	public Boolean memberOfVerticalHighway = false;
 	public Boolean memberOfHorizontalHighway = false;
