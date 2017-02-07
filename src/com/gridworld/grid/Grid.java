@@ -53,11 +53,11 @@ public class Grid {
 			if (percentChance(50)) {
 				y = randomNumberGenerator(0, 2) * 159;
 				highwayStart = new Coordinates(x, y);
-				y = markHighway(x, y, -2 * y / 159 + 1, "horiz");
+				y = markHighway(x, y, (-2 * (y / 159)) + 1, "horiz");
 			} else {
 				x = randomNumberGenerator(0, 2) * 119;
 				highwayStart = new Coordinates(x, y);
-				x = markHighway(x, y, -2 * x / 159 + 1, "vert");
+				x = markHighway(x, y, (-2 * (x / 159)) + 1, "vert");
 			}
 			highwayStack.push(highwayStart);
 			int xInit = highwayStack.peek().XVal;
@@ -178,6 +178,7 @@ public class Grid {
 			if (iter == 30) {
 				clearThisHighway();
 				highwayStack.pop();
+				this.highwayBlocks.clear();
 				return highwayStack;
 			}
 			if (x == -1 || y == -1) {
@@ -212,13 +213,15 @@ public class Grid {
 			boolean hitBorder = false;
 			if (horizOrVert == "horiz") {
 				this.GridSquares[row][col + c * direction].memberOfHorizontalHighway = true;
-				this.highwayBlocks.push(new Coordinates(row, col + c * direction));
-				H.push(new Coordinates(row, col + c * direction));
+				Coordinates newC = new Coordinates(row, col + c * direction);
+				this.highwayBlocks.push(newC);
+				H.push(newC);
 				 hitBorder = (nextCol != col + (c + 1) * direction) ;
 			} else {
 				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
-				this.highwayBlocks.push(new Coordinates(row + r * direction, col));
-				H.push(new Coordinates(row + r * direction, col));
+				Coordinates newC = new Coordinates(row + r * direction, col);
+				this.highwayBlocks.push(newC);
+				H.push(newC);
 				hitBorder = (nextRow != (row + (r + 1) * direction)); 
 				hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
 						|| this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
@@ -265,7 +268,9 @@ public class Grid {
 			C = H.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
-			this.highwayBlocks.pop();
+			if(C==this.highwayBlocks.peek()){
+				this.highwayBlocks.pop();
+			}
 		}
 		return;
 	}
