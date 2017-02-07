@@ -41,7 +41,7 @@ public class Grid {
 		Stack<Coordinates> highwayStack = new Stack<Coordinates>();
 		Coordinates highwayStart = new Coordinates(0, 0);
 		int Counter = 0;
-		while (highwayStack.size() < 5) {
+		while (highwayStack.size() < 4) {
 			this.highwayBlocks = new Stack<Coordinates>();
 			Counter++;
 			if (Counter > 25) {
@@ -72,7 +72,7 @@ public class Grid {
 
 		// Step 4: Select 20% cells to be blocked
 		int i = 0;
-		while (i < 0.20 * 3850) {
+		while (i < 0.20 * 160*120) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
 			if (!this.GridSquares[x][y].memberOfHorizontalHighway
