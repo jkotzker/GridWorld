@@ -72,7 +72,7 @@ public class Grid {
 
 		// Step 4: Select 20% cells to be blocked
 		int i = 0;
-		while (i < 0.20 * 160*120) {
+		while (i < 0.20 * 160*120 ) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
 			if (!this.GridSquares[x][y].memberOfHorizontalHighway

@@ -34,7 +34,7 @@ public class Vertex {
 												+ x][this.block.coordinates.YVal + y],
 										currentGrid, this.searchType);
 						succ.add(currentGrid.GridSquares[this.block.coordinates.XVal + x][this.block.coordinates.YVal
-						                                  								+ y].SearchVertex);
+								+ y].SearchVertex);
 					}
 				}
 			}
@@ -53,5 +53,12 @@ public class Vertex {
 			this.h = 2;
 		}
 		this.h = 0;
+	}
+
+	public int compareTo(Vertex other) {
+		if (this.h + this.g < other.h + other.g) {// TODO include this.g
+			return -1;
+		}
+		return 0;
 	}
 }
