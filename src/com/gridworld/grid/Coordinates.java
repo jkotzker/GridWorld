@@ -37,5 +37,10 @@ public class Coordinates {
 		}
 	}
 	
+	
+	public String toString(){
+		return "("+this.XVal+", "+this.YVal+")";
+	}
+	
 
 }

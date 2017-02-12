@@ -18,12 +18,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextFlow;
 
 public class ViewController implements Initializable{
 	
 	@FXML Button displayButton;
 	@FXML ListView<CoordinatePair> mapList;
 	@FXML AnchorPane gridpaneHolder;
+	@FXML TextFlow infoText;
 	
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
