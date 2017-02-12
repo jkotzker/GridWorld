@@ -24,7 +24,7 @@ public class Main extends Application{
 		try {
 			loader.setLocation(getClass().getResource("/com/gridworld/views/mainScreen.fxml"));
 			AnchorPane root = loader.load();
-			Scene scene = new Scene(root,1366,768);
+			Scene scene = new Scene(root,1518,921);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Map Generator v0.1");
 			primaryStage.setResizable(false);
