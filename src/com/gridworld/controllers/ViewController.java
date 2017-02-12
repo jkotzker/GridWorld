@@ -143,16 +143,23 @@ public class ViewController implements Initializable{
                     	   
                     	   GridSquare sq = rec.square;
                     	   Vertex vert = sq.getSavedVertex(index);
-                    	   Double gval = vert.g;
-                    	   Double hval = vert.h;
-                    	   if(Double.toString(gval) == null)
-                    		   gval = 0.0;
-                    	   if(Double.toString(hval) == null)
-                    		   hval = 0.0;
-                    	   String gvalText = Double.toString(gval);
-                    	   String hvalText = Double.toString(hval);
-                    	   String fvalText = Double.toString(gval + hval);
-                    	   String info = "H: " + hvalText + "\n G: " + gvalText + "\n F: " + fvalText;
+                    	   String info;
+                    	   if (vert == null) {
+                    		   info = "H: NULL \n G: NULL \n F: NULL";
+                    	   } else {
+                    		   
+                        	   Double gval = vert.g;
+                        	   Double hval = vert.h;
+                        	   if(Double.toString(gval) == null)
+                        		   gval = 0.0;
+                        	   if(Double.toString(hval) == null)
+                        		   hval = 0.0;
+                        	   String gvalText = Double.toString(gval);
+                        	   String hvalText = Double.toString(hval);
+                        	   String fvalText = Double.toString(gval + hval);
+                        	   info = "H: " + hvalText + "\n G: " + gvalText + "\n F: " + fvalText;
+                    		   
+                    	   }
                     	   infoText.setText(info);
                     	   
                        }
