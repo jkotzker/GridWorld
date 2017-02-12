@@ -52,6 +52,7 @@ public class Search {
 					iterator++;
 				}
 				output.add(sGoal);
+				currentGrid.SaveVertices();
 				return output;
 			}
 			for (Vertex v : s.GetSucc()) {

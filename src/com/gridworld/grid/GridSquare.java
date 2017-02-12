@@ -1,5 +1,7 @@
 package com.gridworld.grid;
 
+import java.util.Stack;
+
 import com.gridworld.algorithm.Vertex;
 import com.gridworld.app.Main;
 import com.gridworld.exceptions.CoordinateException;
@@ -23,6 +25,7 @@ public class GridSquare {
 	
 	// Boolean variable tracking whether member of path
 	public Vertex SearchVertex = null;
+	public Stack<Vertex> SavedVertices= new Stack<Vertex>();
 	
 	// Color Enum
 	public SquareColor color;
@@ -182,5 +185,12 @@ public class GridSquare {
 		}
 	}
 	
-	
+	public Vertex getSavedVertex(int n){
+		if(this.SavedVertices.size()<=n){
+			return null;
+		}
+		Vertex[] Copy = new Vertex[10];
+		this.SavedVertices.copyInto(Copy);
+		return Copy[n];
+	}
 }
