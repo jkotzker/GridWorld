@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import com.gridworld.algorithm.Vertex;
 import com.gridworld.app.Main;
+import com.gridworld.app.ReadAndWrite;
 import com.gridworld.grid.CoordinatePair;
 import com.gridworld.grid.FiftyGrids;
 import com.gridworld.grid.Grid;
@@ -80,6 +81,9 @@ public class ViewController implements Initializable{
 
 		
         displayButton.setOnAction(this::handleButtonAction);
+        saveMapButton.setOnAction(this::handleButtonAction);
+        loadMapButton.setOnAction(this::handleButtonAction);
+        quitButton.setOnAction(this::handleButtonAction);
 		
     }
 	
@@ -100,6 +104,10 @@ public class ViewController implements Initializable{
         	GridPane newGridDisplay = genGridPane(grid, cord, infoText, ind);
         	
         	gridpaneHolder.getChildren().addAll(newGridDisplay);
+        }
+        if (b == saveMapButton) {
+        	CoordinatePair cord = mapList.getSelectionModel().getSelectedItem();
+        	ReadAndWrite.writeGridToFile(cord.parent, cord, cord.toString());
         }
         if (b == quitButton) {
         	

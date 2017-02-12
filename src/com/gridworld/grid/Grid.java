@@ -14,6 +14,7 @@ public class Grid {
 	public String name = "";
 	public GridSquare[][] GridSquares = new GridSquare[120][160];
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
+	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
 
 	public Grid() throws CoordinateException {
@@ -28,6 +29,8 @@ public class Grid {
 		for (int n = 0; n < 8; n++) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
+			Coordinates cord = new Coordinates(x,y);
+			centersOfHardRegions.add(cord);
 			// For each coordinate, set 31x31 blocks 50% chance light gray
 			for (int i = inRange(x - 15, 119); i < inRange(x + 15, 119); i++) {
 				for (int j = inRange(y - 15, 159); j < inRange(y + 15, 159); j++) {
