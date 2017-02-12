@@ -3,6 +3,7 @@ package com.gridworld.algorithm;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.TraversalException;
 import com.gridworld.grid.Grid;
 import com.gridworld.grid.GridSquare;
@@ -13,12 +14,12 @@ public class Search {
 	// what is w?
 	// that will determine what the heuristic function is. 0, h(), or w*h()
 	private String searchType;
-	private PriorityQueue<Vertex> fringe;
+	private minHeap fringe;
 
 	public Search() {
 
 		this.searchType = "ucost";
-		this.fringe = new PriorityQueue<Vertex>(100, new HeuristicComparator());
+		this.fringe = new minHeap();
 
 	}
 
@@ -36,10 +37,10 @@ public class Search {
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
-		fringe.add(currentVertex);
+		fringe.insert(currentVertex);
 		currentVertex.inFringe = true;
 		while (!fringe.isEmpty()) {
-			Vertex s = fringe.remove();
+			Vertex s = fringe.delete();
 			s.inFringe = false;
 			closed.add(s.block);
 			s.closed = true;
@@ -51,6 +52,7 @@ public class Search {
 					iterator++;
 				}
 				output.add(sGoal);
+				currentGrid.SaveVertices();
 				return output;
 			}
 			for (Vertex v : s.GetSucc()) {
@@ -71,9 +73,9 @@ public class Search {
 				v.g = s.g + s.block.computeCost(v.block);
 				v.Parent = s;
 				if(v.inFringe){
-					fringe.remove(v);
+					fringe.delete(v);
 				}
-					fringe.add(v);
+					fringe.insert(v);
 					v.inFringe = true;
 			}
 		} catch (TraversalException t) {

@@ -41,7 +41,7 @@ public class Grid {
 		Stack<Coordinates> highwayStack = new Stack<Coordinates>();
 		Coordinates highwayStart = new Coordinates(0, 0);
 		int Counter = 0;
-		while (highwayStack.size() < 5) {
+		while (highwayStack.size() < 4) {
 			this.highwayBlocks = new Stack<Coordinates>();
 			Counter++;
 			if (Counter > 25) {
@@ -72,7 +72,7 @@ public class Grid {
 
 		// Step 4: Select 20% cells to be blocked
 		int i = 0;
-		while (i < 0.20 * 3850) {
+		while (i < 0.20 * 160 * 120) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
 			if (!this.GridSquares[x][y].memberOfHorizontalHighway
@@ -216,13 +216,13 @@ public class Grid {
 				Coordinates newC = new Coordinates(row, col + c * direction);
 				this.highwayBlocks.push(newC);
 				H.push(newC);
-				 hitBorder = (nextCol != col + (c + 1) * direction) ;
+				hitBorder = (nextCol != col + (c + 1) * direction);
 			} else {
 				this.GridSquares[row + r * direction][col].memberOfVerticalHighway = true;
 				Coordinates newC = new Coordinates(row + r * direction, col);
 				this.highwayBlocks.push(newC);
 				H.push(newC);
-				hitBorder = (nextRow != (row + (r + 1) * direction)); 
+				hitBorder = (nextRow != (row + (r + 1) * direction));
 				hitIntersection = (this.GridSquares[nextRow][col].memberOfHorizontalHighway == true
 						|| this.GridSquares[nextRow][col].memberOfVerticalHighway == true);
 			}
@@ -230,8 +230,8 @@ public class Grid {
 			if (hitBorder && this.highwayBlocks.size() >= 100) {
 				return -2;
 			}
-			if ((hitBorder && this.highwayBlocks.size() < 100)|| hitIntersection) {
-				//System.out.println("I think I hit the border");
+			if ((hitBorder && this.highwayBlocks.size() < 100) || hitIntersection) {
+				// System.out.println("I think I hit the border");
 				clearThisHighway(H);
 				return -1;
 			}
@@ -268,7 +268,7 @@ public class Grid {
 			C = H.pop();
 			this.GridSquares[C.XVal][C.YVal].memberOfHorizontalHighway = false;
 			this.GridSquares[C.XVal][C.YVal].memberOfVerticalHighway = false;
-			if(C==this.highwayBlocks.peek()){
+			if (C == this.highwayBlocks.peek()) {
 				this.highwayBlocks.pop();
 			}
 		}
@@ -305,6 +305,16 @@ public class Grid {
 		}
 		return -1;
 	}
+
+	public void SaveVertices() {
+		for (int row = 0; row < 120; row++) {
+			for (int col = 0; col < 160; col++) {
+				this.GridSquares[row][col].SavedVertices.push(this.GridSquares[row][col].SearchVertex);
+
+			}
+		}
+	}
+
 
 	@Override
 	public String toString() {
