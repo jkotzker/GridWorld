@@ -33,6 +33,7 @@ public class Search {
 		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints
 				.get(which).sGoal.YVal];
 
+		ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
 		currentVertex.g = 0;
 		currentVertex.Parent = currentVertex;
@@ -44,7 +45,6 @@ public class Search {
 			closed.add(s.block);
 			s.closed = true;
 			if (s.block == sGoal) {
-				ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 				int iterator = 0;
 				while(s!=sStart.SearchVertex && iterator<100){
 					output.add(s.block);
