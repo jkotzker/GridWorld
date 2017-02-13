@@ -11,7 +11,7 @@ public class Vertex {
 	public double g = Double.POSITIVE_INFINITY;
 	public LinkedList<Double> G = new LinkedList<Double>();
 	public double h = 0;
-	public double bp = Double.NaN;
+	public LinkedList<Double> BP = new LinkedList<Double>();
 	public boolean closed = false;
 	public Vertex Parent = null;
 	public GridSquare block = null;
