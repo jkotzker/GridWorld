@@ -1,5 +1,6 @@
 package com.gridworld.algorithm;
 
+import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.grid.*;
 import java.util.LinkedList;
@@ -8,7 +9,9 @@ import com.gridworld.grid.Coordinates;
 public class Vertex {
 	public boolean inFringe = false;
 	public double g = Double.POSITIVE_INFINITY;
+	public LinkedList<Double> G = new LinkedList<Double>();
 	public double h = 0;
+	public LinkedList<Double> BP = new LinkedList<Double>();
 	public boolean closed = false;
 	public Vertex Parent = null;
 	public GridSquare block = null;
@@ -61,4 +64,6 @@ public class Vertex {
 		}
 		return 0;
 	}
+
+
 }

@@ -83,7 +83,7 @@ public class Grid {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
 			if (!this.GridSquares[x][y].memberOfHorizontalHighway
-					&& !this.GridSquares[x][y].memberOfHorizontalHighway) {
+					&& !this.GridSquares[x][y].memberOfVerticalHighway) {
 				this.GridSquares[x][y].setColor(SquareColor.DARK_GRAY);
 				i++;
 			}
