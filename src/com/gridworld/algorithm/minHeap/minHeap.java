@@ -100,6 +100,10 @@ public class minHeap {
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
+	
+	public Vertex peek(){
+		return this.items.get(0);
+	}
 
 	public void print() {
 		for (int i = 0; i < this.items.size(); i++) {

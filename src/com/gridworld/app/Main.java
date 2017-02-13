@@ -24,10 +24,11 @@ public class Main extends Application{
 		try {
 			loader.setLocation(getClass().getResource("/com/gridworld/views/mainScreen.fxml"));
 			AnchorPane root = loader.load();
-			Scene scene = new Scene(root,1518,921);
+			Scene scene = new Scene(root,1518,621);
 			primaryStage.setScene(scene);
+			primaryStage.sizeToScene();
 			primaryStage.setTitle("Map Generator v0.1");
-			primaryStage.setResizable(false);
+			primaryStage.setResizable(true);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
