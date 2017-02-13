@@ -71,9 +71,6 @@ public class Search {
 		try {
 			if (s.g + s.block.computeCost(v.block) < v.g) {
 				v.g = s.g + s.block.computeCost(v.block);
-				if((v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway)&&(v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway) ){
-					System.out.println("target is highway");
-				}
 				v.Parent = s;
 				if(v.inFringe){
 					fringe.delete(v);
