@@ -1,5 +1,6 @@
 package com.gridworld.controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ViewController implements Initializable{
@@ -108,6 +110,34 @@ public class ViewController implements Initializable{
         if (b == saveMapButton) {
         	CoordinatePair cord = mapList.getSelectionModel().getSelectedItem();
         	ReadAndWrite.writeGridToFile(cord.parent, cord, cord.toString());
+        }
+        if (b == loadMapButton){
+        	Stage stage = new Stage();
+        	FileChooser fileChooser = new FileChooser();
+        	fileChooser.setTitle("Select Map File");
+        	File file = fileChooser.showOpenDialog(stage);
+        	Grid newGrid = ReadAndWrite.readGridFromFile(file.getAbsolutePath());
+        	newGrid.performAllSearches();
+        	Main.gridList.gridsList.add(newGrid);
+        	
+        	FiftyGrids list = Main.gridList;
+    		System.out.println(list);
+    		System.out.println("got gridlist");
+
+    		ArrayList<Grid> grids = list.gridsList;
+    		System.out.println("got internal list of grids");
+    		System.out.println(grids);
+    		
+    		ArrayList<CoordinatePair> clists = new ArrayList<CoordinatePair>();
+    		for(int i=0; i < grids.size(); i++) {
+    			clists.addAll(grids.get(i).pathPoints);
+    		}
+    		
+    		
+    		
+    		ObservableList<CoordinatePair> oblist = FXCollections.observableArrayList(clists);
+    		mapList.setItems(oblist);
+        	
         }
         if (b == quitButton) {
         	

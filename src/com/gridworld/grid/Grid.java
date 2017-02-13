@@ -16,6 +16,10 @@ public class Grid {
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
+	
+	public Grid(String name) {
+		this.name = name;
+	}
 
 	public Grid() throws CoordinateException {
 		// System.out.println("Making grid");

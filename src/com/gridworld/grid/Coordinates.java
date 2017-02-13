@@ -39,7 +39,7 @@ public class Coordinates {
 	
 	
 	public String toString(){
-		return "("+this.XVal+", "+this.YVal+")";
+		return this.XVal+","+this.YVal;
 	}
 	
 
