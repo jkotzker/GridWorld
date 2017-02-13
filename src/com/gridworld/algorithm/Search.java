@@ -46,7 +46,7 @@ public class Search {
 			s.closed = true;
 			if (s.block == sGoal) {
 				int iterator = 0;
-				while(s!=sStart.SearchVertex && iterator<100){
+				while(s!=sStart.SearchVertex && iterator<150){
 					output.add(s.block);
 					s = s.Parent;
 					iterator++;
@@ -71,6 +71,9 @@ public class Search {
 		try {
 			if (s.g + s.block.computeCost(v.block) < v.g) {
 				v.g = s.g + s.block.computeCost(v.block);
+				if((v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway)&&(v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway) ){
+					System.out.println("target is highway");
+				}
 				v.Parent = s;
 				if(v.inFringe){
 					fringe.delete(v);

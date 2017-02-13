@@ -69,16 +69,18 @@ public class GridSquare {
 		if (this.color ==  SquareColor.WHITE && targetColor == SquareColor.WHITE){
 			
 			if(diffX == 0){
-				// Vertical Move
+				// Horizontal move
 				cost = Main.whiteCosts.get("vert")+Main.whiteCosts.get("vert");
-				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+					System.out.println("reached here");
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
-				// Horizontal Move
+				// Vertical move
 				cost = Main.whiteCosts.get("horiz")+Main.whiteCosts.get("horiz");
-				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway)
 					cost = cost*0.25;
+				System.out.println("reached here and cost is");
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
 				// Diagonal Move
@@ -91,15 +93,15 @@ public class GridSquare {
 		} else if (this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.LIGHT_GRAY) {
 			
 			if(diffX == 0){
-				// Vertical Move
+				// Horizontal Move
 				cost = Main.lightgrayCosts.get("vert")+Main.lightgrayCosts.get("vert");
-				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
-				// Horizontal Move
+				// Vertical Move
 				cost = Main.lightgrayCosts.get("horiz")+Main.lightgrayCosts.get("horiz");
-				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
@@ -113,15 +115,15 @@ public class GridSquare {
 		} else if ((this.color ==  SquareColor.LIGHT_GRAY && targetColor == SquareColor.WHITE) || (this.color ==  SquareColor.WHITE && targetColor == SquareColor.LIGHT_GRAY)) {
 			
 			if(diffX == 0){
-				// Vertical Move
+				// Horizontal Move
 				cost = Main.lightgrayCosts.get("vert")+Main.whiteCosts.get("vert");
-				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
+				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffY == 0) {
-				// Horizontal Move
+				// Vertical Move
 				cost = Main.lightgrayCosts.get("horiz")+Main.whiteCosts.get("horiz");
-				if(this.memberOfHorizontalHighway && target.memberOfHorizontalHighway) 
+				if(this.memberOfVerticalHighway && target.memberOfVerticalHighway) 
 					cost = cost*0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1){
