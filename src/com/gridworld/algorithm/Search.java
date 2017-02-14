@@ -35,7 +35,7 @@ public class Search {
 
 		ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
-		currentVertex.g = 0;
+		currentVertex.setG(0);
 		currentVertex.Parent = currentVertex;
 		fringe.insert(currentVertex);
 		currentVertex.inFringe = true;
@@ -69,8 +69,8 @@ public class Search {
 
 	private void UpdateVertex(Vertex s, Vertex v) {
 		try {
-			if (s.g + s.block.computeCost(v.block) < v.g) {
-				v.g = s.g + s.block.computeCost(v.block);
+			if (s.getG() + s.block.computeCost(v.block) < v.getG()) {
+				v.setG(s.getG() + s.block.computeCost(v.block));
 				v.Parent = s;
 				if(v.inFringe){
 					fringe.delete(v);

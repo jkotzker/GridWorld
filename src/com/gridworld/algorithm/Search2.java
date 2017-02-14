@@ -65,11 +65,16 @@ public class Search2 {
 			}
 			try {
 				if(s.G.get(j)>S.G.get(j)+S.block.computeCost(s.block)){
-					
+					s.G.set(j,S.G.get(j)+S.block.computeCost(s.block));
+					s.BP.set(j, s);
+					if(!Closed.get(j).Contains(s)){
+						if(!Open.get(j).Contains(s)){
+							Open.get(j).insert(s);
+						}
+					}
 				}
 			} catch (TraversalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return;
 			}
 		}
 	}
