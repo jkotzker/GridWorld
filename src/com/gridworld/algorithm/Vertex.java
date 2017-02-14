@@ -1,17 +1,10 @@
 package com.gridworld.algorithm;
 
-<<<<<<< HEAD
-||||||| merged common ancestors
-import com.gridworld.algorithm.minHeap.minHeap;
-import com.gridworld.exceptions.CoordinateException;
-import com.gridworld.grid.*;
-=======
 import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.grid.*;
 
 import java.util.ArrayList;
->>>>>>> origin/esther
 import java.util.LinkedList;
 
 import com.gridworld.grid.Grid;
