@@ -22,7 +22,7 @@ public class Search2 {
 			// Get start and goal coordinates and vertices
 			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
 			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
-			Vertex StartVertex = currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex
+			Vertex StartVertex = currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex;
 			currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex.G.set(n, 0.0);
 			currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G.set(n, Double.POSITIVE_INFINITY);
 			while (Open.get(0).peek().key < Double.POSITIVE_INFINITY) {

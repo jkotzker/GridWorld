@@ -12,9 +12,9 @@ import com.gridworld.grid.GridSquare;
 
 public class Vertex {
 	public boolean inFringe = false;
-	private double g = Double.POSITIVE_INFINITY;
+	public double g = Double.POSITIVE_INFINITY;
 	public LinkedList<Double> G = new LinkedList<Double>();
-	private double h = 0;
+	public double h = 0;
 	public double key = Double.POSITIVE_INFINITY;
 	public LinkedList<ArrayList<GridSquare>> BP = new LinkedList<ArrayList<GridSquare>>();
 	public boolean closed = false;
