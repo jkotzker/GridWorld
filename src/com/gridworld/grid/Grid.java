@@ -16,7 +16,7 @@ public class Grid {
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
-	
+
 	public Grid(String name) {
 		this.name = name;
 	}
@@ -33,7 +33,7 @@ public class Grid {
 		for (int n = 0; n < 8; n++) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
-			Coordinates cord = new Coordinates(x,y);
+			Coordinates cord = new Coordinates(x, y);
 			centersOfHardRegions.add(cord);
 			// For each coordinate, set 31x31 blocks 50% chance light gray
 			for (int i = inRange(x - 15, 119); i < inRange(x + 15, 119); i++) {
@@ -82,8 +82,7 @@ public class Grid {
 		while (i < 0.20 * 160 * 120) {
 			int x = randomNumberGenerator(0, 119);
 			int y = randomNumberGenerator(0, 159);
-			if (!this.GridSquares[x][y].memberOfHorizontalHighway
-					&& !this.GridSquares[x][y].memberOfVerticalHighway) {
+			if (!this.GridSquares[x][y].memberOfHorizontalHighway && !this.GridSquares[x][y].memberOfVerticalHighway) {
 				this.GridSquares[x][y].setColor(SquareColor.DARK_GRAY);
 				i++;
 			}
@@ -114,10 +113,13 @@ public class Grid {
 	public void performAllSearches() {
 
 		for (int i = 0; i < pathPoints.size(); i++) {
+			ArrayList<GridSquare> results = null;
 			Search search = new Search();
-			ArrayList<GridSquare> results = search.performSearch(this, i);
-			if (results != null)
+			results = search.performSearch(this, i);
+			if (results != null) {
+				System.out.println(i);
 				pathPoints.get(i).path.addAll(results);
+			}
 		}
 
 	}
@@ -317,11 +319,10 @@ public class Grid {
 		for (int row = 0; row < 120; row++) {
 			for (int col = 0; col < 160; col++) {
 				this.GridSquares[row][col].SavedVertices.push(this.GridSquares[row][col].SearchVertex);
-
+				this.GridSquares[row][col].SearchVertex = null;
 			}
 		}
 	}
-
 
 	@Override
 	public String toString() {

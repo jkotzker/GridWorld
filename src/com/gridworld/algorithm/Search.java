@@ -1,10 +1,10 @@
 package com.gridworld.algorithm;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.TraversalException;
+import com.gridworld.grid.Coordinates;
 import com.gridworld.grid.Grid;
 import com.gridworld.grid.GridSquare;
 
@@ -15,6 +15,8 @@ public class Search {
 	// that will determine what the heuristic function is. 0, h(), or w*h()
 	private String searchType;
 	private minHeap fringe;
+	private ArrayList<GridSquare> closed;
+	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
 	public Search() {
 
@@ -24,41 +26,37 @@ public class Search {
 	}
 
 	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) {
+		Coordinates sStart = currentGrid.pathPoints.get(which).sStart;
+		Vertex StartVertex = currentGrid.GridSquares[sStart.XVal][sStart.YVal].SearchVertex;
+		Coordinates sGoal = currentGrid.pathPoints.get(which).sGoal;
+		GridSquare GoalBlock = currentGrid.GridSquares[sGoal.XVal][sGoal.YVal];
+		StartVertex = new Vertex(currentGrid.GridSquares[sStart.XVal][sStart.YVal], currentGrid, this.searchType);
 
+		StartVertex.setG(0, 0);
+		StartVertex.Parent = StartVertex;
 
-		ArrayList<GridSquare> closed = new ArrayList<GridSquare>();
+		fringe = new minHeap();
+		fringe.insert(StartVertex, 0);
+		StartVertex.inFringe = true;
 
-		GridSquare sStart = currentGrid.GridSquares[currentGrid.pathPoints
-				.get(which).sStart.XVal][currentGrid.pathPoints.get(which).sStart.YVal];
-		GridSquare sGoal = currentGrid.GridSquares[currentGrid.pathPoints.get(which).sGoal.XVal][currentGrid.pathPoints
-				.get(which).sGoal.YVal];
+		closed = new ArrayList<GridSquare>();
 
-		ArrayList<GridSquare> output = new ArrayList<GridSquare>();
-		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
-		currentVertex.setG(0);
-		currentVertex.Parent = currentVertex;
-		fringe.insert(currentVertex);
-		currentVertex.inFringe = true;
+		this.output.add(StartVertex.block);
+		Vertex s = null;
+		
 		while (!fringe.isEmpty()) {
-			Vertex s = fringe.delete();
+			s = fringe.delete(0);
 			s.inFringe = false;
+			if (s.block == GoalBlock) {
+				return Output(s, StartVertex, GoalBlock, currentGrid);
+			}
+
 			closed.add(s.block);
 			s.closed = true;
-			if (s.block == sGoal) {
-				int iterator = 0;
-				while(s!=sStart.SearchVertex && iterator<150){
-					output.add(s.block);
-					s = s.Parent;
-					iterator++;
-				}
-				output.add(sGoal);
-				currentGrid.SaveVertices();
-				return output;
-			}
-			for (Vertex v : s.GetSucc()) {
-				if (v != null) {
-					if (v.closed != true) {
-						UpdateVertex(s, v);
+			for (Vertex sPrime : s.GetSucc()) {
+				if (sPrime != null) {
+					if (sPrime.closed != true) {
+						UpdateVertex(s, sPrime);
 					}
 				}
 			}
@@ -67,24 +65,30 @@ public class Search {
 
 	}
 
-	private void UpdateVertex(Vertex s, Vertex v) {
+	private ArrayList<GridSquare> Output(Vertex s, Vertex StartVertex, GridSquare goalBlock, Grid currentGrid) {
+		int iterator = 0;
+		while (s != StartVertex && iterator < 550) {
+			output.add(s.block);
+			s = s.Parent;
+			iterator++;
+		}
+		output.add(goalBlock);
+		// Saves vertices g and h values
+		currentGrid.SaveVertices();
+		return output;
+	}
+
+	private void UpdateVertex(Vertex s, Vertex sPrime) {
 		try {
-<<<<<<< HEAD
-			if (s.getG() + s.block.computeCost(v.block) < v.getG()) {
-				v.setG(s.getG() + s.block.computeCost(v.block));
-=======
-			if (s.g + s.block.computeCost(v.block) < v.g) {
-				v.g = s.g + s.block.computeCost(v.block);
-				if((v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway)&&(v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway) ){
-					System.out.println("target is highway");
+			if (s.getG(0) + s.block.computeCost(sPrime.block) < sPrime.getG(0)) {
+				sPrime.setG(0, s.getG(0) + s.block.computeCost(sPrime.block));
+				sPrime.Parent = s;
+				if (sPrime.inFringe) {
+					fringe.delete(sPrime, 0);
+					sPrime.inFringe = false;
 				}
->>>>>>> parent of 46e794d... Made Additional bug fixes to the Cost Calculator
-				v.Parent = s;
-				if(v.inFringe){
-					fringe.delete(v);
-				}
-					fringe.insert(v);
-					v.inFringe = true;
+				fringe.insert(sPrime, 0);
+				sPrime.inFringe = true;
 			}
 		} catch (TraversalException t) {
 			return;
