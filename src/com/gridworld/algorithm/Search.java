@@ -34,7 +34,9 @@ public class Search {
 
 		ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
-		currentVertex.g = 0;
+		sStart.SearchVertex = currentVertex;
+		output.add(sStart);
+		currentVertex.setG(0);
 		currentVertex.Parent = currentVertex;
 		fringe.insert(currentVertex);
 		currentVertex.inFringe = true;
@@ -45,7 +47,7 @@ public class Search {
 			s.closed = true;
 			if (s.block == sGoal) {
 				int iterator = 0;
-				while(s!=sStart.SearchVertex && iterator<150){
+				while(s!=sStart.SearchVertex && iterator<550){
 					output.add(s.block);
 					s = s.Parent;
 					iterator++;
@@ -68,11 +70,8 @@ public class Search {
 
 	private void UpdateVertex(Vertex s, Vertex v) {
 		try {
-			if (s.g + s.block.computeCost(v.block) < v.g) {
-				v.g = s.g + s.block.computeCost(v.block);
-				if((v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway)&&(v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway) ){
-					System.out.println("target is highway");
-				}
+			if (s.getG() + s.block.computeCost(v.block) < v.getG()) {
+				v.setG(s.getG() + s.block.computeCost(v.block));
 				v.Parent = s;
 				if(v.inFringe){
 					fringe.delete(v);

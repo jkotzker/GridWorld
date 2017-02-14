@@ -1,5 +1,17 @@
 package com.gridworld.algorithm;
 
+<<<<<<< HEAD
+||||||| merged common ancestors
+import com.gridworld.algorithm.minHeap.minHeap;
+import com.gridworld.exceptions.CoordinateException;
+import com.gridworld.grid.*;
+=======
+import com.gridworld.algorithm.minHeap.minHeap;
+import com.gridworld.exceptions.CoordinateException;
+import com.gridworld.grid.*;
+
+import java.util.ArrayList;
+>>>>>>> origin/esther
 import java.util.LinkedList;
 
 import com.gridworld.grid.Grid;
@@ -7,11 +19,30 @@ import com.gridworld.grid.GridSquare;
 
 public class Vertex {
 	public boolean inFringe = false;
-	public double g = Double.POSITIVE_INFINITY;
+	private double g = Double.POSITIVE_INFINITY;
 	public LinkedList<Double> G = new LinkedList<Double>();
-	public double h = 0;
-	public LinkedList<Double> BP = new LinkedList<Double>();
+	private double h = 0;
+	public double key = Double.POSITIVE_INFINITY;
+	public LinkedList<ArrayList<GridSquare>> BP = new LinkedList<ArrayList<GridSquare>>();
 	public boolean closed = false;
+	public double getG() {
+		return g;
+	}
+
+	public void setG(double g) {
+		this.g = g;
+		this.key = this.g+this.h;
+	}
+
+	public double getH() {
+		return h;
+	}
+
+	public void setH(double h) {
+		this.h = h;
+		this.key = this.g + this.hashCode();
+	}
+
 	public Vertex Parent = null;
 	public GridSquare block = null;
 	public Grid currentGrid = null;
@@ -58,11 +89,16 @@ public class Vertex {
 	}
 
 	public int compareTo(Vertex other) {
-		if (this.h + this.g < other.h + other.g) {// TODO include this.g
+		//if (this.key == Double.NaN) {
+			/*if (this.h + this.g < other.h + other.g) {// TODO include this.g
+				return -1;
+			}
+			return 0;
+		/*}*/
+		if (this.key < other.key) {
 			return -1;
 		}
 		return 0;
 	}
-
 
 }

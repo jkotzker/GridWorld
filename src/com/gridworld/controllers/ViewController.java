@@ -186,8 +186,8 @@ public class ViewController implements Initializable{
                     		   info = "H: NULL \n G: NULL \n F: NULL";
                     	   } else {
                     		   
-                        	   Double gval = vert.g;
-                        	   Double hval = vert.h;
+                        	   Double gval = vert.getG();
+                        	   Double hval = vert.getH();
                         	   if(Double.toString(gval) == null)
                         		   gval = 0.0;
                         	   if(Double.toString(hval) == null)

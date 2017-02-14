@@ -101,8 +101,8 @@ public class minHeap {
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
-	
-	public Vertex peek(){
+
+	public Vertex peek() {
 		return this.items.get(0);
 	}
 
@@ -111,5 +111,12 @@ public class minHeap {
 			System.out.print(this.items.get(i).h + " ");
 		}
 		System.out.println("");
+	}
+
+	public boolean Contains(Vertex s) {
+		if (this.items.contains(s)) {
+			return true;
+		}
+		return false;
 	}
 }

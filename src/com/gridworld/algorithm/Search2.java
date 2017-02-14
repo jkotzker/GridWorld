@@ -13,23 +13,26 @@ public class Search2 {
 
 	public LinkedList<minHeap> Open = new LinkedList<minHeap>();
 	public LinkedList<minHeap> Closed = new LinkedList<minHeap>();
+	int w2 = 1;
 
 	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int which, int n) {
 		for (int i = 0; i <= n; i++) {
 			Open.add(new minHeap());
 			Closed.add(new minHeap());
+			// Get start and goal coordinates and vertices
 			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
 			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+			Vertex StartVertex = currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex
 			currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex.G.set(n, 0.0);
 			currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G.set(n, Double.POSITIVE_INFINITY);
-			while (Open.peek().g < Double.POSITIVE_INFINITY) {
+			while (Open.get(0).peek().key < Double.POSITIVE_INFINITY) {
 				for (int j = 1; j <= n; j++) {
-					if (Open.get(j).peek().g <= w2 * this.Open.get(0).peek()) {
+					if (Open.get(j).peek().key <= w2 * this.Open.get(0).peek().key) {
 						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-								.get(j) <= Open.get(j).peek().g) {
+								.get(j) <= Open.get(j).peek().getG()) {
 							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
 									.get(j) < Double.POSITIVE_INFINITY) {
-								return null;// TODO
+								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(j);
 							}
 						} else {
 							Vertex S = Open.get(j).delete();
@@ -38,10 +41,10 @@ public class Search2 {
 						}
 					} else {
 						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-								.get(0) <= Open.get(0).peek().g) {
+								.get(0) <= Open.get(0).peek().getG()) {
 							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
 									.get(0) <= Double.POSITIVE_INFINITY) {
-								return null;// TODO
+								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(0);
 							}
 						} else {
 							Vertex S = Open.get(0).delete();
@@ -64,11 +67,16 @@ public class Search2 {
 			}
 			try {
 				if(s.G.get(j)>S.G.get(j)+S.block.computeCost(s.block)){
-					
+					s.G.set(j,S.G.get(j)+S.block.computeCost(s.block));
+					s.BP.get(j).add(s.block);
+					if(!Closed.get(j).Contains(s)){
+						if(!Open.get(j).Contains(s)){
+							Open.get(j).insert(s);
+						}
+					}
 				}
 			} catch (TraversalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return;
 			}
 		}
 	}
