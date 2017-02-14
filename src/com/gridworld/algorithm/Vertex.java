@@ -1,10 +1,9 @@
 package com.gridworld.algorithm;
 
-import com.gridworld.algorithm.minHeap.minHeap;
-import com.gridworld.exceptions.CoordinateException;
-import com.gridworld.grid.*;
 import java.util.LinkedList;
-import com.gridworld.grid.Coordinates;
+
+import com.gridworld.grid.Grid;
+import com.gridworld.grid.GridSquare;
 
 public class Vertex {
 	public boolean inFringe = false;

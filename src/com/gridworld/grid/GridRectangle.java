@@ -1,7 +1,7 @@
 package com.gridworld.grid;
 
-import javafx.scene.shape.Rectangle;
 import javafx.scene.control.TextArea;
+import javafx.scene.shape.Rectangle;
 
 public class GridRectangle extends Rectangle {
 	

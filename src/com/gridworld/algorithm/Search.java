@@ -1,7 +1,6 @@
 package com.gridworld.algorithm;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.TraversalException;

@@ -79,6 +79,7 @@ public class ReadAndWrite {
 			int endy = Integer.parseInt(readNext[1]);
 			Coordinates newCE = new Coordinates(endx, endy);
 			CoordinatePair newCP = new CoordinatePair(newC, newCE);
+			newCP.parent = grid;
 			grid.pathPoints.add(newCP);
 			
 			// Centers of hard to traverse regions
@@ -137,6 +138,7 @@ public class ReadAndWrite {
 						 } else {
 							 square.memberOfHorizontalHighway = true;
 						 }
+						 grid.GridSquares[i][j] = square;
 					 }
 					 else if (curr == 'b') {
 						 GridSquare square = new GridSquare(i, j, SquareColor.LIGHT_GRAY);
@@ -145,6 +147,7 @@ public class ReadAndWrite {
 						 } else {
 							 square.memberOfHorizontalHighway = true;
 						 }
+						 grid.GridSquares[i][j] = square;
 					 }
 					 else {
 						 throw new ReadException("Read failed, file contains: "+curr);
