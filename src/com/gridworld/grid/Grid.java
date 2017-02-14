@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import com.gridworld.algorithm.Search;
+import com.gridworld.algorithm.Search2;
 import com.gridworld.exceptions.CoordinateException;
 
 public class Grid {
@@ -112,10 +113,13 @@ public class Grid {
 	public void performAllSearches() {
 
 		for (int i = 0; i < pathPoints.size(); i++) {
+			System.out.println("Running search number: " + i);
 			Search search = new Search();
 			ArrayList<GridSquare> results = search.performSearch(this, i);
+			System.out.println("Search result is: "+results);
 			if (results != null)
-				pathPoints.get(i).path.addAll(results);
+				pathPoints.get(i).path = results;
+				//pathPoints.get(i).path.addAll(results);
 		}
 
 	}
