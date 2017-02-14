@@ -24,12 +24,14 @@ public class Search2 {
 			// Get start and goal coordinates and vertices
 			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
 			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+
 			Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
 			Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
 			StartVertex.G.set(n, 0.0);
 			GoalVertex.G.set(n, Double.POSITIVE_INFINITY);
 
 			while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
+
 				for (int j = 1; j <= n; j++) {
 					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
 						if (GoalVertex.G.get(j) <= Open.get(j).peek().getKey(j)) {

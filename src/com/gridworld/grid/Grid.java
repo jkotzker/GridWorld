@@ -1,13 +1,12 @@
 package com.gridworld.grid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 
 import com.gridworld.algorithm.Search;
+import com.gridworld.algorithm.Search2;
 import com.gridworld.exceptions.CoordinateException;
-import com.gridworld.exceptions.TraversalException;
 
 public class Grid {
 
@@ -120,6 +119,7 @@ public class Grid {
 				System.out.println(i);
 				pathPoints.get(i).path.addAll(results);
 			}
+
 		}
 
 	}

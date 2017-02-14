@@ -73,7 +73,7 @@ public class Search {
 			iterator++;
 		}
 		output.add(goalBlock);
-		// Saves vertices g and h values
+		// Saves vertices h 
 		currentGrid.SaveVertices();
 		return output;
 	}
