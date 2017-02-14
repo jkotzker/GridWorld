@@ -69,8 +69,16 @@ public class Search {
 
 	private void UpdateVertex(Vertex s, Vertex v) {
 		try {
+<<<<<<< HEAD
 			if (s.getG() + s.block.computeCost(v.block) < v.getG()) {
 				v.setG(s.getG() + s.block.computeCost(v.block));
+=======
+			if (s.g + s.block.computeCost(v.block) < v.g) {
+				v.g = s.g + s.block.computeCost(v.block);
+				if((v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway)&&(v.block.memberOfHorizontalHighway||v.block.memberOfVerticalHighway) ){
+					System.out.println("target is highway");
+				}
+>>>>>>> parent of 46e794d... Made Additional bug fixes to the Cost Calculator
 				v.Parent = s;
 				if(v.inFringe){
 					fringe.delete(v);
