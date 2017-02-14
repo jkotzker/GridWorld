@@ -3,6 +3,8 @@ package com.gridworld.algorithm;
 import com.gridworld.algorithm.minHeap.minHeap;
 import com.gridworld.exceptions.CoordinateException;
 import com.gridworld.grid.*;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import com.gridworld.grid.Coordinates;
 
@@ -12,7 +14,7 @@ public class Vertex {
 	public LinkedList<Double> G = new LinkedList<Double>();
 	private double h = 0;
 	public double key = Double.POSITIVE_INFINITY;
-	public LinkedList<Vertex> BP = new LinkedList<Vertex>();
+	public LinkedList<ArrayList<GridSquare>> BP = new LinkedList<ArrayList<GridSquare>>();
 	public boolean closed = false;
 	public double getG() {
 		return g;
