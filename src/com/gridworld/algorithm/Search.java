@@ -35,8 +35,6 @@ public class Search {
 
 		ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 		Vertex currentVertex = new Vertex(sStart, currentGrid, this.searchType);
-		sStart.SearchVertex = currentVertex;
-		output.add(sStart);
 		currentVertex.setG(0);
 		currentVertex.Parent = currentVertex;
 		fringe.insert(currentVertex);
@@ -48,7 +46,7 @@ public class Search {
 			s.closed = true;
 			if (s.block == sGoal) {
 				int iterator = 0;
-				while(s!=sStart.SearchVertex && iterator<550){
+				while(s!=sStart.SearchVertex && iterator<150){
 					output.add(s.block);
 					s = s.Parent;
 					iterator++;
