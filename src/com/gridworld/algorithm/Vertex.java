@@ -33,6 +33,8 @@ public class Vertex {
 					Vertex gridVert = currentGrid.GridSquares[row][col].SearchVertex;
 					if (gridVert == null) {
 						succ.add(new Vertex(currentGrid.GridSquares[row][col], currentGrid, this.searchType));
+					} if(gridVert!=null && gridVert!=this.Parent){
+						succ.add(gridVert);
 					}
 				}
 			}
