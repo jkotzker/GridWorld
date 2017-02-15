@@ -116,7 +116,6 @@ public class Grid {
 			Search search = new Search();
 			results = search.performSearch(this, i);
 			if (results != null) {
-				//System.out.println(i);
 				pathPoints.get(i).path.addAll(results);
 			}
 

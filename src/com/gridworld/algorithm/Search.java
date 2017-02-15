@@ -56,6 +56,10 @@ public class Search {
 			for (Vertex sPrime : s.GetSucc()) {
 				if (sPrime != null) {
 					if (sPrime.closed != true) {
+						if(sPrime.inFringe==false){
+							sPrime.setG(0, Double.POSITIVE_INFINITY);
+							sPrime.Parent = null;
+						}
 						UpdateVertex(s, sPrime);
 					}
 				}
@@ -73,7 +77,7 @@ public class Search {
 			iterator++;
 		}
 		output.add(goalBlock);
-		// Saves vertices h 
+		// Saves vertices h
 		currentGrid.SaveVertices();
 		return output;
 	}
@@ -90,6 +94,7 @@ public class Search {
 				fringe.insert(sPrime, 0);
 				sPrime.inFringe = true;
 			}
+			else{System.out.println("here!");}
 		} catch (TraversalException t) {
 			return;
 		}
