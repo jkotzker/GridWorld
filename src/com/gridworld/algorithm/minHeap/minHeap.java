@@ -90,8 +90,6 @@ public class minHeap {
 		}
 		for (int j = 0; j < items.size(); j++) {
 			if (items.get(j) == V) {
-				System.out.println("items size is " + items.size() + " and j is " +j);
-				//items.remove(j);
 				Vertex lastItem = items.get(items.size() - 1);
 				items.set(j, lastItem);
 				items.remove(items.size()-1);
