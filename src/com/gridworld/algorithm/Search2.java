@@ -18,43 +18,48 @@ public class Search2 {
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
 	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int which, int n) {
+
+		// Get start and goal coordinates and vertices
+		Coordinates Start = currentGrid.pathPoints.get(which).sStart;
+		Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+
+		Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
+		Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
+		
 		for (int i = 0; i <= n; i++) {
 			Open.add(new minHeap());
 			Closed.add(new minHeap());
 
-			// Get start and goal coordinates and vertices
-			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
-			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+			StartVertex.setG(i, 0.0);
+			GoalVertex.setG(i, Double.POSITIVE_INFINITY);
+			StartVertex.setBP(i, null);
+			GoalVertex.setBP(i, null);
+			
+			Open.get(i).insert(StartVertex, i);
+		}
+		while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
 
-			Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
-			Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
-			StartVertex.setG(n, 0.0);
-			GoalVertex.setG(n, Double.POSITIVE_INFINITY);
-
-			while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
-
-				for (int j = 1; j <= n; j++) {
-					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
-						if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
-							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex
-									.getG(j) < Double.POSITIVE_INFINITY) {
-								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
-							}
-						} else {
-							Vertex S = Open.get(j).delete(j);
-							ExpandStates(S, j);
-							Closed.get(j).insert(S, j);
+			for (int j = 1; j <= n; j++) {
+				if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
+					if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
+						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex
+								.getG(j) < Double.POSITIVE_INFINITY) {
+							return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
 						}
 					} else {
-						if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
-							if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
-								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, 0);
-							}
-						} else {
-							Vertex S = Open.get(0).delete(0);
-							ExpandStates(S, 0);
-							Closed.get(0).insert(S, 0);
+						Vertex S = Open.get(j).delete(j);
+						ExpandStates(S, j);
+						Closed.get(j).insert(S, j);
+					}
+				} else {
+					if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
+						if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
+							return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, 0);
 						}
+					} else {
+						Vertex S = Open.get(0).delete(0);
+						ExpandStates(S, 0);
+						Closed.get(0).insert(S, 0);
 					}
 				}
 			}
