@@ -27,16 +27,15 @@ public class Search2 {
 
 			Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
 			Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
-			StartVertex.G.set(n, 0.0);
-			GoalVertex.G.set(n, Double.POSITIVE_INFINITY);
+			StartVertex.setG(n, 0.0);
+			GoalVertex.setG(n, Double.POSITIVE_INFINITY);
 
 			while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
 
 				for (int j = 1; j <= n; j++) {
 					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
-						if (GoalVertex.G.get(j) <= Open.get(j).peek().getKey(j)) {
-							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-									.get(j) < Double.POSITIVE_INFINITY) {
+						if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
+							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.getG(j) < Double.POSITIVE_INFINITY) {
 								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(j);
 							}
 						} else {
@@ -45,8 +44,8 @@ public class Search2 {
 							Closed.get(j).insert(S, j);
 						}
 					} else {
-						if (GoalVertex.G.get(0) <= Open.get(0).peek().getKey(0)) {
-							if (GoalVertex.G.get(0) <= Double.POSITIVE_INFINITY) {
+						if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
+							if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
 								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(0);
 							}
 						} else {
@@ -63,11 +62,11 @@ public class Search2 {
 
 	private void ExpandStates(Vertex S, int j) {
 		for (Vertex s : S.GetSucc()) {
-			s.G.set(j, Double.POSITIVE_INFINITY);
+			s.setG(j, Double.POSITIVE_INFINITY);
 			s.BP.add(null);
 			try {
-				if (s.G.get(j) > S.G.get(j) + S.block.computeCost(s.block)) {
-					s.G.set(j, S.G.get(j) + S.block.computeCost(s.block));
+				if (s.getG(j) > S.getG(j) + S.block.computeCost(s.block)) {
+					s.setG(j, S.getG(j) + S.block.computeCost(s.block));
 					s.BP.get(j).add(s.block);
 					if (!Closed.get(j).Contains(s)) {
 						if (!Open.get(j).Contains(s)) {

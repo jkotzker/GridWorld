@@ -81,14 +81,14 @@ public class Vertex {
 	}
 
 	public double getG(int i) {
-		return this.G.get(i);
+		return this.g.get(i);
 	}
 
 	public void setG(int i, double g) {
-		while (this.G.size() < i + 1) {
-			this.G.add(null);
+		while (this.g.size() < i + 1) {
+			this.g.add(null);
 		}
-		this.G.set(i, g);
+		this.g.set(i, g);
 		this.setKey(i, g + this.h);
 	}
 

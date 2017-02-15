@@ -17,13 +17,13 @@ public class minHeap {
 		items = new ArrayList<Vertex>();
 	}
 
-	private void siftUp() {
+	private void siftUp(int I) {
 		int k = items.size() - 1; // index of last item (just inserted)
 		while (k > 0) {
 			int p = (k - 1) / 2; // k's parent index
 			Vertex kid = items.get(k);
 			Vertex parent = items.get(p);
-			if (kid.compareTo(parent) < 0) {
+			if (kid.compareTo(parent, I) < 0) {
 				// swap kid with parent
 				items.set(k, parent);
 				items.set(p, kid);
@@ -35,21 +35,21 @@ public class minHeap {
 		}
 	}
 
-	public void insert(Vertex item) {
+	public void insert(Vertex item, int I) {
 		items.add(item);
-		siftUp();
+		siftUp(I);
 	}
 
-	private void siftDown() {
+	private void siftDown(int I) {
 		int k = 0; // root index
 		int l = 2 * k + 1; // left child index
 		while (l < items.size()) {
 			int r = l + 1; // right child index
 			int max = l;
-			if (r < items.size() && (items.get(r).compareTo(items.get(l)) < 0)) {
+			if (r < items.size() && (items.get(r).compareTo(items.get(l), I) < 0)) {
 				max = r;
 			}
-			if (items.get(max).compareTo(items.get(k)) < 0) {
+			if (items.get(max).compareTo(items.get(k), I) < 0) {
 				// swap
 				Vertex parent = items.get(k);
 				items.set(k, items.get(max));
@@ -63,7 +63,7 @@ public class minHeap {
 		}
 	}
 
-	public Vertex delete() {
+	public Vertex delete(int I) {
 
 		if (items.size() == 0) {
 			throw new NoSuchElementException();
@@ -74,11 +74,11 @@ public class minHeap {
 		Vertex root = items.get(0); // get the root
 		Vertex lastItem = items.remove(items.size() - 1);
 		items.set(0, lastItem); // move the last item into the root
-		siftDown();
+		siftDown(I);
 		return root;
 	}
 
-	public void delete(Vertex V) {
+	public void delete(Vertex V, int I) {
 
 		if (items.size() == 0) {
 			throw new NoSuchElementException();
@@ -92,7 +92,7 @@ public class minHeap {
 				items.remove(i);
 				Vertex lastItem = items.remove(items.size() - 1);
 				items.set(i, lastItem);
-				siftDown();
+				siftDown(I);
 			}
 		}
 		return;
@@ -101,14 +101,16 @@ public class minHeap {
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
-	public void print(){
+
+	public void print(int I) {
 		ArrayList<Vertex> temp = this.items;
-		for(int i = 1; i<Math.pow(2,this.items.size()); i = 2*i){
-			for(int j = 0; j<i; j++){
-				System.out.print(this.delete().g+this.delete().g + " ");
+		for (int i = 1; i < Math.pow(2, this.items.size()); i = 2 * i) {
+			for (int j = 0; j < i; j++) {
+				// System.out.print(this.delete(I).g+this.delete(I).g + " ");
+
+				System.out.println("");
 			}
-			System.out.println("");
+
 		}
-		
 	}
 }
