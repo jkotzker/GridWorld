@@ -15,6 +15,7 @@ public class Search2 {
 	public LinkedList<minHeap> Open = new LinkedList<minHeap>();
 	public LinkedList<minHeap> Closed = new LinkedList<minHeap>();
 	int w2 = 1;
+	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
 	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int which, int n) {
 		for (int i = 0; i <= n; i++) {
@@ -35,8 +36,9 @@ public class Search2 {
 				for (int j = 1; j <= n; j++) {
 					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
 						if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
-							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.getG(j) < Double.POSITIVE_INFINITY) {
-								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(j);
+							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex
+									.getG(j) < Double.POSITIVE_INFINITY) {
+								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
 							}
 						} else {
 							Vertex S = Open.get(j).delete(j);
@@ -46,7 +48,7 @@ public class Search2 {
 					} else {
 						if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
 							if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
-								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(0);
+								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, 0);
 							}
 						} else {
 							Vertex S = Open.get(0).delete(0);
@@ -62,12 +64,14 @@ public class Search2 {
 
 	private void ExpandStates(Vertex S, int j) {
 		for (Vertex s : S.GetSucc()) {
-			s.setG(j, Double.POSITIVE_INFINITY);
-			s.BP.add(null);
+			if (s.getG(j) == Double.NaN) {
+				s.setG(j, Double.POSITIVE_INFINITY);
+				s.setBP(j, null);
+			}
 			try {
 				if (s.getG(j) > S.getG(j) + S.block.computeCost(s.block)) {
 					s.setG(j, S.getG(j) + S.block.computeCost(s.block));
-					s.BP.get(j).add(s.block);
+					s.setBP(j, s.block);
 					if (!Closed.get(j).Contains(s)) {
 						if (!Open.get(j).Contains(s)) {
 							Open.get(j).insert(s, j);
@@ -78,5 +82,18 @@ public class Search2 {
 				return;
 			}
 		}
+	}
+
+	private ArrayList<GridSquare> Output(Vertex s, Vertex StartVertex, GridSquare goalBlock, Grid currentGrid, int j) {
+		int iterator = 0;
+		while (s != StartVertex && iterator < 550) {
+			output.add(s.block);
+			s = s.getBP(j).SearchVertex;
+			iterator++;
+		}
+		output.add(goalBlock);
+		// Saves vertices h
+		currentGrid.SaveVertices();
+		return output;
 	}
 }
