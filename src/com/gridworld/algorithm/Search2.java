@@ -1,3 +1,4 @@
+
 package com.gridworld.algorithm;
 
 import java.util.ArrayList;
@@ -19,37 +20,39 @@ public class Search2 {
 		for (int i = 0; i <= n; i++) {
 			Open.add(new minHeap());
 			Closed.add(new minHeap());
+
 			// Get start and goal coordinates and vertices
 			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
 			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
-			Vertex StartVertex = currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex;
-			currentGrid.GridSquares[Start.XVal][Start.YVal].SearchVertex.G.set(n, 0.0);
-			currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G.set(n, Double.POSITIVE_INFINITY);
-			while (Open.get(0).peek().key < Double.POSITIVE_INFINITY) {
+
+			Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
+			Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
+			StartVertex.G.set(n, 0.0);
+			GoalVertex.G.set(n, Double.POSITIVE_INFINITY);
+
+			while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
+
 				for (int j = 1; j <= n; j++) {
-					if (Open.get(j).peek().key <= w2 * this.Open.get(0).peek().key) {
-						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-								.get(j) <= Open.get(j).peek().getG()) {
+					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
+						if (GoalVertex.G.get(j) <= Open.get(j).peek().getKey(j)) {
 							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
 									.get(j) < Double.POSITIVE_INFINITY) {
 								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(j);
 							}
 						} else {
-							Vertex S = Open.get(j).delete();
+							Vertex S = Open.get(j).delete(j);
 							ExpandStates(S, j);
-							Closed.get(j).insert(S);
+							Closed.get(j).insert(S, j);
 						}
 					} else {
-						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-								.get(0) <= Open.get(0).peek().getG()) {
-							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.G
-									.get(0) <= Double.POSITIVE_INFINITY) {
+						if (GoalVertex.G.get(0) <= Open.get(0).peek().getKey(0)) {
+							if (GoalVertex.G.get(0) <= Double.POSITIVE_INFINITY) {
 								return currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex.BP.get(0);
 							}
 						} else {
-							Vertex S = Open.get(0).delete();
-							ExpandStates(S, j);
-							Closed.get(0).insert(S);
+							Vertex S = Open.get(0).delete(0);
+							ExpandStates(S, 0);
+							Closed.get(0).insert(S, 0);
 						}
 					}
 				}
@@ -60,18 +63,15 @@ public class Search2 {
 
 	private void ExpandStates(Vertex S, int j) {
 		for (Vertex s : S.GetSucc()) {
-			if(s.G.size()-1<j){
-				//DOES IT ADD IT AT THE RIGHT INDEX? TODO
-				s.G.add(Double.POSITIVE_INFINITY);
-				s.BP.add(null);
-			}
+			s.G.set(j, Double.POSITIVE_INFINITY);
+			s.BP.add(null);
 			try {
-				if(s.G.get(j)>S.G.get(j)+S.block.computeCost(s.block)){
-					s.G.set(j,S.G.get(j)+S.block.computeCost(s.block));
+				if (s.G.get(j) > S.G.get(j) + S.block.computeCost(s.block)) {
+					s.G.set(j, S.G.get(j) + S.block.computeCost(s.block));
 					s.BP.get(j).add(s.block);
-					if(!Closed.get(j).Contains(s)){
-						if(!Open.get(j).Contains(s)){
-							Open.get(j).insert(s);
+					if (!Closed.get(j).Contains(s)) {
+						if (!Open.get(j).Contains(s)) {
+							Open.get(j).insert(s, j);
 						}
 					}
 				}

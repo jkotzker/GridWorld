@@ -72,23 +72,21 @@ public class GridSquare {
 		int diffX = targetX - this.coordinates.XVal;
 		int diffY = targetY - this.coordinates.YVal;
 		SquareColor targetColor = target.color;
-		boolean traversedHighway = (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway)
-				|| (this.memberOfVerticalHighway && target.memberOfVerticalHighway)
-				|| (this.memberOfHorizontalHighway && target.memberOfVerticalHighway)
+		boolean traversedhighway = (this.memberOfHorizontalHighway && target.memberOfVerticalHighway)
 				|| (this.memberOfVerticalHighway && target.memberOfHorizontalHighway);
 
 		if (this.color == SquareColor.WHITE && targetColor == SquareColor.WHITE) {
 
 			if (diffX == 0) {
 				// Horizontal move
-				cost = Main.whiteCosts.get("horiz") + Main.whiteCosts.get("horiz");
-				if (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway)
+				cost = Main.whiteCosts.get("vert") + Main.whiteCosts.get("vert");
+				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical move
-				cost = Main.whiteCosts.get("vert") + Main.whiteCosts.get("vert");
-				if ((this.memberOfVerticalHighway && target.memberOfVerticalHighway)||traversedHighway)
+				cost = Main.whiteCosts.get("horiz") + Main.whiteCosts.get("horiz");
+				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1) {
@@ -103,14 +101,14 @@ public class GridSquare {
 
 			if (diffX == 0) {
 				// Horizontal Move
-				cost = Main.lightgrayCosts.get("horiz") + Main.lightgrayCosts.get("horiz");
-				if ((this.memberOfHorizontalHighway && target.memberOfHorizontalHighway)||traversedHighway)
+				cost = Main.lightgrayCosts.get("vert") + Main.lightgrayCosts.get("vert");
+				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical Move
-				cost = Main.lightgrayCosts.get("vert") + Main.lightgrayCosts.get("vert");
-				if (this.memberOfVerticalHighway && target.memberOfVerticalHighway)
+				cost = Main.lightgrayCosts.get("horiz") + Main.lightgrayCosts.get("horiz");
+				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1) {
@@ -126,14 +124,14 @@ public class GridSquare {
 
 			if (diffX == 0) {
 				// Horizontal Move
-				cost = Main.lightgrayCosts.get("horiz") + Main.whiteCosts.get("horiz");
-				if ((this.memberOfHorizontalHighway && target.memberOfHorizontalHighway)||traversedHighway)
+				cost = Main.lightgrayCosts.get("vert") + Main.whiteCosts.get("vert");
+				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical Move
-				cost = Main.lightgrayCosts.get("vert") + Main.whiteCosts.get("vert");
-				if ((this.memberOfVerticalHighway && target.memberOfVerticalHighway)||traversedHighway)
+				cost = Main.lightgrayCosts.get("horiz") + Main.whiteCosts.get("horiz");
+				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1) {
