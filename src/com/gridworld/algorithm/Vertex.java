@@ -12,7 +12,7 @@ public class Vertex {
 	// This h is only used in the first Search
 	private double h = 0;
 	public LinkedList<Double> key = new LinkedList<Double>();
-	public LinkedList<ArrayList<GridSquare>> BP = new LinkedList<ArrayList<GridSquare>>();
+	private LinkedList<GridSquare> BP = new LinkedList<GridSquare>();
 	public boolean closed = false;
 
 	public Vertex Parent = null;
@@ -33,6 +33,9 @@ public class Vertex {
 					Vertex gridVert = currentGrid.GridSquares[row][col].SearchVertex;
 					if (gridVert == null) {
 						succ.add(new Vertex(currentGrid.GridSquares[row][col], currentGrid, this.searchType));
+					}
+					if (gridVert != null && gridVert != this.Parent) {
+						succ.add(gridVert);
 					}
 				}
 			}
@@ -81,14 +84,17 @@ public class Vertex {
 	}
 
 	public double getG(int i) {
-		return this.G.get(i);
+		while (this.g.size() < i + 1) {
+			this.g.add(Double.NaN);
+		}
+		return this.g.get(i);
 	}
 
 	public void setG(int i, double g) {
-		while (this.G.size() < i + 1) {
-			this.G.add(null);
+		while (this.g.size() < i + 1) {
+			this.g.add(null);
 		}
-		this.G.set(i, g);
+		this.g.set(i, g);
 		this.setKey(i, g + this.h);
 	}
 
@@ -99,6 +105,14 @@ public class Vertex {
 	public void setH(double h) {
 		this.h = h;
 		this.key.set(0, this.getG(0) + this.h);
+	}
+
+	public GridSquare getBP(int i) {
+		return BP.get(i);
+	}
+
+	public void setBP(int i, GridSquare bP) {
+		BP.set(i, bP);
 	}
 
 }

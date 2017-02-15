@@ -89,6 +89,7 @@ public class GridSquare {
 				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
+				
 			} else if (diffX == 1 || diffX == -1 || diffY == 1 || diffY == -1) {
 				// Diagonal Move
 				cost = Main.whiteCosts.get("diagonal") + Main.whiteCosts.get("diagonal");

@@ -94,7 +94,6 @@ public class Search {
 				fringe.insert(sPrime, 0);
 				sPrime.inFringe = true;
 			}
-			else{System.out.println("here!");}
 		} catch (TraversalException t) {
 			return;
 		}
