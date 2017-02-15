@@ -8,10 +8,10 @@ import java.util.LinkedList;
 
 public class Vertex {
 	public boolean inFringe = false;
-	public LinkedList<Double> G = new LinkedList<Double>();
+	public LinkedList<Double> g = new LinkedList<Double>();
 	// This h is only used in the first Search
 	private double h = 0;
-	private LinkedList<Double> key = new LinkedList<Double>();
+	public LinkedList<Double> key = new LinkedList<Double>();
 	public LinkedList<ArrayList<GridSquare>> BP = new LinkedList<ArrayList<GridSquare>>();
 	public boolean closed = false;
 

@@ -19,8 +19,8 @@ public class ReadAndWrite {
 	
 	public static void writeGridToFile(Grid grid, CoordinatePair coords, String fileName) {
 		
-		System.out.println("Writer called.");
-		System.out.println("Filename is "+fileName);
+		//System.out.println("Writer called.");
+		//System.out.println("Filename is "+fileName);
 		
 		try{
 		    

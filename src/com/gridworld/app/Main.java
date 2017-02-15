@@ -40,7 +40,7 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		
-		System.out.println("started");
+		//System.out.println("started");
 		
 
 		Main.whiteCosts.put("horiz", 0.5);
@@ -56,7 +56,7 @@ public class Main extends Application{
 			gridList = new FiftyGrids();
 			//System.out.println("gridlist generated");
 		} catch (CoordinateException e) {
-			//System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(-1);
 		}
