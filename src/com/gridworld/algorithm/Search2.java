@@ -17,8 +17,9 @@ public class Search2 {
 	int w2 = 1;
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
-	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int which, int n) {
-
+	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int n) {
+		
+		int which = currentGrid.searchIterator;
 		// Get start and goal coordinates and vertices
 		Coordinates Start = currentGrid.pathPoints.get(which).sStart;
 		Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
@@ -42,8 +43,7 @@ public class Search2 {
 			for (int j = 1; j <= n; j++) {
 				if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
 					if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
-						if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex
-								.getG(j) < Double.POSITIVE_INFINITY) {
+						if (GoalVertex.getG(j) < Double.POSITIVE_INFINITY) {
 							return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
 						}
 					} else {
@@ -76,9 +76,10 @@ public class Search2 {
 			try {
 				if (s.getG(j) > S.getG(j) + S.block.computeCost(s.block)) {
 					s.setG(j, S.getG(j) + S.block.computeCost(s.block));
-					s.setBP(j, s.block);
+					s.setBP(j, S.block);
 					if (!Closed.get(j).Contains(s)) {
 						if (!Open.get(j).Contains(s)) {
+							s.setKey(j, Heuristics.Key(s, j) );
 							Open.get(j).insert(s, j);
 						}
 					}

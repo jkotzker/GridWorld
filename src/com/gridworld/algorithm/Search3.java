@@ -8,72 +8,87 @@ import com.gridworld.exceptions.TraversalException;
 import com.gridworld.grid.Coordinates;
 import com.gridworld.grid.Grid;
 import com.gridworld.grid.GridSquare;
+import com.gridworld.algorithm.Heuristics;
 
 public class Search3 {
 
 	public LinkedList<minHeap> Open = new LinkedList<minHeap>();
 	public LinkedList<minHeap> Closed = new LinkedList<minHeap>();
-	int w2 = 1;
+	private int w2 = 1;
+	private int n = 1;
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
+	private Vertex GoalVertex;
 
-	public ArrayList<GridSquare> performSearch3(Grid currentGrid, int which, int n) {
+	public ArrayList<GridSquare> performSearch3(Grid currentGrid, int which, int numberofHeuristics) {
+		this.n = numberofHeuristics;
+		// Get start and goal coordinates and vertices
+		Coordinates Start = currentGrid.pathPoints.get(which).sStart;
+		Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+
+		Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
+		this.GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
+		// TODO what is u?
+		StartVertex.setG(0, 0.0);
+		GoalVertex.setG(0, Double.POSITIVE_INFINITY);
+		StartVertex.setBP(0, null);
+		GoalVertex.setBP(0, null);
 		for (int i = 0; i <= n; i++) {
 			Open.add(new minHeap());
-			Closed.add(new minHeap());
+			Open.get(i).insert(StartVertex, i);
+		}
+		// Closed anchor
+		Closed.add(new minHeap());
+		// Closed inad
+		Closed.add(new minHeap());
 
-			// Get start and goal coordinates and vertices
-			Coordinates Start = currentGrid.pathPoints.get(which).sStart;
-			Coordinates Goal = currentGrid.pathPoints.get(which).sGoal;
+		while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
 
-			Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
-			Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
-			StartVertex.setG(n, 0.0);
-			GoalVertex.setG(n, Double.POSITIVE_INFINITY);
-
-			while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
-
-				for (int j = 1; j <= n; j++) {
-					if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
-						if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
-							if (currentGrid.GridSquares[Goal.XVal][Goal.YVal].SearchVertex
-									.getG(j) < Double.POSITIVE_INFINITY) {
-								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
-							}
-						} else {
-							Vertex S = Open.get(j).delete(j);
-							ExpandStates(S, j);
-							Closed.get(j).insert(S, j);
+			for (int j = 1; j <= n; j++) {
+				if (Open.get(j).peek().getKey(0) <= w2 * this.Open.get(0).peek().getKey(0)) {
+					if (GoalVertex.getG(0) <= Open.get(j).peek().getKey(0)) {
+						if (GoalVertex.getG(0) < Double.POSITIVE_INFINITY) {
+							return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, j);
 						}
 					} else {
-						if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
-							if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
-								return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, 0);
-							}
-						} else {
-							Vertex S = Open.get(0).delete(0);
-							ExpandStates(S, 0);
-							Closed.get(0).insert(S, 0);
+						Vertex S = Open.get(j).delete(0);
+						ExpandStates(S, j);
+						Closed.get(1).insert(S, j);
+					}
+				} else {
+					if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
+						if (GoalVertex.getG(0) <= Double.POSITIVE_INFINITY) {
+							return Output(GoalVertex, StartVertex, GoalVertex.block, currentGrid, 0);
 						}
+					} else {
+						Vertex S = Open.get(0).delete(0);
+						ExpandStates(S, 0);
+						Closed.get(0).insert(S, 0);
 					}
 				}
 			}
+
 		}
 		return null;
 	}
 
 	private void ExpandStates(Vertex S, int j) {
+		S.v = S.getG(0);
 		for (Vertex s : S.GetSucc()) {
-			if (s.getG(j) == Double.NaN) {
-				s.setG(j, Double.POSITIVE_INFINITY);
-				s.setBP(j, null);
+			if (s.getG(0) == Double.NaN) {
+				s.setG(0, Double.POSITIVE_INFINITY);
+				s.setBP(0, null);
+				s.v = Double.POSITIVE_INFINITY;
 			}
 			try {
-				if (s.getG(j) > S.getG(j) + S.block.computeCost(s.block)) {
-					s.setG(j, S.getG(j) + S.block.computeCost(s.block));
-					s.setBP(j, s.block);
-					if (!Closed.get(j).Contains(s)) {
-						if (!Open.get(j).Contains(s)) {
-							Open.get(j).insert(s, j);
+				if (s.getG(0) > S.getG(0) + S.block.computeCost(s.block)) {
+					s.setG(0, S.getG(0) + S.block.computeCost(s.block));
+					s.setBP(0, S.block);
+					if (!Closed.get(1).Contains(s)) {
+						for (int i = 1; i <= n; i++) {
+							if (Heuristics.Key(s, i) <= w2 * Heuristics.Key(s, 0)) {
+								s.setKey(1, Heuristics.Key(s, i));
+							}
+							Open.get(j).insert(s, 0);
 						}
 					}
 				}

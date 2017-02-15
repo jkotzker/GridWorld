@@ -24,6 +24,7 @@ public class GridSquare {
 	// Boolean variables tracking highway membership
 	public Boolean memberOfVerticalHighway = false;
 	public Boolean memberOfHorizontalHighway = false;
+	public Grid currentGrid = null;
 
 	// Boolean variable tracking whether member of path
 	public Vertex SearchVertex = null;
@@ -42,7 +43,7 @@ public class GridSquare {
 	 * @param color
 	 *            the (initial) color
 	 */
-	public GridSquare(int x, int y, SquareColor color) {
+	public GridSquare(int x, int y, SquareColor color, Grid thisGrid) {
 
 		try {
 			this.coordinates = new Coordinates(x, y);
@@ -52,6 +53,7 @@ public class GridSquare {
 		}
 
 		this.color = color;
+		this.currentGrid = thisGrid;
 
 	}
 

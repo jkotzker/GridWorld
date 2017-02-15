@@ -15,6 +15,7 @@ public class Grid {
 	public ArrayList<CoordinatePair> pathPoints = new ArrayList<CoordinatePair>();
 	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
+	public int searchIterator;
 
 	public Grid(String name) {
 		this.name = name;
@@ -24,7 +25,7 @@ public class Grid {
 		// System.out.println("Making grid");
 		for (int i = 0; i < 120; i++) {
 			for (int j = 0; j < 160; j++) {
-				GridSquares[i][j] = new GridSquare(i, j, SquareColor.WHITE);
+				GridSquares[i][j] = new GridSquare(i, j, SquareColor.WHITE, this);
 			}
 		}
 		// Step 2: Placement of Hard Cells
@@ -114,7 +115,8 @@ public class Grid {
 		for (int i = 0; i < pathPoints.size(); i++) {
 			ArrayList<GridSquare> results = null;
 			Search search = new Search();
-			results = search.performSearch(this, i);
+			this.searchIterator = i;
+			results = search.performSearch(this);
 			if (results != null) {
 				pathPoints.get(i).path.addAll(results);
 			}

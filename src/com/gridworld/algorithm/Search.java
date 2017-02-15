@@ -25,7 +25,8 @@ public class Search {
 
 	}
 
-	public ArrayList<GridSquare> performSearch(Grid currentGrid, int which) {
+	public ArrayList<GridSquare> performSearch(Grid currentGrid) {
+		int which = currentGrid.searchIterator;
 		Coordinates sStart = currentGrid.pathPoints.get(which).sStart;
 		Vertex StartVertex = currentGrid.GridSquares[sStart.XVal][sStart.YVal].SearchVertex;
 		Coordinates sGoal = currentGrid.pathPoints.get(which).sGoal;
@@ -86,6 +87,7 @@ public class Search {
 		try {
 			if (s.getG(0) + s.block.computeCost(sPrime.block) < sPrime.getG(0)) {
 				sPrime.setG(0, s.getG(0) + s.block.computeCost(sPrime.block));
+				sPrime.setKey(0, Heuristics.Key(sPrime, 0));
 				sPrime.Parent = s;
 				if (sPrime.inFringe) {
 					fringe.delete(sPrime, 0);
