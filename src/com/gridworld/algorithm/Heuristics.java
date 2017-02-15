@@ -14,6 +14,6 @@ public class Heuristics {
 
 	// Get key value
 	public void storeNewKey(Vertex V, int i) {
-		V.key = V.g + w1 * H(V, i);
+		V.setKey(i, V.getG(i) + w1 * H(V, i));
 	}
 }

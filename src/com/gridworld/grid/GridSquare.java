@@ -79,13 +79,13 @@ public class GridSquare {
 
 			if (diffX == 0) {
 				// Horizontal move
-				cost = Main.whiteCosts.get("vert") + Main.whiteCosts.get("vert");
+				cost = Main.whiteCosts.get("horiz") + Main.whiteCosts.get("horiz");
 				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical move
-				cost = Main.whiteCosts.get("horiz") + Main.whiteCosts.get("horiz");
+				cost = Main.whiteCosts.get("vert") + Main.whiteCosts.get("vert");
 				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
@@ -101,13 +101,13 @@ public class GridSquare {
 
 			if (diffX == 0) {
 				// Horizontal Move
-				cost = Main.lightgrayCosts.get("vert") + Main.lightgrayCosts.get("vert");
+				cost = Main.lightgrayCosts.get("horiz") + Main.lightgrayCosts.get("horiz");
 				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical Move
-				cost = Main.lightgrayCosts.get("horiz") + Main.lightgrayCosts.get("horiz");
+				cost = Main.lightgrayCosts.get("vert") + Main.lightgrayCosts.get("vert");
 				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
@@ -124,13 +124,13 @@ public class GridSquare {
 
 			if (diffX == 0) {
 				// Horizontal Move
-				cost = Main.lightgrayCosts.get("vert") + Main.whiteCosts.get("vert");
+				cost = Main.lightgrayCosts.get("horiz") + Main.whiteCosts.get("horiz");
 				if (traversedhighway || (this.memberOfHorizontalHighway && target.memberOfHorizontalHighway))
 					cost = cost * 0.25;
 				return cost;
 			} else if (diffY == 0) {
 				// Vertical Move
-				cost = Main.lightgrayCosts.get("horiz") + Main.whiteCosts.get("horiz");
+				cost = Main.lightgrayCosts.get("vert") + Main.whiteCosts.get("vert");
 				if (traversedhighway || (this.memberOfVerticalHighway && target.memberOfVerticalHighway))
 					cost = cost * 0.25;
 				return cost;
