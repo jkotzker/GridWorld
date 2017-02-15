@@ -12,7 +12,7 @@ public class Heuristics {
 		 * I (Joey) am operating under the assumption that the integer value i
 		 * selects which heuristic algorithm to use. The value returned will be
 		 * the h value.
-		 * 
+		 *
 		 * I modified the method signature so that I could get the goal also.
 		 */
 		if (i == 0) {
@@ -102,6 +102,30 @@ public class Heuristics {
 			double H = 0.01 * xdif + 0.01 * ydif;
 
 			return H;
+		}
+		if (i == 5) {
+
+			/*
+			 * This heuristic takes a very roughly computed "average cost" of traversal between any two given cells in the grid, and multiples that by the straight-line distance.
+			 */
+
+			// Roughly computed average cost of traversal for vertices in any given grid; if we stored the exact counts of each type of cell, could be more exact
+			double avgCost = 1.5931;
+
+			// Use it with the difference formula
+			int currX = V.block.coordinates.XVal;
+			int currY = V.block.coordinates.YVal;
+
+			int goalX = goal.coordinates.XVal;
+			int goalY = goal.coordinates.YVal;
+
+			int xdif = goalX - currX;
+			int ydif = goalY - currY;
+
+			double dist = Math.sqrt((xdif * xdif) + (ydif * ydif));
+			double H = avgCost * dist;
+			return H;
+
 		}
 
 		return 1;
