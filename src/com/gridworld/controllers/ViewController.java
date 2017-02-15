@@ -52,12 +52,12 @@ public class ViewController implements Initializable{
 
 		
 		FiftyGrids list = Main.gridList;
-		System.out.println(list);
-		System.out.println("got gridlist");
+		//System.out.println(list);
+		//System.out.println("got gridlist");
 
 		ArrayList<Grid> grids = list.gridsList;
-		System.out.println("got internal list of grids");
-		System.out.println(grids);
+		//System.out.println("got internal list of grids");
+		//System.out.println(grids);
 		
 		ArrayList<CoordinatePair> clists = new ArrayList<CoordinatePair>();
 		for(int i=0; i < grids.size(); i++) {
@@ -101,7 +101,7 @@ public class ViewController implements Initializable{
         	
         	Grid grid = cord.parent;
      	   	int ind = mapList.getSelectionModel().getSelectedIndex() % 10;
-     	   	System.out.print("Index is "+ind);
+     	   	//System.out.print("Index is "+ind);
         	
         	GridPane newGridDisplay = genGridPane(grid, cord, infoText, ind);
         	
@@ -121,12 +121,12 @@ public class ViewController implements Initializable{
         	Main.gridList.gridsList.add(newGrid);
         	
         	FiftyGrids list = Main.gridList;
-    		System.out.println(list);
-    		System.out.println("got gridlist");
+    		//System.out.println(list);
+    		//System.out.println("got gridlist");
 
     		ArrayList<Grid> grids = list.gridsList;
-    		System.out.println("got internal list of grids");
-    		System.out.println(grids);
+    		//System.out.println("got internal list of grids");
+    		//System.out.println(grids);
     		
     		ArrayList<CoordinatePair> clists = new ArrayList<CoordinatePair>();
     		for(int i=0; i < grids.size(); i++) {
