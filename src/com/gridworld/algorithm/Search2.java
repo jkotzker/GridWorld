@@ -33,13 +33,12 @@ public class Search2 {
 
 			StartVertex.setG(i, 0.0);
 			GoalVertex.setG(i, Double.POSITIVE_INFINITY);
+			Heuristics.storeNewKey(StartVertex,i);
 			StartVertex.setBP(i, null);
 			GoalVertex.setBP(i, null);
-			
 			Open.get(i).insert(StartVertex, i);
 		}
 		while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
-
 			for (int j = 1; j <= n; j++) {
 				if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
 					if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
@@ -69,17 +68,17 @@ public class Search2 {
 
 	private void ExpandStates(Vertex S, int j) {
 		for (Vertex s : S.GetSucc()) {
-			if (s.getG(j) == Double.NaN) {
+			if (s.getG(j) == -1.0) {
 				s.setG(j, Double.POSITIVE_INFINITY);
 				s.setBP(j, null);
 			}
 			try {
 				if (s.getG(j) > S.getG(j) + S.block.computeCost(s.block)) {
 					s.setG(j, S.getG(j) + S.block.computeCost(s.block));
+					Heuristics.storeNewKey(s, j);
 					s.setBP(j, S.block);
 					if (!Closed.get(j).Contains(s)) {
 						if (!Open.get(j).Contains(s)) {
-							s.setKey(j, Heuristics.Key(s, j) );
 							Open.get(j).insert(s, j);
 						}
 					}

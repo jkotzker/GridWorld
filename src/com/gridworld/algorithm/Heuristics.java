@@ -119,7 +119,7 @@ public class Heuristics {
 
 	// Get key value
 
-	public void storeNewKey(Vertex V,  int i) {
+	public static void storeNewKey(Vertex V,  int i) {
 		V.setKey(i, V.getG(i) + weight * H(V,  i));
 	}
 
