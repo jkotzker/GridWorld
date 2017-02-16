@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Vertex {
-	public boolean inFringe = false;
-	public LinkedList<Double> g = new LinkedList<Double>();
-	// This h is only used in the first Search
+	// The following is used only in the first Search
 	private double h = 0;
-	public LinkedList<Double> key = new LinkedList<Double>();
+	public boolean inFringe = false;
+	
+	public LinkedList<Double> g = new LinkedList<Double>();
+	public LinkedList<Double> key= new LinkedList<Double>();
 	private LinkedList<GridSquare> BP = new LinkedList<GridSquare>();
 	public boolean closed = false;
 	public double v;
@@ -59,6 +60,8 @@ public class Vertex {
 			this.h = 2;
 		}
 		this.h = 0;
+		//this.key = new LinkedList<Double>();
+		//this.key.add(0.0);
 	}
 
 	public int compareTo(Vertex other, int i) {
@@ -74,6 +77,13 @@ public class Vertex {
 	}
 
 	public Double getKey(int i) {
+		if(this.key.get(0)==null){
+			this.key.set(0,0.0);
+		}
+		while (this.key.size() < i + 1) {
+			this.key.add(0.0);
+			System.out.println(this.key.size());
+		}
 		return key.get(i);
 	}
 
@@ -86,7 +96,7 @@ public class Vertex {
 
 	public double getG(int i) {
 		while (this.g.size() < i + 1) {
-			this.g.add(Double.NaN);
+			this.g.add(-1.0);
 		}
 		return this.g.get(i);
 	}
@@ -112,6 +122,9 @@ public class Vertex {
 	}
 
 	public void setBP(int i, GridSquare bP) {
+		while (this.BP.size() < i + 1) {
+			this.BP.add(null);
+		}
 		BP.set(i, bP);
 	}
 
