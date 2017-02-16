@@ -113,26 +113,26 @@ public class ReadAndWrite {
 					 }
 					 
 					 if (curr == '0') {
-						 GridSquare square = new GridSquare(i, j, SquareColor.DARK_GRAY);
+						 GridSquare square = new GridSquare(i, j, SquareColor.DARK_GRAY, grid);
 						 square.memberOfHorizontalHighway = false;
 						 square.memberOfVerticalHighway = false;
 						 grid.GridSquares[i][j] = square;
 
 					 }
 					 else if (curr == '1') {
-						 GridSquare square = new GridSquare(i, j, SquareColor.WHITE);
+						 GridSquare square = new GridSquare(i, j, SquareColor.WHITE, grid);
 						 square.memberOfHorizontalHighway = false;
 						 square.memberOfVerticalHighway = false;
 						 grid.GridSquares[i][j] = square;
 					 }
 					 else if (curr == '2') {
-						 GridSquare square = new GridSquare(i, j, SquareColor.LIGHT_GRAY);
+						 GridSquare square = new GridSquare(i, j, SquareColor.LIGHT_GRAY, grid);
 						 square.memberOfHorizontalHighway = false;
 						 square.memberOfVerticalHighway = false;
 						 grid.GridSquares[i][j] = square;
 					 }
 					 else if (curr == 'a') {
-						 GridSquare square = new GridSquare(i, j, SquareColor.WHITE);
+						 GridSquare square = new GridSquare(i, j, SquareColor.WHITE, grid);
 						 if (next != 'a' && prev != 'a') {
 							 square.memberOfVerticalHighway = true;
 						 } else {
@@ -141,7 +141,7 @@ public class ReadAndWrite {
 						 grid.GridSquares[i][j] = square;
 					 }
 					 else if (curr == 'b') {
-						 GridSquare square = new GridSquare(i, j, SquareColor.LIGHT_GRAY);
+						 GridSquare square = new GridSquare(i, j, SquareColor.LIGHT_GRAY, grid);
 						 if (next != 'a' && prev != 'a') {
 							 square.memberOfVerticalHighway = true;
 						 } else {

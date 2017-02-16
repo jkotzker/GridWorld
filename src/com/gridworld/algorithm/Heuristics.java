@@ -7,7 +7,7 @@ public class Heuristics {
 	private static double weight;
 
 	// Heuristics are stored here
-	private static double H(Vertex V, int i) {
+	public static double H(Vertex V, int i) {
 		/*
 		 * I (Joey) am operating under the assumption that the integer value i
 		 * selects which heuristic algorithm to use. The value returned will be
