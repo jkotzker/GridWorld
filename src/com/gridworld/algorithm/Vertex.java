@@ -60,8 +60,9 @@ public class Vertex {
 			this.h = 2;
 		}
 		// JOEY, HERE IS WHERE YOU ADD THE HEURISTIC
-		Heuristics calculateH = new Heuristics();
-		this.h = calculateH.Key(this, 1);
+		//Heuristics calculateH = new Heuristics();
+		this.h = Heuristics.H(this, 1);
+		this.key.add(Heuristics.H(this, 1));
 		//this.key = new LinkedList<Double>();
 		//this.key.add(0.0);
 	}
@@ -113,7 +114,7 @@ public class Vertex {
 	}
 
 	public double getH() {
-		return h;
+		return this.h;
 	}
 
 	public void setH(double h) {
