@@ -59,7 +59,9 @@ public class Vertex {
 		} else if (searchType == "wA*") {
 			this.h = 2;
 		}
-		this.h = 0;
+		// JOEY, HERE IS WHERE YOU ADD THE HEURISTIC
+		Heuristics calculateH = new Heuristics();
+		this.h = calculateH.Key(this, 1);
 		//this.key = new LinkedList<Double>();
 		//this.key.add(0.0);
 	}
@@ -105,6 +107,8 @@ public class Vertex {
 		while (this.g.size() < i + 1) {
 			this.g.add(null);
 		}
+		//for search1
+		this.setKey(0, this.h+g);
 		this.g.set(i, g);
 	}
 
