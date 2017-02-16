@@ -4,10 +4,10 @@ import com.gridworld.grid.GridSquare;
 
 public class Heuristics {
 	// Weight
-	private double weight;
+	private static double weight;
 
 	// Heuristics are stored here
-	private double H(Vertex V, GridSquare goal, int i) {
+	private static double H(Vertex V, int i) {
 		/*
 		 * I (Joey) am operating under the assumption that the integer value i
 		 * selects which heuristic algorithm to use. The value returned will be
@@ -15,6 +15,14 @@ public class Heuristics {
 		 *
 		 * I modified the method signature so that I could get the goal also.
 		 */
+
+		int currX = V.block.coordinates.XVal;
+		int currY = V.block.coordinates.YVal;
+		
+		int currSearch = V.block.currentGrid.searchIterator;
+		int goalX = V.block.currentGrid.pathPoints.get(currSearch).sGoal.XVal;
+		int goalY = V.block.currentGrid.pathPoints.get(currSearch).sGoal.YVal;
+		
 		if (i == 0) {
 			return 0;
 		}
@@ -26,11 +34,6 @@ public class Heuristics {
 			 * along a highway.
 			 */
 
-			int currX = V.block.coordinates.XVal;
-			int currY = V.block.coordinates.YVal;
-
-			int goalX = goal.coordinates.XVal;
-			int goalY = goal.coordinates.YVal;
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -45,12 +48,6 @@ public class Heuristics {
 			 * This heuristic is the one we wrote as inadmissible; it assumes
 			 * all diagonal movement.
 			 */
-
-			int currX = V.block.coordinates.XVal;
-			int currY = V.block.coordinates.YVal;
-
-			int goalX = goal.coordinates.XVal;
-			int goalY = goal.coordinates.YVal;
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -67,11 +64,6 @@ public class Heuristics {
 			 * blocks, and then uses the highway movement value to multiply.
 			 */
 
-			int currX = V.block.coordinates.XVal;
-			int currY = V.block.coordinates.YVal;
-
-			int goalX = goal.coordinates.XVal;
-			int goalY = goal.coordinates.YVal;
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -90,11 +82,6 @@ public class Heuristics {
 			 * underestimation.
 			 */
 
-			int currX = V.block.coordinates.XVal;
-			int currY = V.block.coordinates.YVal;
-
-			int goalX = goal.coordinates.XVal;
-			int goalY = goal.coordinates.YVal;
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -106,18 +93,17 @@ public class Heuristics {
 		if (i == 5) {
 
 			/*
-			 * This heuristic takes a very roughly computed "average cost" of traversal between any two given cells in the grid, and multiples that by the straight-line distance.
+			 * This heuristic takes a very roughly computed "average cost" of
+			 * traversal between any two given cells in the grid, and multiples
+			 * that by the straight-line distance.
 			 */
 
-			// Roughly computed average cost of traversal for vertices in any given grid; if we stored the exact counts of each type of cell, could be more exact
+			// Roughly computed average cost of traversal for vertices in any
+			// given grid; if we stored the exact counts of each type of cell,
+			// could be more exact
 			double avgCost = 1.5931;
 
 			// Use it with the difference formula
-			int currX = V.block.coordinates.XVal;
-			int currY = V.block.coordinates.YVal;
-
-			int goalX = goal.coordinates.XVal;
-			int goalY = goal.coordinates.YVal;
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -133,9 +119,12 @@ public class Heuristics {
 
 	// Get key value
 
-	public void storeNewKey(Vertex V, GridSquare sq, int i, double w) {
-		this.weight = w;
-		V.setKey(i, V.getG(i) + weight * H(V, sq, i));
+	public void storeNewKey(Vertex V,  int i) {
+		V.setKey(i, V.getG(i) + weight * H(V,  i));
 	}
 
+	// used only for search 3
+	public static double Key(Vertex V, int i) {
+		return V.getG(0) + weight * H(V,  i);
+	}
 }

@@ -14,6 +14,7 @@ public class Vertex {
 	public LinkedList<Double> key = new LinkedList<Double>();
 	private LinkedList<GridSquare> BP = new LinkedList<GridSquare>();
 	public boolean closed = false;
+	public double v;
 
 	public Vertex Parent = null;
 	public GridSquare block = null;
@@ -95,7 +96,6 @@ public class Vertex {
 			this.g.add(null);
 		}
 		this.g.set(i, g);
-		this.setKey(i, g + this.h);
 	}
 
 	public double getH() {
