@@ -14,9 +14,9 @@ public class Search {
 	// what is w?
 	// that will determine what the heuristic function is. 0, h(), or w*h()
 	private String searchType;
-	private minHeap fringe;
-	private ArrayList<GridSquare> closed;
-	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
+	public minHeap fringe;
+	public ArrayList<GridSquare> closed;
+	public ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
 	public Search() {
 

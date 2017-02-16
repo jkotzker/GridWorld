@@ -62,7 +62,7 @@ public class Main extends Application{
 		}
 	//	System.out.println("gridlist should be generated.");
 		
-		ComparePerformance.comparePerformance();
+		//ComparePerformance.comparePerformance();
 		
 		launch(args);
 	}

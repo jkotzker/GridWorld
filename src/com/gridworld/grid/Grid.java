@@ -16,6 +16,7 @@ public class Grid {
 	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
 	public int searchIterator;
+	public int nodesExpanded = 0;
 
 	public Grid(String name) {
 		this.name = name;
@@ -120,6 +121,9 @@ public class Grid {
 			if (results != null) {
 				pathPoints.get(i).path.addAll(results);
 			}
+			nodesExpanded += search.closed.size();
+			nodesExpanded += search.fringe.size();
+			
 
 		}
 

@@ -12,8 +12,9 @@ public class ComparePerformance {
 		// Set search type, Uniform-Cost, A*, Weighted A*.
 		String type ="A*";
 		String heur = "1";
+		//String weight = "";
 		
-		System.out.println("Computing performance for search of type " + type + " and heuristic " + heur);
+		System.out.println("Computing performance for search of type " + type + " and heuristic " + heur/* + " and weight " + weight*/);
 		
 		long heapSizeBefore = Runtime.getRuntime().totalMemory(); 
 		long startMil = System.currentTimeMillis();
@@ -44,6 +45,12 @@ public class ComparePerformance {
 		long avgMemCost = memCost / 50;
 		System.out.println("Average memory cost is: "+ avgMemCost);
 		
+		int totNodesExpanded = 0;
+		for(int i = 0; i < gridList.gridsList.size(); i++) {
+			totNodesExpanded += gridList.gridsList.get(i).nodesExpanded;
+		}
+		int avgNodesExpanded = totNodesExpanded / 50;
+		System.out.println("Average nodes expanded: "+avgNodesExpanded);
 		
 	}
 
