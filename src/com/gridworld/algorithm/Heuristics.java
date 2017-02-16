@@ -4,7 +4,7 @@ import com.gridworld.grid.GridSquare;
 
 public class Heuristics {
 	// Weight
-	private static double weight;
+	private static double weight = 1;
 
 	// Heuristics are stored here
 	public static double H(Vertex V, int i) {

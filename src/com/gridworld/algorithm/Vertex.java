@@ -54,15 +54,17 @@ public class Vertex {
 		}
 		this.currentGrid = currentGrid;
 		this.searchType = searchType;
+		/*
 		if (searchType == "A*") {
 			this.h = 1;
 		} else if (searchType == "wA*") {
 			this.h = 2;
 		}
+		*/
 		// JOEY, HERE IS WHERE YOU ADD THE HEURISTIC
 		//Heuristics calculateH = new Heuristics();
 		this.h = Heuristics.H(this, 1);
-		this.key.add(Heuristics.H(this, 1));
+		this.key.add(Heuristics.Key(this, 1));
 		//this.key = new LinkedList<Double>();
 		//this.key.add(0.0);
 	}
