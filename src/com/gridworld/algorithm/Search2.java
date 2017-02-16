@@ -40,7 +40,6 @@ public class Search2 {
 		}
 		while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
 			for (int j = 1; j <= n; j++) {
-				System.out.println("got here");
 				if (Open.get(j).peek().getKey(j) <= w2 * this.Open.get(0).peek().getKey(0)) {
 					if (GoalVertex.getG(j) <= Open.get(j).peek().getKey(j)) {
 						if (GoalVertex.getG(j) < Double.POSITIVE_INFINITY) {

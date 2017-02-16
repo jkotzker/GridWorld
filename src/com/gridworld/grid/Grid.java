@@ -114,9 +114,9 @@ public class Grid {
 
 		for (int i = 0; i < pathPoints.size(); i++) {
 			ArrayList<GridSquare> results = null;
-			Search2 search = new Search2();
+			Search search = new Search();
 			this.searchIterator = i;
-			results = search.performSearch2(this,4);
+			results = search.performSearch(this);
 			if (results != null) {
 				pathPoints.get(i).path.addAll(results);
 			}
