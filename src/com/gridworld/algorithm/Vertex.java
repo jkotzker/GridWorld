@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class Vertex {
 	// The following is used only in the first Search
-	private double h = 0;
+	private LinkedList<Double> h = new LinkedList<Double>();
 	public boolean inFringe = false;
 	
 	public LinkedList<Double> g = new LinkedList<Double>();
@@ -54,13 +54,7 @@ public class Vertex {
 		}
 		this.currentGrid = currentGrid;
 		this.searchType = searchType;
-		if (searchType == "A*") {
-			this.h = 1;
-		} else if (searchType == "wA*") {
-			this.h = 2;
-		}
-		// JOEY, HERE IS WHERE YOU ADD THE HEURISTIC
-		this.h = Heuristics.Key(this, 1);
+		this.setH(0,Heuristics.Key(this, currentGrid.currentHeuristic));
 		//this.key = new LinkedList<Double>();
 		//this.key.add(0.0);
 	}
@@ -104,20 +98,25 @@ public class Vertex {
 
 	public void setG(int i, double g) {
 		while (this.g.size() < i + 1) {
-			this.g.add(null);
+			this.g.add(-1.0);
 		}
-		//for search1
-		this.setKey(0, this.h+g);
 		this.g.set(i, g);
+		this.setKey(i, this.getH(i)+this.getG(i));
 	}
 
-	public double getH() {
-		return h;
+	public double getH(int i) {
+		while (this.h.size() < i + 1) {
+			this.h.add(0.0);
+		}
+		return h.get(i);
 	}
 
-	public void setH(double h) {
-		this.h = h;
-		this.key.set(0, this.getG(0) + this.h);
+	public void setH(int i, double h) {
+		while (this.h.size() < i + 1) {
+			this.h.add(0.0);
+		}
+		this.h.set(i, h);
+		this.key.set(i, this.getG(i) + this.getH(i));
 	}
 
 	public GridSquare getBP(int i) {

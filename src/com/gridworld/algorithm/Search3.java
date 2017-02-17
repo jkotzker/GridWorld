@@ -19,7 +19,8 @@ public class Search3 {
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 	private Vertex GoalVertex;
 
-	public ArrayList<GridSquare> performSearch3(Grid currentGrid, int which, int numberofHeuristics) {
+	public ArrayList<GridSquare> performSearch3(Grid currentGrid,  int numberofHeuristics) {
+		int which = currentGrid.searchIterator;
 		this.n = numberofHeuristics;
 		// Get start and goal coordinates and vertices
 		Coordinates Start = currentGrid.pathPoints.get(which).sStart;

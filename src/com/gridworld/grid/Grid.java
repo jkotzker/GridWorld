@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import com.gridworld.algorithm.Search;
 import com.gridworld.algorithm.Search2;
+import com.gridworld.algorithm.Search3;
 import com.gridworld.exceptions.CoordinateException;
 
 public class Grid {
@@ -16,6 +17,7 @@ public class Grid {
 	public ArrayList<Coordinates> centersOfHardRegions = new ArrayList<Coordinates>();
 	private Stack<Coordinates> highwayBlocks;
 	public int searchIterator;
+	public int currentHeuristic = 0;
 
 	public Grid(String name) {
 		this.name = name;
@@ -97,7 +99,7 @@ public class Grid {
 			Coordinates sStart = generateStartOrGoal();
 			Coordinates sGoal = generateStartOrGoal();
 			CoordinatePair newPair = new CoordinatePair(sStart, sGoal);
-			distance = Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2);
+			distance = Math.pow(Math.pow((sStart.XVal - sGoal.XVal), 2) + Math.pow((sStart.YVal - sGoal.YVal), 2), 0.5);
 			if (distance > 100) {
 				newPair.parent = this;
 				this.pathPoints.add(newPair);
@@ -110,13 +112,24 @@ public class Grid {
 
 	}
 
-	public void performAllSearches() {
+	public void performAllSearches(int heuristicVal, int searchVal) {
 
 		for (int i = 0; i < pathPoints.size(); i++) {
 			ArrayList<GridSquare> results = null;
-			Search search = new Search();
-			this.searchIterator = i;
-			results = search.performSearch(this);
+			if (searchVal == 1) {
+				Search search = new Search();
+				this.searchIterator = i;
+				results = search.performSearch(this, heuristicVal);
+			} else if (searchVal == 2) {
+				Search2 search = new Search2();
+				this.searchIterator = i;
+				results = search.performSearch2(this, heuristicVal);
+			} else {
+				Search3 search = new Search3();
+				this.searchIterator = i;
+				results = search.performSearch3(this, heuristicVal);
+
+			}
 			if (results != null) {
 				pathPoints.get(i).path.addAll(results);
 			}

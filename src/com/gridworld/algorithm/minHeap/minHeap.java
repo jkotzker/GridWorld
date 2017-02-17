@@ -106,6 +106,10 @@ public class minHeap {
 	public Vertex peek() {
 		return this.items.get(0);
 	}
+	
+	public int size(){
+		return this.items.size();
+	}
 
 	public void print() {
 		for (int i = 0; i < this.items.size(); i++) {

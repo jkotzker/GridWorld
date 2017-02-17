@@ -120,11 +120,11 @@ public class Heuristics {
 	// Get key value
 
 	public static void storeNewKey(Vertex V,  int i) {
-		V.setKey(i, V.getG(i) + weight * H(V,  i));
+		V.setH(i, weight*H(V,i));
 	}
 
 	// used only for search 3
 	public static double Key(Vertex V, int i) {
-		return V.getG(0) + weight * H(V,  i);
+		return V.getG(i) + weight * H(V,  i);
 	}
 }
