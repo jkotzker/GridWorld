@@ -51,6 +51,7 @@ public class Search2 {
 							ExpandStates(s, S, j);
 						}
 						Closed.get(j).insert(S, j);
+						S.inClosed[j]=true;
 					}
 				} else {
 					if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
@@ -63,6 +64,7 @@ public class Search2 {
 							ExpandStates(s, S, 0);
 						}
 						Closed.get(0).insert(S, 0);
+						S.inClosed[0] = true;
 					}
 				}
 			}
@@ -82,7 +84,7 @@ public class Search2 {
 				s.setG(j, S.getG(j) + S.block.computeCost(s.block));
 				Heuristics.storeNewKey(s, j);
 				s.setBP(j, S.block);
-				if (!Closed.get(j).Contains(s)) {
+				if (!S.inClosed[j] == true) {
 					if (!Open.get(j).Contains(s)) {
 						Open.get(j).insert(s, j);
 					}
@@ -103,7 +105,7 @@ public class Search2 {
 		output.add(goalBlock);
 		// Saves vertices h
 		currentGrid.SaveVertices();
-		System.out.println("completed a search");
+		System.out.println("completed search");
 		return output;
 	}
 }
