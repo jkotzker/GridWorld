@@ -4,17 +4,20 @@ package com.gridworld.algorithm;
 import com.gridworld.grid.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Vertex {
 	// The following is used only in the first Search
-	private LinkedList<Double> h = new LinkedList<Double>();
+	private Double[] h = new Double[10];
 	public boolean inFringe = false;
-	
-	public LinkedList<Double> g = new LinkedList<Double>();
-	public LinkedList<Double> key= new LinkedList<Double>();
-	private LinkedList<GridSquare> BP = new LinkedList<GridSquare>();
+
+	public Double[] g = new Double[10];
+	public Double[] key = new Double[10];
+	private GridSquare[] BP = new GridSquare[10];
 	public boolean closed = false;
+	public boolean[] inClosed = new boolean[10];
+	public boolean[] inOpen = new boolean[10];
 	public double v;
 
 	public Vertex Parent = null;
@@ -47,16 +50,25 @@ public class Vertex {
 	}
 
 	public Vertex(GridSquare currentBlock, Grid currentGrid, String searchType) {
-		this.setG(0, Double.POSITIVE_INFINITY);
 		this.block = currentBlock;
 		if (currentBlock != null) {
 			currentBlock.SearchVertex = this;
 		}
 		this.currentGrid = currentGrid;
 		this.searchType = searchType;
-		this.setH(0,Heuristics.Key(this, currentGrid.currentHeuristic));
-		//this.key = new LinkedList<Double>();
-		//this.key.add(0.0);
+	
+		Arrays.fill(this.g, -1.0);
+		Arrays.fill(this.key, null);
+		Arrays.fill(this.BP, null);
+		Arrays.fill(this.h, 0.0);
+		Arrays.fill(this.inClosed, false);
+		Arrays.fill(this.inOpen, false);
+
+		this.setG(0, Double.POSITIVE_INFINITY);
+
+		this.setH(0, Heuristics.Key(this, currentGrid.currentHeuristic));
+		// this.key = new LinkedList<Double>();
+		// this.key.add(0.0);
 	}
 
 	public int compareTo(Vertex other, int i) {
@@ -72,62 +84,61 @@ public class Vertex {
 	}
 
 	public Double getKey(int i) {
-		if(this.key.get(0)==null){
-			this.key.set(0,0.0);
+		if (this.key[0] == null) {
+			this.key[0] = 0.0;
 		}
-		while (this.key.size() < i + 1) {
-			this.key.add(0.0);
-			System.out.println(this.key.size());
-		}
-		return key.get(i);
+		/*
+		 * while (this.key.size() < i + 1) { this.key.add(0.0); }
+		 */
+		return key[i];
 	}
 
 	public void setKey(int i, double key) {
-		while (this.key.size() < i + 1) {
-			this.key.add(null);
-		}
-		this.key.set(i, key);
+		/*
+		 * while (this.key.size() < i + 1) { this.key.add(null); }
+		 */
+		this.key[i] = key;
 	}
 
 	public double getG(int i) {
-		while (this.g.size() < i + 1) {
-			this.g.add(-1.0);
-		}
-		return this.g.get(i);
+		/*
+		 * while (this.g.size() < i + 1) { this.g.add(-1.0); }
+		 */
+		return this.g[i];
 	}
 
 	public void setG(int i, double g) {
-		while (this.g.size() < i + 1) {
-			this.g.add(-1.0);
-		}
-		this.g.set(i, g);
-		this.setKey(i, this.getH(i)+this.getG(i));
+		/*
+		 * while (this.g.size() < i + 1) { this.g.add(-1.0); }
+		 */
+		this.g[i] = g;
+		this.setKey(i, this.getH(i) + this.getG(i));
 	}
 
 	public double getH(int i) {
-		while (this.h.size() < i + 1) {
-			this.h.add(0.0);
-		}
-		return h.get(i);
+		/*
+		 * while (this.h.size() < i + 1) { this.h.add(0.0); }
+		 */
+		return this.h[i];
 	}
 
 	public void setH(int i, double h) {
-		while (this.h.size() < i + 1) {
-			this.h.add(0.0);
-		}
-		this.h.set(i, h);
-		this.key.set(i, this.getG(i) + this.getH(i));
+		/*
+		 * while (this.h.size() < i + 1) { this.h.add(0.0); }
+		 */
+		this.h[i] = h;
+		this.key[i] = this.getG(i) + this.getH(i);
 	}
 
 	public GridSquare getBP(int i) {
-		return BP.get(i);
+		return this.BP[i];
 	}
 
 	public void setBP(int i, GridSquare bP) {
-		while (this.BP.size() < i + 1) {
-			this.BP.add(null);
-		}
-		BP.set(i, bP);
+		/*
+		 * while (this.BP.size() < i + 1) { this.BP.add(null); }
+		 */
+		BP[i] = bP;
 	}
 
 }

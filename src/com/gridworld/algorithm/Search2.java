@@ -14,7 +14,7 @@ public class Search2 {
 
 	public LinkedList<minHeap> Open = new LinkedList<minHeap>();
 	public LinkedList<minHeap> Closed = new LinkedList<minHeap>();
-	int w2 = 1;
+	double w2 = 1;
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 
 	public ArrayList<GridSquare> performSearch2(Grid currentGrid, int n) {
@@ -26,7 +26,9 @@ public class Search2 {
 
 		Vertex StartVertex = new Vertex(currentGrid.GridSquares[Start.XVal][Start.YVal], currentGrid, null);
 		Vertex GoalVertex = new Vertex(currentGrid.GridSquares[Goal.XVal][Goal.YVal], currentGrid, null);
-
+		output.add(StartVertex.block);
+		Open.add(new minHeap());
+		Closed.add(new minHeap());
 		for (int i = 0; i <= n; i++) {
 			Open.add(new minHeap());
 			Closed.add(new minHeap());
@@ -37,6 +39,7 @@ public class Search2 {
 			StartVertex.setBP(i, null);
 			GoalVertex.setBP(i, null);
 			Open.get(i).insert(StartVertex, i);
+			StartVertex.inOpen[i] = true;
 		}
 		while (Open.get(0).peek().getKey(0) < Double.POSITIVE_INFINITY) {
 			for (int j = 1; j <= n; j++) {
@@ -47,11 +50,12 @@ public class Search2 {
 						}
 					} else {
 						Vertex S = Open.get(j).delete(j);
+						S.inOpen[j] = false;
 						for (Vertex s : S.GetSucc()) {
 							ExpandStates(s, S, j);
 						}
 						Closed.get(j).insert(S, j);
-						S.inClosed[j]=true;
+						S.inClosed[j] = true;
 					}
 				} else {
 					if (GoalVertex.getG(0) <= Open.get(0).peek().getKey(0)) {
@@ -60,6 +64,7 @@ public class Search2 {
 						}
 					} else {
 						Vertex S = Open.get(0).delete(0);
+						S.inOpen[0] = false;
 						for (Vertex s : S.GetSucc()) {
 							ExpandStates(s, S, 0);
 						}
@@ -85,8 +90,9 @@ public class Search2 {
 				Heuristics.storeNewKey(s, j);
 				s.setBP(j, S.block);
 				if (!S.inClosed[j] == true) {
-					if (!Open.get(j).Contains(s)) {
+					if (!s.inOpen[j]) {
 						Open.get(j).insert(s, j);
+						s.inOpen[j] = true;
 					}
 				}
 			}
