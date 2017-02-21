@@ -19,7 +19,8 @@ public class Search3 {
 	private ArrayList<GridSquare> output = new ArrayList<GridSquare>();
 	private Vertex GoalVertex;
 
-	public ArrayList<GridSquare> performSearch3(Grid currentGrid, int which, int numberofHeuristics) {
+	public ArrayList<GridSquare> performSearch3(Grid currentGrid, int numberofHeuristics) {
+		int which = currentGrid.searchIterator;
 		this.n = numberofHeuristics;
 		// Get start and goal coordinates and vertices
 		Coordinates Start = currentGrid.pathPoints.get(which).sStart;
@@ -51,7 +52,11 @@ public class Search3 {
 						}
 					} else {
 						Vertex S = Open.get(j).delete(0);
-						ExpandStates(S, j);
+
+						S.v = S.getG(0);
+						for (Vertex s : S.GetSucc()) {
+							ExpandStates(s, S, j);
+						}
 						Closed.get(1).insert(S, j);
 					}
 				} else {
@@ -61,7 +66,11 @@ public class Search3 {
 						}
 					} else {
 						Vertex S = Open.get(0).delete(0);
-						ExpandStates(S, 0);
+
+						S.v = S.getG(0);
+						for (Vertex s : S.GetSucc()) {
+							ExpandStates(s, S, 0);
+						}
 						Closed.get(0).insert(S, 0);
 					}
 				}
@@ -71,31 +80,29 @@ public class Search3 {
 		return null;
 	}
 
-	private void ExpandStates(Vertex S, int j) {
-		S.v = S.getG(0);
-		for (Vertex s : S.GetSucc()) {
-			if (s.getG(0) == Double.NaN) {
-				s.setG(0, Double.POSITIVE_INFINITY);
-				s.setBP(0, null);
-				s.v = Double.POSITIVE_INFINITY;
-			}
-			try {
-				if (s.getG(0) > S.getG(0) + S.block.computeCost(s.block)) {
-					s.setG(0, S.getG(0) + S.block.computeCost(s.block));
-					s.setBP(0, S.block);
-					if (!Closed.get(1).Contains(s)) {
-						for (int i = 1; i <= n; i++) {
-							if (Heuristics.Key(s, i) <= w2 * Heuristics.Key(s, 0)) {
-								s.setKey(1, Heuristics.Key(s, i));
-							}
-							Open.get(j).insert(s, 0);
+	private void ExpandStates(Vertex s, Vertex S, int j) {
+		if (s.getG(0) == Double.NaN) {
+			s.setG(0, Double.POSITIVE_INFINITY);
+			s.setBP(0, null);
+			s.v = Double.POSITIVE_INFINITY;
+		}
+		try {
+			if (s.getG(0) > S.getG(0) + S.block.computeCost(s.block)) {
+				s.setG(0, S.getG(0) + S.block.computeCost(s.block));
+				s.setBP(0, S.block);
+				if (!Closed.get(1).Contains(s)) {
+					for (int i = 1; i <= n; i++) {
+						if (Heuristics.Key(s, i) <= w2 * Heuristics.Key(s, 0)) {
+							s.setKey(1, Heuristics.Key(s, i));
 						}
+						Open.get(j).insert(s, 0);
 					}
 				}
-			} catch (TraversalException e) {
-				return;
 			}
+		} catch (TraversalException e) {
+			return;
 		}
+
 	}
 
 	private ArrayList<GridSquare> Output(Vertex s, Vertex StartVertex, GridSquare goalBlock, Grid currentGrid, int j) {

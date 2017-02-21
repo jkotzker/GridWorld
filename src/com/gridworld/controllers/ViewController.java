@@ -91,6 +91,7 @@ public class ViewController implements Initializable{
 	
 	@FXML
     private void handleButtonAction(ActionEvent e) {
+		
         //System.out.println("Button pushed!");
         Button b = (Button) e.getSource();
         if (b == displayButton) {
@@ -117,7 +118,7 @@ public class ViewController implements Initializable{
         	fileChooser.setTitle("Select Map File");
         	File file = fileChooser.showOpenDialog(stage);
         	Grid newGrid = ReadAndWrite.readGridFromFile(file.getAbsolutePath());
-        	newGrid.performAllSearches();
+        	newGrid.performAllSearches(Main.heuristicVal, Main.searchVal);
         	Main.gridList.gridsList.add(newGrid);
         	
         	FiftyGrids list = Main.gridList;
@@ -187,7 +188,7 @@ public class ViewController implements Initializable{
                     	   } else {
                     		   
                         	   Double gval = vert.getG(0);
-                        	   Double hval = vert.getH();
+                        	   Double hval = vert.getH(0);
                         	   if(Double.toString(gval) == null)
                         		   gval = 0.0;
                         	   if(Double.toString(hval) == null)

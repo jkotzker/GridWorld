@@ -14,12 +14,23 @@ public class ComparePerformance {
 		String heur = "1";
 		//String weight = "";
 		
+<<<<<<< HEAD
 		System.out.println("Computing performance for search of type " + type + " and heuristic " + heur/* + " and weight " + weight*/);
+||||||| merged common ancestors
+		System.out.println("Computing performance for search of type " + type + " and heuristic " + heur);
+=======
+		int searchVal = Main.searchVal;
+		int heuristicVal = Main.heuristicVal;
+		
+		
+		System.out.println("Computing performance for search of type " + type + " and heuristic " + heuristicVal);
+>>>>>>> origin/esther
 		
 		long heapSizeBefore = Runtime.getRuntime().totalMemory(); 
 		long startMil = System.currentTimeMillis();
+		
 		try {
-			gridList = new FiftyGrids();
+			gridList = new FiftyGrids(heuristicVal, searchVal);
 			//System.out.println("gridlist generated");
 		} catch (CoordinateException e) {
 			System.out.println(e.getMessage());

@@ -18,22 +18,21 @@ public class Heuristics {
 
 		int currX = V.block.coordinates.XVal;
 		int currY = V.block.coordinates.YVal;
-		
+
 		int currSearch = V.block.currentGrid.searchIterator;
 		int goalX = V.block.currentGrid.pathPoints.get(currSearch).sGoal.XVal;
 		int goalY = V.block.currentGrid.pathPoints.get(currSearch).sGoal.YVal;
-		
-		if (i == 0) {
+
+		if (i == 5) {
 			return 0;
 		}
-		if (i == 1) {
+		if (i == 0) {
 
 			/*
 			 * This heuristic is the one we wrote as admissible and consistent
 			 * in our report. It assumes straight-line distance and all movement
 			 * along a highway.
 			 */
-
 
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
@@ -64,7 +63,6 @@ public class Heuristics {
 			 * blocks, and then uses the highway movement value to multiply.
 			 */
 
-
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
 
@@ -82,7 +80,6 @@ public class Heuristics {
 			 * underestimation.
 			 */
 
-
 			int xdif = goalX - currX;
 			int ydif = goalY - currY;
 
@@ -90,7 +87,7 @@ public class Heuristics {
 
 			return H;
 		}
-		if (i == 5) {
+		if (i == 4) {
 
 			/*
 			 * This heuristic takes a very roughly computed "average cost" of
@@ -119,12 +116,12 @@ public class Heuristics {
 
 	// Get key value
 
-	public static void storeNewKey(Vertex V,  int i) {
-		V.setKey(i, V.getG(i) + weight * H(V,  i));
+	public static void storeNewKey(Vertex V, int i) {
+		V.setH(i, weight * H(V, i));
 	}
 
 	// used only for search 3
 	public static double Key(Vertex V, int i) {
-		return V.getG(0) + weight * H(V,  i);
+		return V.getG(i) + weight * H(V, i);
 	}
 }

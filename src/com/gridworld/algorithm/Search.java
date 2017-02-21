@@ -25,7 +25,8 @@ public class Search {
 
 	}
 
-	public ArrayList<GridSquare> performSearch(Grid currentGrid) {
+	public ArrayList<GridSquare> performSearch(Grid currentGrid, int currentHeuristic) {
+		currentGrid.currentHeuristic = currentHeuristic;
 		int which = currentGrid.searchIterator;
 		Coordinates sStart = currentGrid.pathPoints.get(which).sStart;
 		Vertex StartVertex = currentGrid.GridSquares[sStart.XVal][sStart.YVal].SearchVertex;
