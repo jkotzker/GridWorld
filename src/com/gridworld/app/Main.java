@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	// searchVal can be 1, 2 or 3
-	public static int searchVal = 2;
+	public static int searchVal = 1;
 	// search 1: specifies heuristic type, search 2 or 3: number of heuristics
 	public static int heuristicVal = 5;
 
